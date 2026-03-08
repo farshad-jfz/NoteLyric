@@ -4,6 +4,9 @@ Practice Harmonically
 
 Browser-first chromatic harmonica practice app built with Next.js + TypeScript.
 
+# Try Online at:
+https://note-lyric.vercel.app/
+
 ## What it does
 
 - Generates notation practice for:
