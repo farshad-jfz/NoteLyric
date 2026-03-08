@@ -16,7 +16,7 @@ Browser-first chromatic harmonica practice app built with Next.js + TypeScript.
 
 ## UI
 
-The app uses a lightweight UI layer with Pico.css plus small custom overrides.
+The app uses a lightweight UI layer with Mantine UI plus small custom overrides.
 
 ## Local development
 

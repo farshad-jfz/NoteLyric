@@ -1,5 +1,7 @@
 "use client";
 
+import { Alert, Card, Title } from "@mantine/core";
+import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
 type Props = {
@@ -39,10 +41,16 @@ export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
   }, [musicXml, onSvgReady]);
 
   return (
-    <section className="panel">
-      <h3>{title ?? "Score"}</h3>
-      {error ? <p className="error">{error}</p> : null}
+    <Card withBorder radius="lg" shadow="xs" mb="md">
+      <Title order={3} mb="sm">
+        {title ?? "Score"}
+      </Title>
+      {error ? (
+        <Alert color="red" icon={<IconAlertCircle size={18} />} mb="sm">
+          {error}
+        </Alert>
+      ) : null}
       <div ref={containerRef} className="score-surface" />
-    </section>
+    </Card>
   );
 }

@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, Group } from "@mantine/core";
+
 type Props = {
   title: string;
   musicXml: string;
@@ -42,9 +44,9 @@ export default function ExportButtons({ title, musicXml, getSvg }: Props) {
   const safeName = title.toLowerCase().replace(/[^a-z0-9]+/g, "_");
 
   return (
-    <div className="button-row">
-      <button
-        type="button"
+    <Group mb="md">
+      <Button
+        variant="light"
         onClick={() => {
           const svg = getSvg();
           if (!svg) return;
@@ -52,9 +54,9 @@ export default function ExportButtons({ title, musicXml, getSvg }: Props) {
         }}
       >
         Export SVG
-      </button>
-      <button
-        type="button"
+      </Button>
+      <Button
+        variant="light"
         onClick={async () => {
           const svg = getSvg();
           if (!svg) return;
@@ -63,13 +65,11 @@ export default function ExportButtons({ title, musicXml, getSvg }: Props) {
         }}
       >
         Export PNG
-      </button>
-      <button type="button" onClick={() => download(new Blob([musicXml], { type: "application/xml" }), `${safeName}.musicxml`)}>
+      </Button>
+      <Button variant="light" onClick={() => download(new Blob([musicXml], { type: "application/xml" }), `${safeName}.musicxml`)}>
         Export MusicXML
-      </button>
-      <button type="button" onClick={() => window.print()}>
-        Print / PDF
-      </button>
-    </div>
+      </Button>
+      <Button onClick={() => window.print()}>Print / PDF</Button>
+    </Group>
   );
 }

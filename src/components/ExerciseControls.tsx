@@ -1,5 +1,6 @@
 "use client";
 
+import { SegmentedControl, Stack, Title, Card } from "@mantine/core";
 import { ReactNode } from "react";
 
 type Props = {
@@ -11,19 +12,19 @@ type Props = {
 
 export default function ExerciseControls({ title, mode, onModeChange, children }: Props) {
   return (
-    <section className="panel">
-      <div className="panel-header">
-        <h2>{title}</h2>
-        <div className="mode-toggle" role="group" aria-label="UI mode">
-          <button className={mode === "Quick" ? "active" : ""} onClick={() => onModeChange("Quick")} type="button">
-            Quick
-          </button>
-          <button className={mode === "Advanced" ? "active" : ""} onClick={() => onModeChange("Advanced")} type="button">
-            Advanced
-          </button>
-        </div>
-      </div>
-      {children}
-    </section>
+    <Card withBorder radius="lg" shadow="xs" mb="md">
+      <Stack gap="sm">
+        <Stack gap={4}>
+          <Title order={2}>{title}</Title>
+          <SegmentedControl
+            value={mode}
+            onChange={(value) => onModeChange(value as "Quick" | "Advanced")}
+            data={["Quick", "Advanced"]}
+            w={220}
+          />
+        </Stack>
+        {children}
+      </Stack>
+    </Card>
   );
 }

@@ -1,24 +1,25 @@
 import Link from "next/link";
+import { Button, Card, Group, Stack, Text, Title } from "@mantine/core";
 
 export default function HomePage() {
   return (
-    <article>
-      <header>
-        <h2>Welcome to NoteLyric</h2>
-        <p>Practice Harmonically</p>
-      </header>
-      <p>Generate readable harmonica exercises for scales, chords/arpeggios, and sight-reading directly in your browser.</p>
-      <div className="button-row">
-        <Link href="/scales" role="button">
-          Open Scales
-        </Link>
-        <Link href="/chords" role="button" className="secondary">
-          Open Chords / Arpeggios
-        </Link>
-        <Link href="/sight-reading" role="button" className="contrast">
-          Open Sight Reading
-        </Link>
-      </div>
-    </article>
+    <Card withBorder radius="lg" shadow="xs">
+      <Stack>
+        <Title order={2}>Welcome to NoteLyric</Title>
+        <Text c="dimmed">Practice Harmonically</Text>
+        <Text>Generate readable harmonica exercises for scales, chords/arpeggios, and sight-reading directly in your browser.</Text>
+        <Group>
+          <Button component={Link} href="/scales">
+            Open Scales
+          </Button>
+          <Button component={Link} href="/chords" variant="light">
+            Open Chords / Arpeggios
+          </Button>
+          <Button component={Link} href="/sight-reading" variant="outline">
+            Open Sight Reading
+          </Button>
+        </Group>
+      </Stack>
+    </Card>
   );
 }

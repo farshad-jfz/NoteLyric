@@ -1,5 +1,7 @@
 "use client";
 
+import { Button, Group, Select } from "@mantine/core";
+
 type Props = {
   presets: string[];
   selected: string;
@@ -9,20 +11,11 @@ type Props = {
 
 export default function PresetSelector({ presets, selected, onSelect, onApply }: Props) {
   return (
-    <div className="preset-row">
-      <label>
-        Preset
-        <select value={selected} onChange={(e) => onSelect(e.target.value)}>
-          {presets.map((p) => (
-            <option key={p} value={p}>
-              {p}
-            </option>
-          ))}
-        </select>
-      </label>
-      <button type="button" onClick={onApply}>
+    <Group align="end" wrap="wrap">
+      <Select label="Preset" value={selected} onChange={(v) => v && onSelect(v)} data={presets} w={420} searchable />
+      <Button variant="light" onClick={onApply}>
         Apply preset
-      </button>
-    </div>
+      </Button>
+    </Group>
   );
 }

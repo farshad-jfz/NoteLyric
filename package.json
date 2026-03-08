@@ -10,7 +10,9 @@
     "test": "vitest run"
   },
   "dependencies": {
-    "@picocss/pico": "^2.0.6",
+    "@mantine/core": "^7.17.8",
+    "@mantine/hooks": "^7.17.8",
+    "@tabler/icons-react": "^3.34.0",
     "next": "^15.5.12",
     "opensheetmusicdisplay": "^1.4.5",
     "react": "19.0.0",
