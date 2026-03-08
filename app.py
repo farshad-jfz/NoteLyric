@@ -67,6 +67,12 @@ DEFAULT_SIGHT = {
     "show_metadata": True,
 }
 
+DIFFICULTY_ALLOWED = {
+    "Beginner": ["whole", "half", "quarter"],
+    "Intermediate": ["whole", "half", "quarter", "eighth"],
+    "Advanced": DISPLAY_NOTE_VALUES,
+}
+
 
 def init_session() -> None:
     if "scales_settings" not in st.session_state:
@@ -79,95 +85,19 @@ def init_session() -> None:
         st.session_state.last_exercise = {"Scales": None, "Chords / Arpeggios": None, "Sight Reading": None}
     if "history" not in st.session_state:
         st.session_state.history = deque([], maxlen=10)
-    if "preset_selection" not in st.session_state:
-        st.session_state.preset_selection = list(PRESETS.keys())[0]
-    if "sidebar_tab" not in st.session_state:
-        st.session_state.sidebar_tab = "Scales"
+    if "ui_mode" not in st.session_state:
+        st.session_state.ui_mode = "Quick"
+    if "preset_by_tab" not in st.session_state:
+        st.session_state.preset_by_tab = {
+            "Scales": next(name for name, p in PRESETS.items() if p["tab"] == "Scales"),
+            "Chords / Arpeggios": next(name for name, p in PRESETS.items() if p["tab"] == "Chords / Arpeggios"),
+            "Sight Reading": next(name for name, p in PRESETS.items() if p["tab"] == "Sight Reading"),
+        }
 
 
 def _select_note(label: str, key: str, value: str) -> str:
     default_index = NOTE_OPTIONS.index(value) if value in NOTE_OPTIONS else NOTE_OPTIONS.index("C4")
     return st.selectbox(label, NOTE_OPTIONS, index=default_index, key=key)
-
-
-def sidebar_controls() -> None:
-    st.sidebar.title("Exercise Settings")
-    st.sidebar.selectbox("Preset", list(PRESETS.keys()), key="preset_selection")
-    if st.sidebar.button("Apply preset"):
-        preset = PRESETS[st.session_state.preset_selection]
-        tab = preset["tab"]
-        if tab == "Scales":
-            st.session_state.scales_settings.update(preset["settings"])
-        elif tab == "Chords / Arpeggios":
-            st.session_state.chords_settings.update(preset["settings"])
-        else:
-            st.session_state.sight_settings.update(preset["settings"])
-        st.session_state.sidebar_tab = tab
-
-    st.sidebar.radio("Current tab settings", ["Scales", "Chords / Arpeggios", "Sight Reading"], key="sidebar_tab")
-
-    if st.session_state.sidebar_tab == "Scales":
-        s = st.session_state.scales_settings
-        s["root"] = st.sidebar.selectbox("Root note", ROOT_OPTIONS, index=ROOT_OPTIONS.index(s["root"]), key="sc_root")
-        s["all_major_cycle"] = st.sidebar.toggle("All major scales cycle", value=s.get("all_major_cycle", False), key="sc_cycle")
-        s["scale_type"] = st.sidebar.selectbox("Scale type", SCALE_TYPES, index=SCALE_TYPES.index(s["scale_type"]), key="sc_type")
-        s["octave_span"] = st.sidebar.selectbox("Octave span", [1, 2, 3], index=[1, 2, 3].index(s["octave_span"]), key="sc_span")
-        s["direction"] = st.sidebar.selectbox("Direction", DIRECTIONS, index=DIRECTIONS.index(s["direction"]), key="sc_dir")
-        s["time_signature"] = st.sidebar.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="sc_ts")
-        s["note_value"] = st.sidebar.selectbox("Note value", ["whole", "half", "quarter", "eighth"], index=["whole", "half", "quarter", "eighth"].index(s["note_value"]), key="sc_nv")
-        s["lowest_note"] = _select_note("Lowest playable note", "scales_low", s["lowest_note"])
-        s["highest_note"] = _select_note("Highest playable note", "scales_high", s["highest_note"])
-        s["show_note_names"] = st.sidebar.toggle("Show note names", value=s["show_note_names"], key="sc_names")
-        s["show_scale_degrees"] = st.sidebar.toggle("Show scale degrees", value=s["show_scale_degrees"], key="sc_deg")
-        s["tempo"] = st.sidebar.text_input("Tempo (print only)", value=s["tempo"], key="sc_tempo")
-        s["show_metadata"] = st.sidebar.toggle("Show exercise metadata", value=s["show_metadata"], key="sc_meta")
-
-    elif st.session_state.sidebar_tab == "Chords / Arpeggios":
-        s = st.session_state.chords_settings
-        s["root"] = st.sidebar.selectbox("Root note", ROOT_OPTIONS, index=ROOT_OPTIONS.index(s["root"]), key="ch_root")
-        s["chord_type"] = st.sidebar.selectbox("Chord type", CHORD_TYPES, index=CHORD_TYPES.index(s["chord_type"]), key="ch_type")
-        s["pattern"] = st.sidebar.selectbox("Pattern", ARPEGGIO_PATTERNS, index=ARPEGGIO_PATTERNS.index(s["pattern"]), key="ch_pat")
-        s["octave_span"] = st.sidebar.selectbox("Octave span", [1, 2], index=[1, 2].index(s["octave_span"]), key="ch_span")
-        s["time_signature"] = st.sidebar.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="ch_ts")
-        s["note_value"] = st.sidebar.selectbox("Note value", ["half", "quarter", "eighth"], index=["half", "quarter", "eighth"].index(s["note_value"]), key="ch_nv")
-        s["lowest_note"] = _select_note("Lowest playable note", "chords_low", s["lowest_note"])
-        s["highest_note"] = _select_note("Highest playable note", "chords_high", s["highest_note"])
-        s["show_note_names"] = st.sidebar.toggle("Show note names", value=s["show_note_names"], key="ch_show_names")
-        s["show_chord_tones"] = st.sidebar.toggle("Show chord tones", value=s["show_chord_tones"], key="ch_tones")
-        s["tempo"] = st.sidebar.text_input("Tempo (print only)", value=s["tempo"], key="ch_tempo")
-        s["show_metadata"] = st.sidebar.toggle("Show exercise metadata", value=s["show_metadata"], key="ch_meta")
-
-    else:
-        s = st.session_state.sight_settings
-        s["lowest_note"] = _select_note("Lowest playable note", "sight_low", s["lowest_note"])
-        s["highest_note"] = _select_note("Highest playable note", "sight_high", s["highest_note"])
-        s["key_mode"] = st.sidebar.selectbox(
-            "Key mode",
-            ["C Major / A Minor only", "Major keys", "Minor keys", "Chromatic / random accidentals"],
-            index=["C Major / A Minor only", "Major keys", "Minor keys", "Chromatic / random accidentals"].index(s["key_mode"]),
-            key="sr_mode",
-        )
-        normalize_key_selection(s)
-        keys = available_keys_for_mode(s["key_mode"])
-        disabled = s["key_mode"] == "Chromatic / random accidentals"
-        s["specific_key"] = st.sidebar.selectbox("Specific key", keys, index=keys.index(s["specific_key"]), disabled=disabled, key="sr_key")
-        s["num_bars"] = st.sidebar.selectbox("Number of bars", [2, 4, 8, 12, 16], index=[2, 4, 8, 12, 16].index(s["num_bars"]), key="sr_bars")
-        s["time_signature"] = st.sidebar.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="sr_ts")
-        s["difficulty"] = st.sidebar.selectbox("Difficulty", ["Beginner", "Intermediate", "Advanced"], index=["Beginner", "Intermediate", "Advanced"].index(s["difficulty"]), key="sr_diff")
-        allowed_map = {
-            "Beginner": ["whole", "half", "quarter"],
-            "Intermediate": ["whole", "half", "quarter", "eighth"],
-            "Advanced": DISPLAY_NOTE_VALUES,
-        }
-        filtered_values = allowed_map[s["difficulty"]]
-        default_values = [v for v in s["allowed_values"] if v in filtered_values]
-        s["allowed_values"] = st.sidebar.multiselect("Allowed note values", filtered_values, default=default_values, key="sr_values")
-        s["allow_rests"] = st.sidebar.toggle("Allow rests", value=s["allow_rests"], key="sr_rests")
-        s["max_leap"] = st.sidebar.selectbox("Maximum leap", ["step only", "up to 3rd", "up to 4th", "up to 5th", "octave"], index=["step only", "up to 3rd", "up to 4th", "up to 5th", "octave"].index(s["max_leap"]), key="sr_leap")
-        s["repeated_notes"] = st.sidebar.toggle("Repeated notes allowed", value=s["repeated_notes"], key="sr_repeat")
-        s["show_note_names"] = st.sidebar.toggle("Show note names", value=s["show_note_names"], key="sr_names")
-        s["tempo"] = st.sidebar.text_input("Tempo (print only)", value=s["tempo"], key="sr_tempo")
-        s["show_metadata"] = st.sidebar.toggle("Show exercise metadata", value=s["show_metadata"], key="sr_meta")
 
 
 def _settings_for_tab(tab_name: str) -> dict:
@@ -176,6 +106,192 @@ def _settings_for_tab(tab_name: str) -> dict:
     if tab_name == "Chords / Arpeggios":
         return st.session_state.chords_settings
     return st.session_state.sight_settings
+
+
+def _preset_names(tab_name: str) -> list[str]:
+    return [name for name, preset in PRESETS.items() if preset["tab"] == tab_name]
+
+
+def _apply_preset(tab_name: str, preset_name: str) -> None:
+    settings = _settings_for_tab(tab_name)
+    settings.update(PRESETS[preset_name]["settings"])
+
+
+def _friendly_error(err: str) -> str:
+    hints = {
+        "Selected range is too small for this scale and octave span.": "Selected range is too small for this scale and octave span. Try widening the range or reducing octave span.",
+        "Please select at least one note value.": "Select at least one note value to generate a rhythmically valid exercise.",
+        "This chord pattern cannot be generated within the chosen range.": "This chord pattern does not fit the selected range. Try a wider range or a smaller octave span.",
+    }
+    return hints.get(err, err)
+
+
+def _compact_summary(tab_name: str, settings: dict) -> str:
+    if tab_name == "Scales":
+        items = [
+            f"{settings['root']} {settings['scale_type']}",
+            f"{settings['octave_span']} oct",
+            settings["direction"].replace("Up and Down", "Ascend + Descend"),
+            settings["time_signature"],
+            settings["note_value"],
+            f"range {settings['lowest_note']}-{settings['highest_note']}",
+        ]
+    elif tab_name == "Chords / Arpeggios":
+        items = [
+            f"{settings['root']} {settings['chord_type']}",
+            settings["pattern"].replace("Up and Down", "Ascend + Descend"),
+            f"{settings['octave_span']} oct",
+            settings["time_signature"],
+            settings["note_value"],
+            f"range {settings['lowest_note']}-{settings['highest_note']}",
+        ]
+    else:
+        key_text = "Chromatic" if settings["key_mode"] == "Chromatic / random accidentals" else settings["specific_key"].title()
+        items = [
+            key_text,
+            f"{settings['num_bars']} bars",
+            settings["difficulty"],
+            settings["time_signature"],
+            f"jump {settings['max_leap'].replace('Maximum ', '').replace('up to ', '')}",
+            f"range {settings['lowest_note']}-{settings['highest_note']}",
+        ]
+    return " | ".join(items)
+
+
+def _render_preset_header(tab_name: str) -> None:
+    names = _preset_names(tab_name)
+    col1, col2 = st.columns([3, 1])
+    st.session_state.preset_by_tab[tab_name] = col1.selectbox(
+        "Starter preset",
+        names,
+        index=names.index(st.session_state.preset_by_tab[tab_name]) if st.session_state.preset_by_tab[tab_name] in names else 0,
+        key=f"preset_{tab_name}",
+    )
+    if col2.button("Apply preset", key=f"apply_{tab_name}"):
+        _apply_preset(tab_name, st.session_state.preset_by_tab[tab_name])
+
+
+def _render_scales_controls(mode: str) -> None:
+    s = st.session_state.scales_settings
+    c1, c2 = st.columns(2)
+    s["root"] = c1.selectbox("Root", ROOT_OPTIONS, index=ROOT_OPTIONS.index(s["root"]), key="sc_root")
+    s["scale_type"] = c2.selectbox("Scale type", SCALE_TYPES, index=SCALE_TYPES.index(s["scale_type"]), key="sc_type")
+
+    c3, c4 = st.columns(2)
+    s["direction"] = c3.selectbox("Direction", DIRECTIONS, index=DIRECTIONS.index(s["direction"]), key="sc_dir")
+    if mode == "Quick":
+        s["octave_span"] = c4.selectbox("Octaves", [1, 2, 3], index=[1, 2, 3].index(s["octave_span"]), key="sc_span_q")
+
+    if mode == "Advanced":
+        with st.expander("Advanced settings", expanded=True):
+            a1, a2, a3 = st.columns(3)
+            s["octave_span"] = a1.selectbox("Octave span", [1, 2, 3], index=[1, 2, 3].index(s["octave_span"]), key="sc_span")
+            s["time_signature"] = a2.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="sc_ts")
+            s["note_value"] = a3.selectbox("Note value", ["whole", "half", "quarter", "eighth"], index=["whole", "half", "quarter", "eighth"].index(s["note_value"]), key="sc_nv")
+
+            b1, b2 = st.columns(2)
+            s["lowest_note"] = _select_note("Lowest playable note", "scales_low", s["lowest_note"])
+            s["highest_note"] = _select_note("Highest playable note", "scales_high", s["highest_note"])
+
+            c1, c2, c3 = st.columns(3)
+            s["show_note_names"] = c1.toggle("Show note names", value=s["show_note_names"], key="sc_names")
+            s["show_scale_degrees"] = c2.toggle("Show scale degrees", value=s["show_scale_degrees"], key="sc_deg")
+            s["all_major_cycle"] = c3.toggle("All major scales cycle", value=s.get("all_major_cycle", False), key="sc_cycle")
+
+            d1, d2 = st.columns(2)
+            s["tempo"] = d1.text_input("Tempo (print only)", value=s["tempo"], key="sc_tempo")
+            s["show_metadata"] = d2.toggle("Show metadata", value=s["show_metadata"], key="sc_meta")
+    else:
+        s["all_major_cycle"] = False
+
+
+def _render_chords_controls(mode: str) -> None:
+    s = st.session_state.chords_settings
+    c1, c2 = st.columns(2)
+    s["root"] = c1.selectbox("Root", ROOT_OPTIONS, index=ROOT_OPTIONS.index(s["root"]), key="ch_root")
+    s["chord_type"] = c2.selectbox("Chord type", CHORD_TYPES, index=CHORD_TYPES.index(s["chord_type"]), key="ch_type")
+
+    c3, c4 = st.columns(2)
+    s["pattern"] = c3.selectbox("Pattern", ARPEGGIO_PATTERNS, index=ARPEGGIO_PATTERNS.index(s["pattern"]), key="ch_pat")
+    if mode == "Quick":
+        s["octave_span"] = c4.selectbox("Octaves", [1, 2], index=[1, 2].index(s["octave_span"]), key="ch_span_q")
+
+    if mode == "Advanced":
+        with st.expander("Advanced settings", expanded=True):
+            a1, a2, a3 = st.columns(3)
+            s["octave_span"] = a1.selectbox("Octave span", [1, 2], index=[1, 2].index(s["octave_span"]), key="ch_span")
+            s["time_signature"] = a2.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="ch_ts")
+            s["note_value"] = a3.selectbox("Note value", ["half", "quarter", "eighth"], index=["half", "quarter", "eighth"].index(s["note_value"]), key="ch_nv")
+
+            b1, b2 = st.columns(2)
+            s["lowest_note"] = _select_note("Lowest playable note", "chords_low", s["lowest_note"])
+            s["highest_note"] = _select_note("Highest playable note", "chords_high", s["highest_note"])
+
+            c1, c2 = st.columns(2)
+            s["show_note_names"] = c1.toggle("Show note names", value=s["show_note_names"], key="ch_names")
+            s["show_chord_tones"] = c2.toggle("Show chord tones", value=s["show_chord_tones"], key="ch_tones")
+
+            d1, d2 = st.columns(2)
+            s["tempo"] = d1.text_input("Tempo (print only)", value=s["tempo"], key="ch_tempo")
+            s["show_metadata"] = d2.toggle("Show metadata", value=s["show_metadata"], key="ch_meta")
+
+
+def _render_sight_controls(mode: str) -> None:
+    s = st.session_state.sight_settings
+
+    c1, c2 = st.columns(2)
+    s["key_mode"] = c1.selectbox(
+        "Key mode",
+        ["C Major / A Minor only", "Major keys", "Minor keys", "Chromatic / random accidentals"],
+        index=["C Major / A Minor only", "Major keys", "Minor keys", "Chromatic / random accidentals"].index(s["key_mode"]),
+        key="sr_mode",
+    )
+    normalize_key_selection(s)
+    keys = available_keys_for_mode(s["key_mode"])
+    s["specific_key"] = c2.selectbox(
+        "Specific key",
+        keys,
+        index=keys.index(s["specific_key"]),
+        disabled=s["key_mode"] == "Chromatic / random accidentals",
+        key="sr_key",
+    )
+
+    c3, c4 = st.columns(2)
+    s["num_bars"] = c3.selectbox("Bars", [2, 4, 8, 12, 16], index=[2, 4, 8, 12, 16].index(s["num_bars"]), key="sr_bars")
+    s["difficulty"] = c4.selectbox("Difficulty", ["Beginner", "Intermediate", "Advanced"], index=["Beginner", "Intermediate", "Advanced"].index(s["difficulty"]), key="sr_diff")
+
+    if mode == "Advanced":
+        with st.expander("Advanced settings", expanded=True):
+            a1, a2 = st.columns(2)
+            s["lowest_note"] = _select_note("Lowest playable note", "sight_low", s["lowest_note"])
+            s["highest_note"] = _select_note("Highest playable note", "sight_high", s["highest_note"])
+
+            b1, b2 = st.columns(2)
+            s["time_signature"] = b1.selectbox("Time signature", TIME_SIGNATURES, index=TIME_SIGNATURES.index(s["time_signature"]), key="sr_ts")
+            s["max_leap"] = b2.selectbox(
+                "Largest jump",
+                ["step only", "up to 3rd", "up to 4th", "up to 5th", "octave"],
+                index=["step only", "up to 3rd", "up to 4th", "up to 5th", "octave"].index(s["max_leap"]),
+                key="sr_leap",
+            )
+
+            allowed = DIFFICULTY_ALLOWED[s["difficulty"]]
+            default_values = [v for v in s["allowed_values"] if v in allowed]
+            s["allowed_values"] = st.multiselect("Allowed note values", allowed, default=default_values, key="sr_values")
+
+            c1, c2, c3 = st.columns(3)
+            s["allow_rests"] = c1.toggle("Allow rests", value=s["allow_rests"], key="sr_rests")
+            s["repeated_notes"] = c2.toggle("Repeated notes allowed", value=s["repeated_notes"], key="sr_repeat")
+            s["show_note_names"] = c3.toggle("Show note names", value=s["show_note_names"], key="sr_names")
+
+            d1, d2 = st.columns(2)
+            s["tempo"] = d1.text_input("Tempo (print only)", value=s["tempo"], key="sr_tempo")
+            s["show_metadata"] = d2.toggle("Show metadata", value=s["show_metadata"], key="sr_meta")
+    else:
+        # Keep quick mode practical and constrained.
+        s["time_signature"] = "4/4"
+        s["max_leap"] = "up to 3rd"
+        s["allowed_values"] = ["half", "quarter"] if s["difficulty"] == "Beginner" else ["half", "quarter", "eighth"]
 
 
 def generate_and_store(tab_name: str) -> None:
@@ -191,12 +307,12 @@ def generate_and_store(tab_name: str) -> None:
         st.session_state.last_exercise[tab_name] = {
             "tab": tab_name,
             "title": None,
-            "error": err,
+            "error": _friendly_error(err),
             "summary": to_settings_summary(settings),
             "png": None,
             "pdf": None,
         }
-        push_history(st.session_state.history, {"tab": tab_name, "title": "Error", "error": err})
+        push_history(st.session_state.history, {"tab": tab_name, "title": "Error", "error": _friendly_error(err)})
         return
 
     apply_metadata(score, title)
@@ -210,26 +326,20 @@ def generate_and_store(tab_name: str) -> None:
     st.session_state.last_exercise[tab_name] = {
         "tab": tab_name,
         "title": title,
-        "error": png_err,
+        "error": _friendly_error(png_err) if png_err else None,
         "summary": to_settings_summary(settings),
         "png": png,
         "pdf": pdf,
     }
-    push_history(st.session_state.history, {"tab": tab_name, "title": title, "error": png_err})
+    push_history(st.session_state.history, {"tab": tab_name, "title": title, "error": _friendly_error(png_err) if png_err else None})
 
 
-def render_exercise_panel(tab_name: str) -> None:
+def render_exercise_output(tab_name: str) -> None:
+    ex = st.session_state.last_exercise[tab_name]
     settings = _settings_for_tab(tab_name)
 
-    col1, col2, col3, col4 = st.columns([1, 1, 1, 1])
-    if col1.button("Generate", key=f"gen_{tab_name}"):
-        generate_and_store(tab_name)
-    if col2.button("Regenerate", key=f"regen_{tab_name}"):
-        generate_and_store(tab_name)
-
-    ex = st.session_state.last_exercise[tab_name]
     if not ex:
-        st.info("No exercise generated yet.")
+        st.info("No exercise generated yet. Click Generate New to start.")
         return
 
     if ex["title"]:
@@ -238,55 +348,78 @@ def render_exercise_panel(tab_name: str) -> None:
     if ex["error"]:
         st.error(ex["error"])
 
+    st.caption(_compact_summary(tab_name, settings))
+
     if ex["png"]:
         st.image(ex["png"], use_container_width=True)
-        col3.download_button(
+
+    d1, d2 = st.columns([1, 1])
+    if ex["png"]:
+        d1.download_button(
             "Export PNG",
             data=ex["png"],
             file_name=f"{tab_name.lower().replace(' ', '_').replace('/', '_')}.png",
             mime="image/png",
             key=f"png_{tab_name}",
         )
-    else:
-        col3.button("Export PNG", disabled=True, key=f"png_dis_{tab_name}")
-
     if ex["pdf"]:
-        col4.download_button(
+        d2.download_button(
             "Export PDF",
             data=ex["pdf"],
             file_name=f"{tab_name.lower().replace(' ', '_').replace('/', '_')}.pdf",
             mime="application/pdf",
             key=f"pdf_{tab_name}",
         )
-    else:
-        col4.button("Export PDF", disabled=True, key=f"pdf_dis_{tab_name}")
 
     if settings.get("show_metadata", True):
-        st.caption("Settings summary")
-        for line in ex["summary"]:
-            st.text(line)
+        with st.expander("Detailed settings", expanded=False):
+            for line in ex["summary"]:
+                st.text(line)
+
+
+def render_tab(tab_name: str) -> None:
+    mode = st.session_state.ui_mode
+
+    _render_preset_header(tab_name)
+
+    if tab_name == "Scales":
+        _render_scales_controls(mode)
+    elif tab_name == "Chords / Arpeggios":
+        _render_chords_controls(mode)
+    else:
+        _render_sight_controls(mode)
+
+    b1, b2 = st.columns([1, 1])
+    if b1.button("Generate New", key=f"gen_{tab_name}", type="primary"):
+        generate_and_store(tab_name)
+    if b2.button("Regenerate Same Settings", key=f"regen_{tab_name}"):
+        generate_and_store(tab_name)
+
+    render_exercise_output(tab_name)
 
 
 init_session()
-sidebar_controls()
 
 st.title("Chromatic Harmonica Practice App")
+st.sidebar.radio("Interface mode", ["Quick", "Advanced"], key="ui_mode")
 
 scales_tab, chords_tab, sight_tab = st.tabs(["Scales", "Chords / Arpeggios", "Sight Reading"])
 
 with scales_tab:
-    render_exercise_panel("Scales")
+    render_tab("Scales")
 
 with chords_tab:
-    render_exercise_panel("Chords / Arpeggios")
+    render_tab("Chords / Arpeggios")
 
 with sight_tab:
-    render_exercise_panel("Sight Reading")
+    render_tab("Sight Reading")
 
-st.divider()
-st.subheader("Session History (last 10)")
-for item in list(st.session_state.history):
-    label = f"[{item['tab']}] {item['title']}"
-    if item.get("error"):
-        label += f" | {item['error']}"
-    st.write(label)
+with st.expander("Recent exercises (last 10)", expanded=False):
+    if not st.session_state.history:
+        st.caption("No history yet.")
+    else:
+        for item in list(st.session_state.history):
+            label = f"[{item['tab']}] {item['title']}"
+            if item.get("error"):
+                label += f" | {item['error']}"
+            st.write(label)
