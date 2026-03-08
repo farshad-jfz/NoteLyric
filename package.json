@@ -1,5 +1,5 @@
 {
-  "name": "chromatic-harmonica-practice",
+  "name": "notelyric",
   "version": "0.1.0",
   "private": true,
   "scripts": {
@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@picocss/pico": "^2.0.6",
     "next": "^15.5.12",
     "opensheetmusicdisplay": "^1.4.5",
     "react": "19.0.0",

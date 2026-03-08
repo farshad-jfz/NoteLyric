@@ -2,20 +2,23 @@ import Link from "next/link";
 
 export default function HomePage() {
   return (
-    <section className="panel">
-      <h2>Practice Generator</h2>
-      <p>Choose a section to generate clean notation in your browser with no MuseScore dependency.</p>
+    <article>
+      <header>
+        <h2>Welcome to NoteLyric</h2>
+        <p>Practice Harmonically</p>
+      </header>
+      <p>Generate readable harmonica exercises for scales, chords/arpeggios, and sight-reading directly in your browser.</p>
       <div className="button-row">
-        <Link href="/scales" className="link-button">
+        <Link href="/scales" role="button">
           Open Scales
         </Link>
-        <Link href="/chords" className="link-button">
+        <Link href="/chords" role="button" className="secondary">
           Open Chords / Arpeggios
         </Link>
-        <Link href="/sight-reading" className="link-button">
+        <Link href="/sight-reading" role="button" className="contrast">
           Open Sight Reading
         </Link>
       </div>
-    </section>
+    </article>
   );
 }

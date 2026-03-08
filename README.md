@@ -1,40 +1,24 @@
-# Chromatic Harmonica Practice (Next.js + TypeScript)
+# NoteLyric
 
-Browser-first rewrite of the harmonica practice app with no MuseScore runtime dependency.
+Practice Harmonically
 
-## Stack
+Browser-first chromatic harmonica practice app built with Next.js + TypeScript.
 
-- Next.js (App Router)
-- React + TypeScript
-- OpenSheetMusicDisplay (OSMD) for in-browser score rendering
-- MusicXML serialization generated from structured exercise models
+## What it does
 
-## Features
+- Generates notation practice for:
+  - Scales
+  - Chords / Arpeggios
+  - Sight Reading
+- Renders notation in-browser with OpenSheetMusicDisplay
+- Exports SVG, PNG, MusicXML, and supports print-to-PDF
+- Uses presets and validation to keep generation practical
 
-- Three practice pages:
-  - `/scales`
-  - `/chords`
-  - `/sight-reading`
-- Presets per page
-- Quick / Advanced control modes
-- Range validation and rhythm validation
-- Regenerate with same settings
-- Export:
-  - SVG
-  - PNG
-  - MusicXML
-  - Print / PDF (browser print)
+## UI
 
-## Architecture
+The app uses a lightweight UI layer with Pico.css plus small custom overrides.
 
-- `src/lib/generators/*`: exercise logic
-- `src/lib/validation/*`: rules and pre-generation checks
-- `src/lib/music/*`: domain models, pitch/rhythm helpers, MusicXML builder
-- `src/lib/rendering/*`: client rendering adapters
-- `src/components/*`: reusable UI blocks
-- `src/app/*`: Next.js pages/routes
-
-## Local Development
+## Local development
 
 1. Install Node.js 20+.
 2. Install dependencies:
@@ -43,31 +27,20 @@ Browser-first rewrite of the harmonica practice app with no MuseScore runtime de
 npm install
 ```
 
-3. Start dev server:
+3. Start:
 
 ```bash
 npm run dev
 ```
 
-4. Open [http://localhost:3000](http://localhost:3000).
+4. Open [http://localhost:3000](http://localhost:3000)
 
-## Tests
+## Test
 
 ```bash
 npm test
 ```
 
-Includes generator and validation unit tests under `src/tests`.
+## Deploy
 
-## Deploy (Vercel Hobby)
-
-1. Push repository to GitHub.
-2. Import project into Vercel.
-3. Framework preset: Next.js.
-4. Deploy with default settings.
-
-No desktop score binary installation is required.
-
-## Notes
-
-The original Python/Streamlit implementation is still present in the repository as legacy code. The new web app is the primary runtime path.
+Deploy directly to Vercel Hobby from GitHub. No MuseScore or other desktop binaries required.
