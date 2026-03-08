@@ -1,40 +1,73 @@
-# Chromatic Harmonica Practice App
+# Chromatic Harmonica Practice (Next.js + TypeScript)
 
-Streamlit MVP for generating chromatic harmonica notation practice in three tabs:
+Browser-first rewrite of the harmonica practice app with no MuseScore runtime dependency.
 
-- Scales
-- Chords / Arpeggios
-- Sight Reading
+## Stack
 
-## Setup
+- Next.js (App Router)
+- React + TypeScript
+- OpenSheetMusicDisplay (OSMD) for in-browser score rendering
+- MusicXML serialization generated from structured exercise models
 
-1. Create and activate a Python 3.10+ environment.
+## Features
+
+- Three practice pages:
+  - `/scales`
+  - `/chords`
+  - `/sight-reading`
+- Presets per page
+- Quick / Advanced control modes
+- Range validation and rhythm validation
+- Regenerate with same settings
+- Export:
+  - SVG
+  - PNG
+  - MusicXML
+  - Print / PDF (browser print)
+
+## Architecture
+
+- `src/lib/generators/*`: exercise logic
+- `src/lib/validation/*`: rules and pre-generation checks
+- `src/lib/music/*`: domain models, pitch/rhythm helpers, MusicXML builder
+- `src/lib/rendering/*`: client rendering adapters
+- `src/components/*`: reusable UI blocks
+- `src/app/*`: Next.js pages/routes
+
+## Local Development
+
+1. Install Node.js 20+.
 2. Install dependencies:
 
 ```bash
-pip install -r requirements.txt
+npm install
 ```
 
-3. Run app:
+3. Start dev server:
 
 ```bash
-streamlit run app.py
+npm run dev
 ```
+
+4. Open [http://localhost:3000](http://localhost:3000).
+
+## Tests
+
+```bash
+npm test
+```
+
+Includes generator and validation unit tests under `src/tests`.
+
+## Deploy (Vercel Hobby)
+
+1. Push repository to GitHub.
+2. Import project into Vercel.
+3. Framework preset: Next.js.
+4. Deploy with default settings.
+
+No desktop score binary installation is required.
 
 ## Notes
 
-- The app uses `music21` for notation generation.
-- PNG export is implemented through `music21`'s external music notation rendering (`musicxml.png`).
-- PDF export is optional and only enabled when the renderer succeeds.
-- If no external notation renderer is configured, generation still works and validation errors are shown without crashing.
-
-## Project Structure
-
-- `app.py`: Streamlit UI + session state + tabs
-- `generators/scales.py`: scale generation logic
-- `generators/chords.py`: chord/arpeggio generation logic
-- `generators/sight_reading.py`: sight-reading melody generation logic
-- `rendering/renderer.py`: score rendering + export helpers
-- `presets.py`: starter presets
-- `models.py`: shared constants and types
-- `utils.py`: shared helper functions
+The original Python/Streamlit implementation is still present in the repository as legacy code. The new web app is the primary runtime path.
