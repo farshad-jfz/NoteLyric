@@ -1,4 +1,4 @@
-import { Card, List, Stack, Text, Title } from "@mantine/core";
+﻿import { Card, Stack, Text, Title } from "@mantine/core";
 
 export default function AboutPage() {
   return (
@@ -12,13 +12,13 @@ export default function AboutPage() {
         </Text>
 
         <Title order={3}>Quick Guide</Title>
-        <List spacing="xs">
-          <List.Item>Choose one practice page: Scales, Chords / Arpeggios, or Sight Reading.</List.Item>
-          <List.Item>Pick a preset to start fast, then adjust settings if needed.</List.Item>
-          <List.Item>Click Generate New to create notation and Regenerate Same Settings for variations.</List.Item>
-          <List.Item>Use Export buttons to save SVG, PNG, or MusicXML, or print to PDF.</List.Item>
-          <List.Item>Practice slowly first, then increase tempo once the reading feels comfortable.</List.Item>
-        </List>
+        <ul>
+          <li>Choose one practice page: Scales, Chords / Arpeggios, or Sight Reading.</li>
+          <li>Pick a preset to start fast, then adjust settings if needed.</li>
+          <li>Click Generate New to create notation and Regenerate Same Settings for variations.</li>
+          <li>Use Export buttons to save SVG, PNG, or MusicXML, or print to PDF.</li>
+          <li>Practice slowly first, then increase tempo once the reading feels comfortable.</li>
+        </ul>
       </Stack>
     </Card>
   );

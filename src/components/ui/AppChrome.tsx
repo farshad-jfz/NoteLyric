@@ -1,8 +1,8 @@
-"use client";
+﻿"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { AppShell, Box, Container, Group, NavLink, Text, Title } from "@mantine/core";
+import { AppShell, Box, Button, Container, Group, Text, Title } from "@mantine/core";
 import { IconBook, IconCircleDottedLetterH, IconHome, IconInfoCircle, IconMusic } from "@tabler/icons-react";
 import type { ReactNode } from "react";
 
@@ -29,17 +29,20 @@ export default function AppChrome({ children }: { children: ReactNode }) {
                 Practice Harmonically
               </Text>
             </Box>
-            <Group gap="xs" wrap="wrap" justify="flex-end">
+
+            <Group gap="xs" wrap="wrap" justify="flex-end" style={{ maxWidth: "65%" }}>
               {LINKS.map((item) => (
-                <NavLink
+                <Button
                   key={item.href}
                   component={Link}
                   href={item.href}
-                  label={item.label}
-                  leftSection={<item.icon size={16} />}
-                  active={pathname === item.href}
+                  size="compact-sm"
                   variant={pathname === item.href ? "filled" : "light"}
-                />
+                  leftSection={<item.icon size={14} />}
+                  radius="xl"
+                >
+                  {item.label}
+                </Button>
               ))}
             </Group>
           </Group>
@@ -57,7 +60,7 @@ export default function AppChrome({ children }: { children: ReactNode }) {
               NoteLyric
             </Text>
             <Text size="sm" c="dimmed">
-              � {year} Farshad
+              Copyright © {year} Farshad Jafarzadeh
             </Text>
           </Group>
         </Container>
