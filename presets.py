@@ -1,0 +1,87 @@
+from __future__ import annotations
+
+PRESETS = {
+    "C Major scale, 1 octave, quarter notes": {
+        "tab": "Scales",
+        "settings": {
+            "root": "C",
+            "scale_type": "Major",
+            "octave_span": 1,
+            "direction": "Up and Down",
+            "time_signature": "4/4",
+            "note_value": "quarter",
+            "all_major_cycle": False,
+        },
+    },
+    "All major scales, 1 octave, quarter notes": {
+        "tab": "Scales",
+        "settings": {
+            "root": "C",
+            "scale_type": "Major",
+            "octave_span": 1,
+            "direction": "Ascending",
+            "time_signature": "4/4",
+            "note_value": "quarter",
+            "all_major_cycle": True,
+        },
+    },
+    "Minor arpeggios, 1 octave, quarter notes": {
+        "tab": "Chords / Arpeggios",
+        "settings": {
+            "root": "C",
+            "chord_type": "Minor triad",
+            "pattern": "Ascending arpeggio",
+            "octave_span": 1,
+            "time_signature": "4/4",
+            "note_value": "quarter",
+        },
+    },
+    "Sight reading beginner, middle range, 4 bars": {
+        "tab": "Sight Reading",
+        "settings": {
+            "lowest_note": "C4",
+            "highest_note": "C5",
+            "key_mode": "C Major / A Minor only",
+            "specific_key": "C major",
+            "num_bars": 4,
+            "time_signature": "4/4",
+            "difficulty": "Beginner",
+            "allowed_values": ["half", "quarter"],
+            "allow_rests": False,
+            "max_leap": "up to 3rd",
+            "repeated_notes": True,
+        },
+    },
+    "Sight reading intermediate, 8 bars": {
+        "tab": "Sight Reading",
+        "settings": {
+            "lowest_note": "C4",
+            "highest_note": "D5",
+            "key_mode": "Major keys",
+            "specific_key": "G major",
+            "num_bars": 8,
+            "time_signature": "4/4",
+            "difficulty": "Intermediate",
+            "allowed_values": ["half", "quarter", "eighth"],
+            "allow_rests": True,
+            "max_leap": "up to 4th",
+            "repeated_notes": True,
+        },
+    },
+    "Sight reading advanced, chromatic mode, 8 bars": {
+        "tab": "Sight Reading",
+        "settings": {
+            "lowest_note": "B3",
+            "highest_note": "E5",
+            "key_mode": "Chromatic / random accidentals",
+            "specific_key": "C major",
+            "num_bars": 8,
+            "time_signature": "4/4",
+            "difficulty": "Advanced",
+            "allowed_values": ["quarter", "eighth", "dotted quarter"],
+            "allow_rests": True,
+            "max_leap": "up to 5th",
+            "repeated_notes": True,
+        },
+    },
+}
