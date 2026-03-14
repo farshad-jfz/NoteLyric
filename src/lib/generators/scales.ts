@@ -1,5 +1,5 @@
 import { Exercise, GenerateResult, MusicEvent } from "@/lib/music/models";
-import { parsePitch, transposePitch } from "@/lib/music/noteUtils";
+import { buildScalePitchClasses, parsePitch, scaleKeySignatureLabel } from "@/lib/music/noteUtils";
 import { chunkIntoMeasures, uid } from "@/lib/generators/shared";
 import { ScaleSettings, validateScaleSettings } from "@/lib/validation/scalesValidation";
 
@@ -31,12 +31,18 @@ const buildScaleNotes = (settings: ScaleSettings): { notes?: string[]; error?: s
   const startOct = findStartOctave(settings.root, settings.lowestNote, settings.highestNote, settings.octaveSpan);
   if (startOct === undefined) return { error: "Selected range is too small for this scale." };
 
-  const base = `${settings.root}${startOct}`;
+  const template = buildScalePitchClasses(settings.root, settings.scaleType, intervals);
   const asc: string[] = [];
+
   for (let oct = 0; oct < settings.octaveSpan; oct += 1) {
-    for (let i = 0; i < intervals.length - 1; i += 1) asc.push(transposePitch(base, oct * 12 + intervals[i]));
+    for (let i = 0; i < template.length - 1; i += 1) {
+      const degree = template[i];
+      asc.push(`${degree.pitchClass}${startOct + oct + degree.octaveOffset}`);
+    }
   }
-  asc.push(transposePitch(base, settings.octaveSpan * 12));
+
+  const top = template[template.length - 1];
+  asc.push(`${top.pitchClass}${startOct + settings.octaveSpan - 1 + top.octaveOffset}`);
 
   if (settings.direction === "Ascending") return { notes: asc };
   if (settings.direction === "Descending") return { notes: [...asc].reverse() };
@@ -63,7 +69,7 @@ export const generateScaleExercise = (settings: ScaleSettings): GenerateResult =
     title: `${settings.root} ${settings.scaleType} Scale - ${settings.octaveSpan} Octaves - ${settings.direction}`,
     tempo: "80",
     timeSignature: settings.timeSignature,
-    keySignature: `${settings.root} major`,
+    keySignature: scaleKeySignatureLabel(settings.root, settings.scaleType),
     clef: "treble",
     metadata: {
       root: settings.root,
