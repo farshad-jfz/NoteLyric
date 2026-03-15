@@ -1,4 +1,5 @@
 import { Exercise, GenerateResult, MusicEvent } from "@/lib/music/models";
+import { buildChordDegreeLabels } from "@/lib/music/education";
 import { buildChordPitchClasses, parsePitch } from "@/lib/music/noteUtils";
 import { chunkIntoMeasures, uid } from "@/lib/generators/shared";
 import { ChordSettings, validateChordSettings } from "@/lib/validation/chordsValidation";
@@ -37,6 +38,7 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
   const lowMidi = parsePitch(settings.lowestNote).midi;
   const highMidi = parsePitch(settings.highestNote).midi;
   const template = buildChordPitchClasses(settings.root, settings.chordType, intervals);
+  const degreeLabels = buildChordDegreeLabels(settings.chordType, settings.octaveSpan, settings.pattern);
   const events: MusicEvent[] = [];
 
   if (settings.pattern === "Block chord") {
@@ -48,12 +50,17 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
       })) {
         return { error: "This arpeggio pattern does not fit the selected range." };
       }
+      const labels = [
+        ...(settings.showNoteNames ? [chordTones.join(" ")] : []),
+        ...(settings.showChordTones ? [chordTones.map((tone) => tone.replace(/\d/, "")).join(" ")] : []),
+        ...(settings.showScaleDegrees && degreeLabels[oct] ? [degreeLabels[oct]] : [])
+      ];
       events.push({
         kind: "note",
         pitch: chordTones[0],
         chord: chordTones,
         duration: settings.noteValue,
-        lyric: settings.showChordTones ? chordTones.map((tone) => tone.replace(/\d/, "")).join(" ") : undefined
+        lyrics: labels.length ? labels : undefined
       });
     }
   } else {
@@ -69,13 +76,14 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
       ? [...seq, ...[...seq].reverse().slice(1)]
       : seq;
 
-    for (const pitch of run) {
+    for (const [idx, pitch] of run.entries()) {
       const midi = parsePitch(pitch).midi;
       if (midi < lowMidi || midi > highMidi) return { error: "This arpeggio pattern does not fit the selected range." };
       const labels: string[] = [];
       if (settings.showNoteNames) labels.push(pitch);
       if (settings.showChordTones) labels.push(pitch.replace(/\d/, ""));
-      events.push({ kind: "note", pitch, duration: settings.noteValue, lyric: labels.length ? labels.join(" / ") : undefined });
+      if (settings.showScaleDegrees && degreeLabels[idx]) labels.push(degreeLabels[idx]);
+      events.push({ kind: "note", pitch, duration: settings.noteValue, lyrics: labels.length ? labels : undefined });
     }
   }
 

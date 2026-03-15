@@ -2,14 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import ContextExplanationCard from "@/components/ContextExplanationCard";
 import ExerciseControls from "@/components/ExerciseControls";
 import ExportButtons from "@/components/ExportButtons";
 import PresetSelector from "@/components/PresetSelector";
 import ScoreViewer from "@/components/ScoreViewer";
 import SettingsSummary from "@/components/SettingsSummary";
-import { ARPEGGIO_PATTERNS, CHORD_TYPES, NOTE_OPTIONS, ROOT_OPTIONS, TIME_SIGNATURES } from "@/lib/music/constants";
-import { exerciseToMusicXml } from "@/lib/music/xmlBuilder";
 import { generateChordExercise } from "@/lib/generators/chords";
+import { ARPEGGIO_PATTERNS, CHORD_TYPES, NOTE_OPTIONS, ROOT_OPTIONS, TIME_SIGNATURES } from "@/lib/music/constants";
+import { CHORD_EXPLANATIONS } from "@/lib/music/education";
+import { exerciseToMusicXml } from "@/lib/music/xmlBuilder";
 import { chordPresets, defaultChordSettings } from "@/lib/presets/presets";
 import { ChordSettings } from "@/lib/validation/chordsValidation";
 
@@ -34,7 +36,7 @@ export default function ChordsPage() {
     try {
       const parsed = JSON.parse(raw) as { mode: "Quick" | "Advanced"; settings: ChordSettings };
       setMode(parsed.mode);
-      setSettings(parsed.settings);
+      setSettings({ ...defaultChordSettings, ...parsed.settings });
     } catch {
       // Ignore corrupt local storage.
     }
@@ -111,6 +113,8 @@ export default function ChordsPage() {
           </label>
         </div>
 
+        <ContextExplanationCard explanation={CHORD_EXPLANATIONS[settings.chordType]} />
+
         {mode === "Advanced" ? (
           <details open>
             <summary>Advanced settings</summary>
@@ -163,6 +167,14 @@ export default function ChordsPage() {
                 />
                 Show chord tones
               </label>
+              <label>
+                <input
+                  type="checkbox"
+                  checked={settings.showScaleDegrees}
+                  onChange={(e) => setSettings({ ...settings, showScaleDegrees: e.target.checked })}
+                />
+                Show scale degrees
+              </label>
             </div>
           </details>
         ) : null}
@@ -185,3 +197,4 @@ export default function ChordsPage() {
     </>
   );
 }
+

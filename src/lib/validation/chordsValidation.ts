@@ -11,6 +11,7 @@ export type ChordSettings = {
   highestNote: string;
   showNoteNames: boolean;
   showChordTones: boolean;
+  showScaleDegrees: boolean;
 };
 
 export const validateChordSettings = (settings: ChordSettings): string | undefined => {

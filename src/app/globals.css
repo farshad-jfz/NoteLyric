@@ -92,6 +92,48 @@ details > summary {
   margin: 0.2rem 0 0.5rem;
 }
 
+.context-card {
+  margin-top: 0.25rem;
+  padding: 0.9rem 1rem;
+  border-radius: 14px;
+  border: 1px solid color-mix(in srgb, var(--mantine-color-teal-6) 24%, white);
+  background:
+    linear-gradient(135deg, color-mix(in srgb, var(--mantine-color-teal-0) 72%, white), white 58%),
+    var(--mantine-color-white);
+}
+
+.context-card__eyebrow {
+  margin: 0 0 0.2rem;
+  font-size: 0.76rem;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--mantine-color-teal-7);
+}
+
+.context-card__title {
+  margin: 0;
+  font-size: 1.05rem;
+}
+
+.context-card__body {
+  margin: 0.45rem 0 0;
+  line-height: 1.55;
+  color: var(--mantine-color-dark-6);
+}
+
+.context-card__meta {
+  margin-top: 0.7rem;
+  display: grid;
+  gap: 0.35rem;
+}
+
+.context-card__meta p {
+  margin: 0;
+  line-height: 1.5;
+  color: var(--mantine-color-dark-7);
+}
+
 @media (max-width: 900px) {
   .grid-2,
   .grid-3 {

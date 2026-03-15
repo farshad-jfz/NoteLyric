@@ -25,7 +25,8 @@ export const defaultChordSettings: ChordSettings = {
   lowestNote: "C4",
   highestNote: "C6",
   showNoteNames: false,
-  showChordTones: false
+  showChordTones: false,
+  showScaleDegrees: false
 };
 
 export const defaultSightSettings: SightReadingSettings = {

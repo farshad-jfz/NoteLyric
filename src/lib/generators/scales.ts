@@ -1,4 +1,5 @@
 import { Exercise, GenerateResult, MusicEvent } from "@/lib/music/models";
+import { buildScaleDegreeLabels } from "@/lib/music/education";
 import { buildScalePitchClasses, parsePitch, scaleKeySignatureLabel } from "@/lib/music/noteUtils";
 import { chunkIntoMeasures, uid } from "@/lib/generators/shared";
 import { ScaleSettings, validateScaleSettings } from "@/lib/validation/scalesValidation";
@@ -56,11 +57,13 @@ export const generateScaleExercise = (settings: ScaleSettings): GenerateResult =
   const built = buildScaleNotes(settings);
   if (built.error || !built.notes) return { error: built.error ?? "Unable to generate scale." };
 
+  const degreeLabels = buildScaleDegreeLabels(settings.scaleType, settings.octaveSpan, settings.direction);
+
   const events: MusicEvent[] = built.notes.map((pitch, idx) => {
     const labels: string[] = [];
     if (settings.showNoteNames) labels.push(pitch);
-    if (settings.showScaleDegrees) labels.push(String((idx % 7) + 1));
-    return { kind: "note", pitch, duration: settings.noteValue, lyric: labels.length ? labels.join(" / ") : undefined };
+    if (settings.showScaleDegrees && degreeLabels[idx]) labels.push(degreeLabels[idx]);
+    return { kind: "note", pitch, duration: settings.noteValue, lyrics: labels.length ? labels : undefined };
   });
 
   const exercise: Exercise = {

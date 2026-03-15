@@ -2,14 +2,16 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import ContextExplanationCard from "@/components/ContextExplanationCard";
 import ExerciseControls from "@/components/ExerciseControls";
 import ExportButtons from "@/components/ExportButtons";
 import PresetSelector from "@/components/PresetSelector";
 import ScoreViewer from "@/components/ScoreViewer";
 import SettingsSummary from "@/components/SettingsSummary";
-import { DIRECTIONS, NOTE_OPTIONS, ROOT_OPTIONS, SCALE_TYPES, TIME_SIGNATURES } from "@/lib/music/constants";
-import { exerciseToMusicXml } from "@/lib/music/xmlBuilder";
 import { generateScaleExercise } from "@/lib/generators/scales";
+import { DIRECTIONS, NOTE_OPTIONS, ROOT_OPTIONS, SCALE_TYPES, TIME_SIGNATURES } from "@/lib/music/constants";
+import { SCALE_EXPLANATIONS } from "@/lib/music/education";
+import { exerciseToMusicXml } from "@/lib/music/xmlBuilder";
 import { defaultScaleSettings, scalePresets } from "@/lib/presets/presets";
 import { ScaleSettings } from "@/lib/validation/scalesValidation";
 
@@ -34,7 +36,7 @@ export default function ScalesPage() {
     try {
       const parsed = JSON.parse(raw) as { mode: "Quick" | "Advanced"; settings: ScaleSettings };
       setMode(parsed.mode);
-      setSettings(parsed.settings);
+      setSettings({ ...defaultScaleSettings, ...parsed.settings });
     } catch {
       // Ignore corrupt local storage.
     }
@@ -118,6 +120,8 @@ export default function ScalesPage() {
           </label>
         </div>
 
+        <ContextExplanationCard explanation={SCALE_EXPLANATIONS[settings.scaleType]} />
+
         {mode === "Advanced" ? (
           <details open>
             <summary>Advanced settings</summary>
@@ -192,3 +196,4 @@ export default function ScalesPage() {
     </>
   );
 }
+

@@ -12,6 +12,11 @@ const durationTypeMap: Record<string, { type: string; dots?: number }> = {
 
 const baseDivisions = 2;
 
+const renderLyrics = (event: Extract<MusicEvent, { kind: "note" }>): string => {
+  const lyrics = event.lyrics?.length ? event.lyrics : event.lyric ? [event.lyric] : [];
+  return lyrics.map((text, idx) => `<lyric number="${idx + 1}"><text>${text}</text></lyric>`).join("");
+};
+
 const eventToXml = (event: MusicEvent): string => {
   const dur = durationTypeMap[event.duration];
   const duration = event.duration === "whole" ? 8 : event.duration === "half" ? 4 : event.duration === "quarter" ? 2 : event.duration === "eighth" ? 1 : event.duration === "dotted half" ? 6 : 3;
@@ -23,13 +28,13 @@ const eventToXml = (event: MusicEvent): string => {
   if (event.chord && event.chord.length > 1) {
     const notes = event.chord.map((p, idx) => {
       const { step, alter, octave } = parsePitch(p);
-      return `<note>${idx > 0 ? "<chord/>" : ""}<pitch><step>${step}</step>${alter !== 0 ? `<alter>${alter}</alter>` : ""}<octave>${octave}</octave></pitch><duration>${duration}</duration><type>${dur.type}</type>${dur.dots ? "<dot/>" : ""}${event.lyric && idx === 0 ? `<lyric><text>${event.lyric}</text></lyric>` : ""}</note>`;
+      return `<note>${idx > 0 ? "<chord/>" : ""}<pitch><step>${step}</step>${alter !== 0 ? `<alter>${alter}</alter>` : ""}<octave>${octave}</octave></pitch><duration>${duration}</duration><type>${dur.type}</type>${dur.dots ? "<dot/>" : ""}${idx === 0 ? renderLyrics(event) : ""}</note>`;
     });
     return notes.join("");
   }
 
   const { step, alter, octave } = parsePitch(event.pitch);
-  return `<note><pitch><step>${step}</step>${alter !== 0 ? `<alter>${alter}</alter>` : ""}<octave>${octave}</octave></pitch><duration>${duration}</duration><type>${dur.type}</type>${dur.dots ? "<dot/>" : ""}${event.lyric ? `<lyric><text>${event.lyric}</text></lyric>` : ""}</note>`;
+  return `<note><pitch><step>${step}</step>${alter !== 0 ? `<alter>${alter}</alter>` : ""}<octave>${octave}</octave></pitch><duration>${duration}</duration><type>${dur.type}</type>${dur.dots ? "<dot/>" : ""}${renderLyrics(event)}</note>`;
 };
 
 export const exerciseToMusicXml = (exercise: Exercise): string => {

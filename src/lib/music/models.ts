@@ -10,6 +10,7 @@ export type MusicEvent =
       duration: DurationName;
       dots?: number;
       lyric?: string;
+      lyrics?: string[];
       chord?: string[];
     }
   | {
