@@ -1,7 +1,7 @@
 export type ContextExplanation = {
   title: string;
   definition: string;
-  formulaLabel: "Pattern" | "Formula";
+  formulaLabel: string;
   formula: string;
   example: string;
   tip?: string;

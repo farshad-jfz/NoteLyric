@@ -1,4 +1,4 @@
-export type ExerciseType = "scale" | "chord" | "sight-reading";
+export type ExerciseType = "scale" | "chord" | "sight-reading" | "jazz";
 export type Clef = "treble";
 export type TimeSignature = "2/4" | "3/4" | "4/4" | "6/8";
 export type DurationName = "whole" | "half" | "quarter" | "eighth" | "dotted half" | "dotted quarter";
@@ -32,6 +32,7 @@ export type Exercise = {
   keySignature?: string;
   clef: Clef;
   metadata: Record<string, string | number | boolean>;
+  measureAnnotations?: string[];
   measures: Measure[];
 };
 

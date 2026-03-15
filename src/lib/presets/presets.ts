@@ -1,4 +1,5 @@
 import { ChordSettings } from "@/lib/validation/chordsValidation";
+import { JazzSettings } from "@/lib/validation/jazzValidation";
 import { ScaleSettings } from "@/lib/validation/scalesValidation";
 import { SightReadingSettings } from "@/lib/validation/sightReadingValidation";
 
@@ -27,6 +28,19 @@ export const defaultChordSettings: ChordSettings = {
   showNoteNames: false,
   showChordTones: false,
   showScaleDegrees: false
+};
+
+export const defaultJazzSettings: JazzSettings = {
+  mode: "ii-v-i",
+  progressionType: "II-V-I",
+  key: "C",
+  timeSignature: "4/4",
+  numBars: 6,
+  lowestNote: "C4",
+  highestNote: "C6",
+  difficulty: "Beginner",
+  swingFeel: false,
+  seed: ""
 };
 
 export const defaultSightSettings: SightReadingSettings = {
@@ -67,6 +81,32 @@ export const chordPresets: Record<string, Partial<ChordSettings>> = {
     pattern: "Ascending arpeggio",
     octaveSpan: 1,
     noteValue: "quarter"
+  }
+};
+
+export const jazzPresets: Record<string, Partial<JazzSettings>> = {
+  "Guide tones in C, 6 bars": {
+    mode: "guide-tones",
+    progressionType: "II-V-I",
+    key: "C",
+    numBars: 6,
+    difficulty: "Beginner"
+  },
+  "Voice leading turnaround in F": {
+    mode: "voice-leading",
+    progressionType: "Turnaround",
+    key: "F",
+    numBars: 8,
+    difficulty: "Intermediate",
+    swingFeel: true
+  },
+  "Bebop blues in Bb": {
+    mode: "bebop-lines",
+    progressionType: "12-Bar Blues",
+    key: "Bb",
+    numBars: 12,
+    difficulty: "Advanced",
+    swingFeel: true
   }
 };
 

@@ -1,4 +1,4 @@
-﻿"use client";
+"use client";
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/", label: "Home", icon: IconHome },
   { href: "/scales", label: "Scales", icon: IconBook },
   { href: "/chords", label: "Chords / Arpeggios", icon: IconMusic },
+  { href: "/jazz", label: "Jazz Practice", icon: IconMusic },
   { href: "/sight-reading", label: "Sight Reading", icon: IconCircleDottedLetterH },
   { href: "/about", label: "About", icon: IconInfoCircle }
 ];
@@ -60,7 +61,7 @@ export default function AppChrome({ children }: { children: ReactNode }) {
               NoteLyric
             </Text>
             <Text size="sm" c="dimmed">
-              Copyright © {year} Farshad Jafarzadeh
+              Copyright (c) {year} Farshad Jafarzadeh
             </Text>
           </Group>
         </Container>

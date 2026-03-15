@@ -134,6 +134,29 @@ details > summary {
   color: var(--mantine-color-dark-7);
 }
 
+.progression-strip {
+  margin-top: 0.35rem;
+  padding: 0.8rem 0.95rem;
+  border-radius: 12px;
+  border: 1px dashed color-mix(in srgb, var(--mantine-color-blue-6) 32%, white);
+  background: color-mix(in srgb, var(--mantine-color-blue-0) 64%, white);
+}
+
+.progression-strip__label {
+  margin: 0;
+  font-size: 0.8rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--mantine-color-blue-7);
+}
+
+.progression-strip__value {
+  margin: 0.35rem 0 0;
+  line-height: 1.55;
+  color: var(--mantine-color-dark-7);
+}
+
 @media (max-width: 900px) {
   .grid-2,
   .grid-3 {

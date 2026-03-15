@@ -12,9 +12,17 @@ const durationTypeMap: Record<string, { type: string; dots?: number }> = {
 
 const baseDivisions = 2;
 
+const escapeXml = (value: string): string =>
+  value
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/\"/g, "&quot;")
+    .replace(/'/g, "&apos;");
+
 const renderLyrics = (event: Extract<MusicEvent, { kind: "note" }>): string => {
   const lyrics = event.lyrics?.length ? event.lyrics : event.lyric ? [event.lyric] : [];
-  return lyrics.map((text, idx) => `<lyric number="${idx + 1}"><text>${text}</text></lyric>`).join("");
+  return lyrics.map((text, idx) => `<lyric number="${idx + 1}"><text>${escapeXml(text)}</text></lyric>`).join("");
 };
 
 const eventToXml = (event: MusicEvent): string => {
@@ -42,21 +50,26 @@ export const exerciseToMusicXml = (exercise: Exercise): string => {
   const fifths = exercise.keySignature ? keySignatureFifths(exercise.keySignature) : 0;
 
   const measuresXml = exercise.measures
-    .map((m, idx) => {
+    .map((measure, idx) => {
       const attrs = idx === 0
         ? `<attributes><divisions>${baseDivisions}</divisions><key><fifths>${fifths}</fifths></key><time><beats>${beats}</beats><beat-type>${beatType}</beat-type></time><clef><sign>G</sign><line>2</line></clef></attributes>`
         : "";
-      const eventsXml = m.events.map(eventToXml).join("");
-      return `<measure number="${idx + 1}">${attrs}${eventsXml}</measure>`;
+      const annotation = exercise.measureAnnotations?.[idx]
+        ? `<direction placement="above"><direction-type><words>${escapeXml(exercise.measureAnnotations[idx])}</words></direction-type></direction>`
+        : "";
+      const eventsXml = measure.events.map(eventToXml).join("");
+      return `<measure number="${idx + 1}">${attrs}${annotation}${eventsXml}</measure>`;
     })
     .join("");
 
-  const tempo = exercise.tempo ? `<direction placement="above"><direction-type><metronome><beat-unit>quarter</beat-unit><per-minute>${exercise.tempo}</per-minute></metronome></direction-type></direction>` : "";
+  const tempo = exercise.tempo
+    ? `<direction placement="above"><direction-type><metronome><beat-unit>quarter</beat-unit><per-minute>${escapeXml(exercise.tempo)}</per-minute></metronome></direction-type></direction>`
+    : "";
 
   return `<?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE score-partwise PUBLIC "-//Recordare//DTD MusicXML 3.1 Partwise//EN" "http://www.musicxml.org/dtds/partwise.dtd">
 <score-partwise version="3.1">
-  <work><work-title>${exercise.title}</work-title></work>
+  <work><work-title>${escapeXml(exercise.title)}</work-title></work>
   <part-list><score-part id="P1"><part-name>Practice</part-name></score-part></part-list>
   <part id="P1">${tempo}${measuresXml}</part>
 </score-partwise>`;
