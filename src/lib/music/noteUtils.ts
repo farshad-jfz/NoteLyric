@@ -54,6 +54,15 @@ const SCALE_STEP_OFFSETS: Record<string, number[] | undefined> = {
   "Minor Pentatonic": [0, 2, 3, 4, 6, 7],
   Blues: [0, 2, 3, 4, 4, 6, 7]
 };
+const CHORD_STEP_OFFSETS: Record<string, number[] | undefined> = {
+  "Major triad": [0, 2, 4],
+  "Minor triad": [0, 2, 4],
+  "Diminished triad": [0, 2, 4],
+  "Augmented triad": [0, 2, 4],
+  "Dominant 7": [0, 2, 4, 6],
+  "Major 7": [0, 2, 4, 6],
+  "Minor 7": [0, 2, 4, 6]
+};
 const SCALE_KEY_MODES: Record<string, "major" | "minor" | undefined> = {
   Major: "major",
   "Natural Minor": "minor",
@@ -75,6 +84,38 @@ const mod = (value: number, base: number): number => ((value % base) + base) % b
 const normalizeAlter = (targetPitchClass: number, naturalPitchClass: number): number => {
   const delta = mod(targetPitchClass - naturalPitchClass, 12);
   return delta > 6 ? delta - 12 : delta;
+};
+
+const buildSpelledPitchClasses = (root: string, intervals: number[], stepOffsets?: number[]): SpelledScaleDegree[] => {
+  const tonic = parsePitch(`${root}4`);
+  const fallback = intervals.map((interval) => {
+    const name = transposePitch(`${root}4`, interval);
+    const parsed = parsePitch(name);
+    return {
+      pitchClass: name.replace(/\d$/, ""),
+      octaveOffset: parsed.octave - tonic.octave
+    };
+  });
+
+  if (!stepOffsets || stepOffsets.length !== intervals.length) return fallback;
+
+  const rootIndex = LETTERS.indexOf(tonic.step as (typeof LETTERS)[number]);
+  const tonicPitchClass = mod(tonic.midi, 12);
+
+  return intervals.map((interval, idx) => {
+    const stepOffset = stepOffsets[idx];
+    const stepIndex = rootIndex + stepOffset;
+    const step = LETTERS[stepIndex % LETTERS.length];
+    const targetPitchClass = mod(tonicPitchClass + interval, 12);
+    const alter = normalizeAlter(targetPitchClass, LETTER_TO_SEMITONE[step]);
+
+    if (alter < -2 || alter > 2) return fallback[idx];
+
+    return {
+      pitchClass: `${step}${accidentalFromAlter(alter)}`,
+      octaveOffset: Math.floor(stepIndex / LETTERS.length)
+    };
+  });
 };
 
 export const parsePitch = (name: string): { midi: number; step: string; alter: number; octave: number } => {
@@ -136,36 +177,11 @@ export const transposePitch = (pitchName: string, semitones: number): string => 
 };
 
 export const buildScalePitchClasses = (root: string, scaleType: string, intervals: number[]): SpelledScaleDegree[] => {
-  const tonic = parsePitch(`${root}4`);
-  const fallback = intervals.map((interval) => {
-    const name = transposePitch(`${root}4`, interval);
-    const parsed = parsePitch(name);
-    return {
-      pitchClass: name.replace(/\d$/, ""),
-      octaveOffset: parsed.octave - tonic.octave
-    };
-  });
+  return buildSpelledPitchClasses(root, intervals, SCALE_STEP_OFFSETS[scaleType]);
+};
 
-  const stepOffsets = SCALE_STEP_OFFSETS[scaleType];
-  if (!stepOffsets || stepOffsets.length !== intervals.length) return fallback;
-
-  const rootIndex = LETTERS.indexOf(tonic.step as (typeof LETTERS)[number]);
-  const tonicPitchClass = mod(tonic.midi, 12);
-
-  return intervals.map((interval, idx) => {
-    const stepOffset = stepOffsets[idx];
-    const stepIndex = rootIndex + stepOffset;
-    const step = LETTERS[stepIndex % LETTERS.length];
-    const targetPitchClass = mod(tonicPitchClass + interval, 12);
-    const alter = normalizeAlter(targetPitchClass, LETTER_TO_SEMITONE[step]);
-
-    if (alter < -2 || alter > 2) return fallback[idx];
-
-    return {
-      pitchClass: `${step}${accidentalFromAlter(alter)}`,
-      octaveOffset: Math.floor(stepIndex / LETTERS.length)
-    };
-  });
+export const buildChordPitchClasses = (root: string, chordType: string, intervals: number[]): SpelledScaleDegree[] => {
+  return buildSpelledPitchClasses(root, intervals, CHORD_STEP_OFFSETS[chordType]);
 };
 
 export const scaleKeySignatureLabel = (root: string, scaleType: string): string | undefined => {

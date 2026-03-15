@@ -1,5 +1,5 @@
 import { Exercise, GenerateResult, MusicEvent } from "@/lib/music/models";
-import { parsePitch, transposePitch } from "@/lib/music/noteUtils";
+import { buildChordPitchClasses, parsePitch } from "@/lib/music/noteUtils";
 import { chunkIntoMeasures, uid } from "@/lib/generators/shared";
 import { ChordSettings, validateChordSettings } from "@/lib/validation/chordsValidation";
 
@@ -36,17 +36,14 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
 
   const lowMidi = parsePitch(settings.lowestNote).midi;
   const highMidi = parsePitch(settings.highestNote).midi;
-  const rootPitch = `${settings.root}${rootOct}`;
-
-  const tones: string[] = intervals.map((i) => transposePitch(rootPitch, i));
-
+  const template = buildChordPitchClasses(settings.root, settings.chordType, intervals);
   const events: MusicEvent[] = [];
 
   if (settings.pattern === "Block chord") {
     for (let oct = 0; oct < settings.octaveSpan; oct += 1) {
-      const chordTones = tones.map((p) => transposePitch(p, 12 * oct));
-      if (chordTones.some((p) => {
-        const midi = parsePitch(p).midi;
+      const chordTones = template.map((degree) => `${degree.pitchClass}${rootOct + oct + degree.octaveOffset}`);
+      if (chordTones.some((pitch) => {
+        const midi = parsePitch(pitch).midi;
         return midi < lowMidi || midi > highMidi;
       })) {
         return { error: "This arpeggio pattern does not fit the selected range." };
@@ -56,15 +53,15 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
         pitch: chordTones[0],
         chord: chordTones,
         duration: settings.noteValue,
-        lyric: settings.showChordTones ? chordTones.map((t) => t.replace(/\d/, "")).join(" ") : undefined
+        lyric: settings.showChordTones ? chordTones.map((tone) => tone.replace(/\d/, "")).join(" ") : undefined
       });
     }
   } else {
     const seq: string[] = [];
     for (let oct = 0; oct < settings.octaveSpan; oct += 1) {
-      for (const t of tones) seq.push(transposePitch(t, 12 * oct));
+      for (const degree of template) seq.push(`${degree.pitchClass}${rootOct + oct + degree.octaveOffset}`);
     }
-    seq.push(transposePitch(rootPitch, 12 * settings.octaveSpan));
+    seq.push(`${template[0].pitchClass}${rootOct + settings.octaveSpan}`);
 
     const run = settings.pattern === "Descending arpeggio"
       ? [...seq].reverse()
@@ -72,20 +69,22 @@ export const generateChordExercise = (settings: ChordSettings): GenerateResult =
       ? [...seq, ...[...seq].reverse().slice(1)]
       : seq;
 
-    for (const p of run) {
-      const midi = parsePitch(p).midi;
+    for (const pitch of run) {
+      const midi = parsePitch(pitch).midi;
       if (midi < lowMidi || midi > highMidi) return { error: "This arpeggio pattern does not fit the selected range." };
       const labels: string[] = [];
-      if (settings.showNoteNames) labels.push(p);
-      if (settings.showChordTones) labels.push(p.replace(/\d/, ""));
-      events.push({ kind: "note", pitch: p, duration: settings.noteValue, lyric: labels.length ? labels.join(" / ") : undefined });
+      if (settings.showNoteNames) labels.push(pitch);
+      if (settings.showChordTones) labels.push(pitch.replace(/\d/, ""));
+      events.push({ kind: "note", pitch, duration: settings.noteValue, lyric: labels.length ? labels.join(" / ") : undefined });
     }
   }
+
+  const label = settings.pattern === "Block chord" ? "Chord" : "Arpeggio";
 
   const exercise: Exercise = {
     id: uid(),
     type: "chord",
-    title: `${settings.root} ${settings.chordType} - ${settings.octaveSpan} Octave - ${settings.pattern}`,
+    title: `${settings.root} ${settings.chordType} ${label} - ${settings.octaveSpan} Octave - ${settings.pattern}`,
     timeSignature: settings.timeSignature,
     clef: "treble",
     metadata: {
