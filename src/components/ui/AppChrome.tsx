@@ -61,7 +61,7 @@ export default function AppChrome({ children }: { children: ReactNode }) {
               NoteLyric
             </Text>
             <Text size="sm" c="dimmed">
-              Copyright (c) {year} Farshad Jafarzadeh
+              Copyright© {year} Farshad Jafarzadeh
             </Text>
           </Group>
         </Container>
