@@ -1,7 +1,6 @@
 "use client";
 
-import { SegmentedControl, Stack, Title, Card } from "@mantine/core";
-import { ReactNode } from "react";
+import type { ReactNode } from "react";
 
 type Props = {
   title: string;
@@ -12,19 +11,26 @@ type Props = {
 
 export default function ExerciseControls({ title, mode, onModeChange, children }: Props) {
   return (
-    <Card withBorder radius="lg" shadow="xs" mb="md">
-      <Stack gap="sm">
-        <Stack gap={4}>
-          <Title order={2}>{title}</Title>
-          <SegmentedControl
-            value={mode}
-            onChange={(value) => onModeChange(value as "Quick" | "Advanced")}
-            data={["Quick", "Advanced"]}
-            w={220}
-          />
-        </Stack>
-        {children}
-      </Stack>
-    </Card>
+    <section className="panel exercise-controls">
+      <div className="exercise-controls__header">
+        <div>
+          <p className="eyebrow">Settings</p>
+          <h2>{title}</h2>
+        </div>
+        <div className="segmented" role="tablist" aria-label={`${title} mode`}>
+          {(["Quick", "Advanced"] as const).map((option) => (
+            <button
+              key={option}
+              type="button"
+              className={mode === option ? "segmented__button segmented__button--active" : "segmented__button"}
+              onClick={() => onModeChange(option)}
+            >
+              {option}
+            </button>
+          ))}
+        </div>
+      </div>
+      <div className="stack">{children}</div>
+    </section>
   );
 }

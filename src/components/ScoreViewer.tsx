@@ -1,6 +1,5 @@
 "use client";
 
-import { Alert, Card, Title } from "@mantine/core";
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
@@ -17,7 +16,7 @@ export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
   useEffect(() => {
     const render = async () => {
       if (!musicXml || !containerRef.current) {
-        if (onSvgReady) onSvgReady(undefined);
+        onSvgReady?.(undefined);
         return;
       }
 
@@ -28,12 +27,11 @@ export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
         const osmd = createOsmd(containerRef.current);
         await osmd.load(musicXml);
         osmd.render();
-        const svg = containerRef.current.querySelector("svg")?.outerHTML;
-        if (onSvgReady) onSvgReady(svg);
-      } catch (e) {
-        const message = e instanceof Error ? e.message : "Score rendering failed.";
+        onSvgReady?.(containerRef.current.querySelector("svg")?.outerHTML);
+      } catch (issue) {
+        const message = issue instanceof Error ? issue.message : "Score rendering failed.";
         setError(message);
-        if (onSvgReady) onSvgReady(undefined);
+        onSvgReady?.(undefined);
       }
     };
 
@@ -41,16 +39,20 @@ export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
   }, [musicXml, onSvgReady]);
 
   return (
-    <Card withBorder radius="lg" shadow="xs" mb="md">
-      <Title order={3} mb="sm">
-        {title ?? "Score"}
-      </Title>
+    <section className="panel score-panel">
+      <div className="score-panel__header">
+        <div>
+          <p className="eyebrow">Score</p>
+          <h2>{title ?? "Score viewer"}</h2>
+        </div>
+      </div>
       {error ? (
-        <Alert color="red" icon={<IconAlertCircle size={18} />} mb="sm">
-          {error}
-        </Alert>
+        <div className="notice notice--error">
+          <IconAlertCircle size={18} />
+          <span>{error}</span>
+        </div>
       ) : null}
       <div ref={containerRef} className="score-surface" />
-    </Card>
+    </section>
   );
 }

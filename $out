@@ -1,0 +1,3148 @@
+                     
+                    Developer Handoff Pack 
+                    Harmonica Practice App 
+                    1. Project Summary 
+                    Product 
+                    A web app for chromatic harmonica practice focused on: 
+                         •    technique 
+                         •    sight reading 
+                         •    jazz harmony 
+                         •    guided daily practice 
+                    Primary goals 
+                    The app should help users practice more effectively by generating structured, readable, 
+                    musically valid exercises. 
+                    Core sections 
+                         •    Home 
+                         •    Practice 
+                                   o    Scales 
+                                   o    Chords / Arpeggios 
+                                   o    Sight Reading 
+                         •    Jazz 
+                                   o    Guided Daily Practice 
+                                   o    II–V–I 
+                                   o    Guide Tones 
+                                   o    Target Tones 
+                                   o    Bebop Lines 
+                                   o    Voice Leading 
+                                   o    Motif Development 
+                                   o    Call & Response 
+                         •    Library 
+                         •    Settings 
+                         •    About 
+                    Technical direction 
+                         •    Next.js 
+                         •    TypeScript 
+                         •    Tailwind 
+                         •    shadcn/ui 
+                         •    browser-based notation rendering 
+                         •    modular music generation engine 
+                                                                                                                                                 
+                    2. Product Vision 
+                    This app should feel like: 
+                         •    a daily practice companion 
+                         •    a structured learning tool 
+                         •    a clean music workstation 
+                    It should not feel like: 
+                         •    a random generator 
+                         •    a theory encyclopedia 
+                         •    a cluttered music dashboard 
+                    Core product principle 
+                    Practice flow comes first. 
+                    Users should spend most of their time: 
+                         •    playing 
+                         •    reading 
+                         •    repeating 
+                         •    learning 
+                    Not: 
+                         •    configuring endless options 
+                                                                                                                                                 
+                    3. Scope Definition 
+                    In scope for v1 
+                         •    core app layout 
+                         •    Practice section 
+                         •    Jazz section 
+                         •    Guided Daily Practice 
+                         •    Library basics 
+                         •    Settings basics 
+                         •    notation rendering 
+                         •    exercise generation 
+                         •    save/export basics 
+                         •    local persistence 
+                    Out of scope for v1 
+                         •    user accounts 
+                         •    cloud sync 
+                         •    microphone input 
+                         •    MIDI input 
+                         •    performance evaluation 
+                         •    backing tracks 
+                         •    analytics dashboards 
+                         •    adaptive AI teaching 
+                         •    complex social features 
+                    If the developer starts building these early, the project will slow down for no good 
+                    reason. 
+                                                                                                                                                 
+                    4. Source Documents Included in Handoff 
+                    The developer should receive these as the official reference set: 
+                         1.  UI Design Spec 
+                         2.  Music Generation Engine Architecture Spec 
+                         3.  Jazz Practice Functional Guide 
+                         4.  Guided Practice Functional Spec 
+                         5.  Guided Practice Session Generator Technical Spec 
+                         6.  Practice Curriculum Spec 
+                         7.  Feature explanations and instructional copy 
+                         8.  Information Architecture + Wireframes 
+                    These should be treated as the source of truth. 
+                                                                                                                                                 
+                    5. Build Strategy 
+                    This project should be built in phases. 
+                    Do not try to build the whole app at once. 
+                    Recommended phase order 
+                         1.  foundation 
+                         2.  technique generators 
+                         3.  jazz generators 
+                         4.  guided practice 
+                         5.  persistence/library/export polish 
+                         6.  QA and refinement 
+                    Each phase should produce a usable, testable increment. 
+                                                                                                                                                 
+                    6. Phase 0 — Setup and Foundation 
+                    Objective 
+                    Set up the technical base and UI shell. 
+                    Tasks 
+                         •    initialize Next.js + TypeScript app 
+                         •    install Tailwind 
+                         •    install shadcn/ui 
+                         •    install icon library 
+                         •    create design tokens 
+                         •    implement app layout 
+                         •    implement bottom navigation 
+                         •    implement page routing 
+                         •    create base reusable components 
+                         •    define TypeScript domain models 
+                         •    create empty page stubs 
+                    Deliverables 
+                         •    running app shell 
+                         •    consistent layout 
+                         •    token system 
+                         •    reusable UI primitives 
+                         •    placeholder pages for all main sections 
+                    Acceptance criteria 
+                         •    app runs locally 
+                         •    navigation works 
+                         •    pages load 
+                         •    design tokens exist 
+                         •    basic responsive layout works 
+                         •    no music logic implemented yet 
+                                                                                                                                                 
+                    7. Phase 1 — Music Core Engine 
+                    Objective 
+                    Build shared music theory and rhythm utilities. 
+                    Tasks 
+                         •    implement note model 
+                         •    implement interval logic 
+                         •    implement scale formulas 
+                         •    implement chord formulas 
+                         •    implement progression generator 
+                         •    implement rhythm templates 
+                         •    implement rhythm validation 
+                         •    implement note range utilities 
+                         •    implement seeded random utility 
+                         •    implement shared validation layer 
+                    Deliverables 
+                         •    reusable music core modules 
+                         •    deterministic generation helpers 
+                         •    range-safe pitch selection 
+                         •    rhythm engine foundation 
+                    Acceptance criteria 
+                         •    unit tests pass for note/chord/scale/progression logic 
+                         •    seeded generation is stable 
+                         •    range validation works 
+                         •    rhythm templates generate valid measures 
+                    Dependencies 
+                    Phase 0 complete 
+                                                                                                                                                 
+                    8. Phase 2 — Practice Section MVP 
+                    Objective 
+                    Build the core non-jazz practice modes first. 
+                    Features 
+                         •    Scales 
+                         •    Chords / Arpeggios 
+                         •    Sight Reading 
+                    Tasks 
+                         •    build Scales page UI 
+                         •    build Chords/Arpeggios page UI 
+                         •    build Sight Reading page UI 
+                         •    implement scale generator 
+                         •    implement chord/arpeggio generator 
+                         •    implement sight-reading generator 
+                         •    connect generators to UI 
+                         •    render generated notation 
+                         •    add explanations 
+                         •    add validation feedback 
+                         •    add regenerate action 
+                    Deliverables 
+                         •    fully usable Practice section 
+                         •    readable notation rendering 
+                         •    valid exercise generation 
+                    Acceptance criteria 
+                    Scales 
+                         •    user can choose root, type, octave span, direction 
+                         •    notation renders correctly 
+                         •    generated notes fit selected range 
+                         •    invalid requests are blocked cleanly 
+                    Chords / Arpeggios 
+                         •    user can choose root, chord type, pattern 
+                         •    arpeggios render correctly 
+                         •    chord tones are correct 
+                         •    range handling works 
+                    Sight Reading 
+                         •    user can generate melodies inside selected range 
+                         •    measures are rhythmically valid 
+                         •    difficulty levels produce different output 
+                         •    leap constraints are respected 
+                    Dependencies 
+                    Phase 1 complete 
+                                                                                                                                                 
+                    9. Phase 3 — Jazz Core Modes 
+                    Objective 
+                    Build the direct jazz practice modes before Guided Practice. 
+                    Features 
+                         •    II–V–I 
+                         •    Guide Tones 
+                         •    Target Tones 
+                         •    Voice Leading 
+                         •    Call & Response 
+                         •    Motif Development 
+                         •    Bebop Lines 
+                    Recommended implementation order 
+                         1.  II–V–I 
+                         2.  Guide Tones 
+                         3.  Target Tones 
+                         4.  Voice Leading 
+                         5.  Call & Response 
+                         6.  Motif Development 
+                         7.  Bebop Lines 
+                    That order matters. Start with the clearest harmonic modes, not the flashy ones. 
+                    Tasks 
+                         •    build Jazz section landing page 
+                         •    build exercise pages for jazz modes 
+                         •    implement jazz generator dispatcher 
+                         •    implement guide tone engine 
+                         •    implement target tone engine 
+                         •    implement voice leading engine 
+                         •    implement call & response engine 
+                         •    implement motif engine 
+                         •    implement bebop engine last 
+                         •    add mode explanations to UI 
+                         •    validate each mode separately 
+                    Deliverables 
+                         •    complete Jazz section without Guided Practice 
+                         •    stable jazz exercise generation 
+                         •    distinct output per mode 
+                    Acceptance criteria 
+                         •    each jazz mode has its own page or mode screen 
+                         •    each mode produces musically distinct output 
+                         •    exercises reflect progression logic 
+                         •    beginner/intermediate/advanced behavior differs meaningfully 
+                         •    explanations display correctly 
+                    Dependencies 
+                    Phase 2 complete 
+                                                                                                                                                 
+                    10. Phase 4 — Guided Daily Practice 
+                    Objective 
+                    Build the app’s main workflow. 
+                    Features 
+                         •    session generation 
+                         •    daily key logic 
+                         •    session persistence 
+                         •    step progression 
+                         •    resume behavior 
+                         •    session completion 
+                    Tasks 
+                         •    implement Guided Practice overview page 
+                         •    implement Guided Practice step card component 
+                         •    implement session generator 
+                         •    implement curriculum filters 
+                         •    implement daily session retrieval logic 
+                         •    implement same-day persistence 
+                         •    implement step state transitions 
+                         •    implement session completion summary 
+                         •    implement regenerate session flow 
+                         •    implement progress display 
+                    Deliverables 
+                         •    daily session creation 
+                         •    persistent same-day session 
+                         •    structured guided flow 
+                         •    session status tracking 
+                    Acceptance criteria 
+                         •    app creates one coherent session per day 
+                         •    same-day session persists and resumes 
+                         •    steps can be started, completed, skipped 
+                         •    session time estimate is within target bounds 
+                         •    session difficulty follows curriculum 
+                         •    all exercises in session share one coherent key by default 
+                         •    fallback session generation works 
+                    Dependencies 
+                    Phase 3 complete 
+                                                                                                                                                 
+                    11. Phase 5 — Library, Save, Export, Settings 
+                    Objective 
+                    Make the app practically usable over repeated sessions. 
+                    Features 
+                         •    save exercise 
+                         •    recent history 
+                         •    session history 
+                         •    favorites 
+                         •    settings 
+                         •    export basics 
+                    Tasks 
+                         •    implement saved exercise model 
+                         •    implement library list views 
+                         •    implement history view 
+                         •    implement favorite toggle 
+                         •    implement settings page 
+                         •    implement note range defaults 
+                         •    implement export flow 
+                         •    persist settings locally 
+                         •    connect guided sessions to history 
+                    Deliverables 
+                         •    usable Library section 
+                         •    stable local persistence 
+                         •    basic export support 
+                         •    settings-driven defaults 
+                    Acceptance criteria 
+                         •    user can save an exercise 
+                         •    user can reopen recent exercises 
+                         •    guided sessions appear in history 
+                         •    settings persist across sessions 
+                         •    export works for generated scores 
+                         •    instrument range defaults affect generation 
+                    Dependencies 
+                    Phase 4 complete 
+                                                                                                                                                 
+                    12. Phase 6 — QA, Refinement, and Polish 
+                    Objective 
+                    Stabilize the app and improve UX consistency. 
+                    Tasks 
+                         •    cross-device responsive testing 
+                         •    generation edge-case testing 
+                         •    visual consistency audit 
+                         •    score readability audit 
+                         •    duplicate exercise behavior audit 
+                         •    loading and error state polish 
+                         •    keyboard shortcut polish 
+                         •    copy cleanup 
+                         •    performance tuning 
+                         •    bug fixes 
+                    Deliverables 
+                         •    stable release candidate 
+                         •    polished interaction flow 
+                         •    consistent visual system 
+                    Acceptance criteria 
+                         •    no broken main routes 
+                         •    no generator crashes under normal use 
+                         •    responsive layout works on small screens 
+                         •    score remains readable 
+                         •    consistent design system across pages 
+                         •    sessions do not feel repetitive or random 
+                                                                                                                                                 
+                    13. Milestone Plan 
+                    Use milestones instead of “work until done.” 
+                    Milestone 1 — App Shell 
+                    Includes: 
+                         •    layout 
+                         •    navigation 
+                         •    tokens 
+                         •    page scaffolding 
+                    Milestone 2 — Technique MVP 
+                    Includes: 
+                         •    scales 
+                         •    chords/arpeggios 
+                         •    sight reading 
+                    Milestone 3 — Jazz Practice MVP 
+                    Includes: 
+                         •    II–V–I 
+                         •    guide tones 
+                         •    target tones 
+                         •    voice leading 
+                    Milestone 4 — Advanced Jazz 
+                    Includes: 
+                         •    call & response 
+                         •    motif development 
+                         •    bebop lines 
+                    Milestone 5 — Guided Daily Practice 
+                    Includes: 
+                         •    session planner 
+                         •    persistence 
+                         •    progress tracking 
+                    Milestone 6 — Library + Settings + Export 
+                    Includes: 
+                         •    save/history 
+                         •    defaults 
+                         •    export flow 
+                    Milestone 7 — Release Polish 
+                    Includes: 
+                         •    QA 
+                         •    refinement 
+                         •    performance 
+                         •    UX cleanup 
+                                                                                                                                                 
+                    14. Task Prioritization Rules 
+                    When there is uncertainty, prioritize in this order: 
+                         1.  correctness of music generation 
+                         2.  readability of notation 
+                         3.  simplicity of user flow 
+                         4.  persistence and stability 
+                         5.  visual polish 
+                         6.  advanced feature expansion 
+                    This order is important. 
+                    A beautiful app with weak generation is a bad app. 
+                                                                                                                                                 
+                    15. Definition of Done 
+                    A feature is not done when the screen exists. 
+                    A feature is done only when all of these are true: 
+                         •    UI implemented 
+                         •    logic implemented 
+                         •    validations implemented 
+                         •    explanations included 
+                         •    error states handled 
+                         •    responsive layout acceptable 
+                         •    tested against defined acceptance criteria 
+                    If one of those is missing, it is not done. 
+                                                                                                                                                 
+                    16. Acceptance Checkpoints by Area 
+                    UI checkpoint 
+                         •    follows design tokens 
+                         •    uses shared components 
+                         •    no random spacing 
+                         •    one clear CTA per screen 
+                         •    score area visually dominant 
+                    Generator checkpoint 
+                         •    deterministic under seed 
+                         •    range aware 
+                         •    rhythmically valid 
+                         •    difficulty aware 
+                         •    mode-specific behavior actually distinct 
+                    Guided Practice checkpoint 
+                         •    coherent same-key session 
+                         •    valid session ordering 
+                         •    completion/resume logic works 
+                         •    no random mode duplication 
+                    Curriculum checkpoint 
+                         •    beginner stays simple 
+                         •    intermediate introduces variation 
+                         •    advanced adds richer language without chaos 
+                                                                                                                                                 
+                    17. Developer Notes on Risk Areas 
+                    These are the most likely failure points. 
+                    Risk 1 — all jazz modes feel the same 
+                    Cause: 
+                         •    reusing one generator with minor labels 
+                    Fix: 
+                         •    enforce mode-specific anchors, rules, and validation 
+                    Risk 2 — too many controls on screen 
+                    Cause: 
+                         •    exposing all options at once 
+                    Fix: 
+                         •    keep defaults simple, hide advanced controls 
+                    Risk 3 — notation rendering works inconsistently 
+                    Cause: 
+                         •    poor serialization/rendering assumptions 
+                    Fix: 
+                         •    validate early with real generated examples 
+                    Risk 4 — guided sessions feel random 
+                    Cause: 
+                         •    weak template or curriculum logic 
+                    Fix: 
+                         •    enforce phase structure, mode weights, and full-session validation 
+                    Risk 5 — beginner mode is still too hard 
+                    Cause: 
+                         •    “difficulty” only changes quantity, not concept set 
+                    Fix: 
+                         •    use explicit curriculum restrictions 
+                                                                                                                                                 
+                    18. Testing Plan 
+                    Unit tests 
+                    Required for: 
+                         •    notes 
+                         •    intervals 
+                         •    scales 
+                         •    chords 
+                         •    progressions 
+                         •    rhythm validity 
+                         •    range checks 
+                         •    mode filters 
+                         •    session key logic 
+                    Integration tests 
+                    Required for: 
+                         •    exercise page generation flow 
+                         •    jazz mode generation flow 
+                         •    guided session generation 
+                         •    same-day resume behavior 
+                         •    local persistence 
+                    Manual QA scenarios 
+                    Must test: 
+                         •    first-time user flow 
+                         •    returning same-day user 
+                         •    regenerate current exercise 
+                         •    regenerate current session 
+                         •    invalid range input 
+                         •    narrow range with jazz modes 
+                         •    mobile layout 
+                         •    export flow 
+                                                                                                                                                 
+                    19. Handoff Responsibilities 
+                    Product owner / spec owner 
+                    Responsible for: 
+                         •    approving scope 
+                         •    clarifying music concepts 
+                         •    accepting milestone outcomes 
+                    Developer 
+                    Responsible for: 
+                         •    implementation 
+                         •    architecture compliance 
+                         •    validation and tests 
+                         •    raising ambiguity early 
+                    Rule 
+                    When specs conflict, resolve by priority: 
+                         1.  functional correctness 
+                         2.  curriculum correctness 
+                         3.  design consistency 
+                         4.  convenience 
+                                                                                                                                                 
+                    20. Open Decisions to Resolve Early 
+                    These should be explicitly decided before or during Milestone 1. 
+                    Required early decisions 
+                         •    exact notation renderer choice 
+                         •    local storage strategy 
+                         •    export format strategy 
+                         •    whether Guided Practice uses one page or nested step pages 
+                         •    whether Library stores full exercise data or only references 
+                         •    whether beginner motif mode exists in v1 
+                    Do not leave these unresolved too long. 
+                                                                                                                                                 
+                    21. Suggested Repo Structure for Implementation 
+                    src/ 
+                      app/ 
+                        home/ 
+                        practice/ 
+                          scales/ 
+                          chords/ 
+                          sight-reading/ 
+                        jazz/ 
+             guided-practice/ 
+             ii-v-i/ 
+             guide-tones/ 
+             target-tones/ 
+             voice-leading/ 
+             bebop-lines/ 
+             motif-development/ 
+             call-response/ 
+           library/ 
+           settings/ 
+           about/ 
+        
+         components/ 
+           layout/ 
+           navigation/ 
+           ui/ 
+           music/ 
+           practice/ 
+           jazz/ 
+           guided/ 
+        
+         lib/ 
+           music/ 
+             core/ 
+             generators/ 
+             jazz/ 
+             rhythm/ 
+             render/ 
+                          utils/ 
+                     
+                      styles/ 
+                        tokens.ts 
+                     
+                      content/ 
+                        explanations.ts 
+                        practiceGuide.ts 
+                                                                                                                                                 
+                    22. Communication Rules for Implementation 
+                    The developer should not disappear into a long black-box build. 
+                    Use milestone check-ins. 
+                    At each milestone, review: 
+                         •    what was built 
+                         •    what acceptance criteria passed 
+                         •    what remains ambiguous 
+                         •    what risks appeared 
+                         •    whether scope needs tightening 
+                    That prevents the common failure where a developer builds a lot of wrong code quickly. 
+                                                                                                                                                 
+                    23. Final Release Criteria 
+                    The app is ready for public release when: 
+                         •    all core sections work 
+                         •    guided practice works end to end 
+                         •    practice exercises are musically valid 
+                         •    jazz modes are meaningfully distinct 
+                         •    same-day session persistence works 
+                         •    UI is consistent and readable 
+                         •    export/save basics work 
+                         •    core flows are tested 
+                         •    beginner experience is understandable 
+                         •    app feels like a practice system, not a demo 
+                                                                                                                                                 
+                    24. Final Instruction to the Developer 
+                    Build this project in milestones, not as one large rewrite. Treat the generation logic, 
+                    curriculum rules, and guided session planner as the core product, not as 
+                    implementation details. The UI should remain simple, the score should remain central, 
+                    and every mode must feel musically distinct. Guided Practice should be the default 
+                    daily workflow and must feel like a structured lesson rather than a random playlist of 
+                    exercises. 
+                     
+                    Below is a clear study/practice guide that can live in: 
+                         •    a "How to Practice Jazz" section in the app 
+                         •    a README page 
+                         •    a help modal inside the Jazz Practice tab 
+                    It’s written for musicians, not developers. 
+                                                                                                                                                 
+                    Jazz Practice Guide 
+                    Introduction 
+                    Jazz improvisation is not just about playing scales or random notes. It is about 
+                    understanding harmony, hearing chord movement, and creating melodic phrases that 
+                    outline the chords. 
+                    The Jazz Practice section of this app helps you develop these skills step by step. Each 
+                    mode focuses on an important concept used by jazz musicians when improvising. 
+                    Start slowly and focus on clarity, rhythm, and sound, not speed. 
+                                                                                                                                                 
+                    1. II–V–I Progression Practice 
+                    What It Teaches 
+                    The II–V–I progression is the most common chord progression in jazz. Learning to play 
+                    over this progression helps you understand how harmony moves and resolves. 
+                    Example in C major: 
+                    Dm7 → G7 → Cmaj7 
+                    How to Practice 
+                         1.  Play the exercise slowly. 
+                         2.  Pay attention to how each chord changes. 
+                         3.  Try to hear how the melody outlines the harmony. 
+                         4.  Repeat the exercise in different keys. 
+                    Practice Tips 
+                         •    Start with quarter notes. 
+                         •    Focus on smooth transitions between chords. 
+                         •    Once comfortable, increase the tempo. 
+                                                                                                                                                 
+                    2. Guide Tone Practice 
+                    What It Teaches 
+                    Guide tones are the 3rd and 7th notes of a chord. These notes define the sound of the 
+                    chord and show how chords connect to each other. 
+                    Example in a II–V–I progression: 
+                    Dm7 → G7 → Cmaj7 
+                    Guide tone line: 
+                    F → B → E 
+                    How to Practice 
+                         1.  Play only the guide tones first. 
+                         2.  Listen to how they define the harmony. 
+                         3.  Then add surrounding notes from the exercise. 
+                    Practice Tips 
+                         •    Focus on smooth voice leading. 
+                         •    Avoid large jumps between notes. 
+                         •    Try singing the guide tones while playing. 
+                                                                                                                                                 
+                    3. Target Tone Practice 
+                    What It Teaches 
+                    Target tones are notes that melodic lines resolve to. In jazz improvisation, musicians 
+                    often land on chord tones at important beats. 
+                    Typical target tones: 
+                         •    3rd 
+                         •    5th 
+                         •    7th 
+                    How to Practice 
+                         1.  Identify the target tones in the exercise. 
+                         2.  Notice how other notes lead toward them. 
+                         3.  Emphasize those notes when playing. 
+                    Practice Tips 
+                         •    Land clearly on target tones. 
+                         •    Keep the surrounding notes light. 
+                         •    Try improvising your own lines that resolve to the same targets. 
+                                                                                                                                                 
+                    4. Bebop Line Practice 
+                    What It Teaches 
+                    Bebop lines connect chord tones using passing notes and chromatic approaches. 
+                    These lines create the flowing melodies heard in many jazz solos. 
+                    Example approaching a target note: 
+                    F → D# → E 
+                    The chromatic notes create tension that resolves to the target tone. 
+                    How to Practice 
+                         1.  Play the line slowly and evenly. 
+                         2.  Listen to how the chromatic notes lead into the chord tone. 
+                         3.  Focus on smooth phrasing. 
+                    Practice Tips 
+                         •    Do not rush the chromatic notes. 
+                         •    Keep the rhythm steady. 
+                         •    Try creating your own variations. 
+                                                                                                                                                 
+                    5. Voice Leading Practice 
+                    What It Teaches 
+                    Voice leading is the smooth movement between chords. Good voice leading keeps 
+                    melodies connected and natural. 
+                    Example: 
+                    Dm7 → G7 → Cmaj7 
+                    Smooth connection: 
+                    F → B → E 
+                    Each note moves by a small interval. 
+                    How to Practice 
+                         1.  Play the line slowly. 
+                         2.  Notice how the notes move between chords. 
+                         3.  Try to feel the connection between harmonies. 
+                    Practice Tips 
+                         •    Prefer stepwise movement. 
+                         •    Avoid unnecessary leaps. 
+                         •    Listen carefully to each transition. 
+                                                                                                                                                 
+                    6. Motif Development 
+                    What It Teaches 
+                    A motif is a short musical idea that can be repeated and developed. Many great jazz 
+                    improvisers build solos using variations of a simple motif. 
+                    Example motif: 
+                    C – D – E 
+                    Variation: 
+                    D – E – F 
+                    How to Practice 
+                         1.  Identify the motif in the exercise. 
+                         2.  Notice how it changes in later measures. 
+                         3.  Practice repeating the motif yourself. 
+                    Practice Tips 
+                         •    Keep the motif clear and simple. 
+                         •    Experiment with rhythmic changes. 
+                         •    Try moving the motif through different chords. 
+                                                                                                                                                 
+                    7. Call and Response 
+                    What It Teaches 
+                    Call and response is a musical conversation between phrases. One phrase asks a 
+                    musical question, and the next phrase answers it. 
+                    Example: 
+                    Call: 
+                    C – D – E – G 
+                    Response: 
+                    G – F – E – D 
+                    How to Practice 
+                         1.  Play the call phrase. 
+                         2.  Listen to its shape and rhythm. 
+                         3.  Play the response phrase and notice how it answers the call. 
+                    Practice Tips 
+                         •    Think of the phrases as a conversation. 
+                         •    Keep the rhythm clear. 
+                         •    Try creating your own responses. 
+                                                                                                                                                 
+                    General Practice Advice 
+                    Practice Slowly 
+                    Start slowly so you can hear the harmony clearly. Speed should come naturally as you 
+                    become comfortable. 
+                    Use a Metronome 
+                    A steady rhythm is essential in jazz. Practice with a metronome to develop good timing. 
+                    Practice in Multiple Keys 
+                    Jazz musicians practice ideas in all keys. Once you learn an exercise in one key, try 
+                    playing it in others. 
+                    Listen to Jazz 
+                    Listening to jazz recordings will help you understand how these concepts are used in 
+                    real music. 
+                                                                                                                                                 
+                    Suggested Practice Routine 
+                    A short daily routine might look like this: 
+                    5 minutes – Scales 
+                    5 minutes – Chords / Arpeggios 
+                    10 minutes – Jazz Practice exercises 
+                    Rotate through different Jazz Practice modes each day. 
+                                                                                                                                                 
+                    Final Advice 
+                    The goal is not to memorize exercises, but to understand the ideas behind them. As you 
+                    practice, try to hear how the notes relate to the chords and how melodies move through 
+                    the harmony. 
+                    With consistent practice, these concepts will naturally become part of your 
+                    improvisation. 
+                     
+                     
+                    Guided Daily Practice Mode 
+                    Goal 
+                    Provide a structured jazz practice session that guides the user through a balanced set of 
+                    exercises each day. 
+                    The goal is to help musicians develop: 
+                         •    technique 
+                         •    harmonic awareness 
+                         •    melodic phrasing 
+                         •    improvisation skills 
+                    Instead of manually choosing exercises, the app generates a daily practice routine. 
+                                                                                                                                                 
+                    1. Location in the App 
+                    Add a new section: 
+                    Practice 
+                       Scales 
+                       Chords / Arpeggios 
+                       Sight Reading 
+                     
+                    Jazz Practice 
+                       Guided Daily Practice 
+                       II–V–I 
+                       Guide Tones 
+                       Target Tones 
+                       Bebop Lines 
+                       Voice Leading 
+                       Motif Development 
+                       Call & Response 
+                    Guided Practice becomes the recommended starting point. 
+                                             
+       2. Session Structure 
+       A daily session should last 10–25 minutes. 
+       Example structure: 
+       Warm-up 
+       Technique 
+       Harmony 
+       Jazz Language 
+       Creative Exercise 
+                                             
+       3. Example Daily Session 
+       Step 1 — Warm-up (3 minutes) 
+       Exercise: 
+       Major scale practice 
+       Goal: 
+       Get comfortable with the instrument and range. 
+       Example: 
+       C Major Scale 
+       Quarter notes 
+       2 octaves 
+                                             
+       Step 2 — Chord Awareness (4 minutes) 
+       Exercise: 
+       Arpeggios over chord progression 
+       Example: 
+       Dm7 → G7 → Cmaj7 
+       Goal: 
+       Understand chord tones. 
+                                             
+       Step 3 — Guide Tone Practice (4 minutes) 
+       Exercise: 
+       Guide tone lines 
+       Example: 
+       F → B → E 
+       Goal: 
+       Hear the movement between chords. 
+                                             
+       Step 4 — Jazz Line Practice (5 minutes) 
+       Exercise: 
+       Bebop line or target tone exercise. 
+       Goal: 
+       Develop improvisation vocabulary. 
+                                             
+       Step 5 — Creative Exercise (5 minutes) 
+       Exercise: 
+       Call and response or motif development. 
+       Goal: 
+       Encourage musical thinking and improvisation. 
+                                             
+       4. Daily Variation 
+       Each day should generate different exercises. 
+       Rotation ideas: 
+       Day 1 
+       II–V–I in C 
+        
+       Day 2 
+       II–V–I in F 
+        
+       Day 3 
+                    Blues in Bb 
+                     
+                    Day 4 
+                    Turnaround in G 
+                    Also rotate: 
+                         •    rhythm complexity 
+                         •    note range 
+                         •    scale types 
+                                                                                                                                                 
+                    5. Difficulty Adaptation 
+                    Guided Practice should adjust difficulty. 
+                    Beginner 
+                    Focus on: 
+                         •    scales 
+                         •    chord tones 
+                         •    guide tones 
+                         •    simple rhythms 
+                    Session example: 
+                    Scale 
+                    Arpeggios 
+                    Guide tones 
+                    Call-response 
+                                                                                                                                                 
+                    Intermediate 
+                    Add: 
+                         •    target tones 
+                         •    II–V–I progressions 
+                         •    eighth notes 
+                         •    motif development 
+                    Session example: 
+                    Scale 
+                    II–V–I 
+                    Target tones 
+                    Motif exercise 
+                                                                                                                                                 
+                    Advanced 
+                    Add: 
+                         •    bebop lines 
+                         •    chromatic approaches 
+                         •    more complex rhythms 
+                         •    longer phrases 
+                    Session example: 
+                    Warm-up 
+                    II–V–I 
+                    Voice leading 
+                    Bebop lines 
+                    Improvisation prompt 
+                                                                                                                                                 
+                    6. Generator Algorithm 
+                    Guided sessions should be generated automatically. 
+                    Pseudocode 
+                    function generateDailyPractice(userLevel): 
+                     
+                      session = [] 
+                     
+                      session.add(generateScaleExercise()) 
+                     
+                      session.add(generateChordExercise()) 
+                     
+                      session.add(generateGuideToneExercise()) 
+                     
+                      session.add(generateJazzLineExercise()) 
+                     
+                      session.add(generateCreativeExercise()) 
+                     
+                      return session 
+                    Each exercise should use the same key to reinforce harmonic learning. 
+                    Example: 
+                    Daily Key: F major 
+                    All exercises use that key. 
+                                                                                                                                                 
+                    7. Key-of-the-Day System 
+                    Each day can have a Key of the Day. 
+                    Example: 
+                    Monday: C 
+                    Tuesday: F 
+                    Wednesday: Bb 
+                    Thursday: Eb 
+                    Friday: Ab 
+                    Saturday: Db 
+                    Sunday: Gb 
+                    Or generate randomly. 
+                    Purpose: 
+                         •    practice in all keys 
+                         •    reinforce harmonic understanding 
+                                                                                                                                                 
+                    8. UI Layout 
+                    Guided Practice screen: 
+                    Today's Jazz Practice 
+                     
+                    Key: C Major 
+                    Estimated time: 20 minutes 
+                     
+                    1 Warm-up 
+                    C Major Scale 
+                     
+                    2 Harmony 
+                    Arpeggios over II–V–I 
+                     
+                    3 Guide Tones 
+                    Guide tone line exercise 
+                     
+                    4 Jazz Language 
+                    Bebop line exercise 
+                     
+                    5 Creative Exercise 
+                    Call and response 
+                    Each step has a Start Exercise button. 
+                                                                                                                                                 
+                    9. Progress Tracking (optional but powerful) 
+                    Track: 
+                         •    completed sessions 
+                         •    keys practiced 
+                         •    streaks 
+                    Example: 
+                    Practice Streak 
+                    7 days 
+                    This motivates consistent practice. 
+                                                                                                                                                 
+                    10. Smart Future Feature 
+                    Later the app could track weaknesses: 
+                    Example: 
+                    User struggles with large intervals 
+                    Guided Practice could automatically generate: 
+                    voice-leading exercises 
+                    stepwise motion exercises 
+                    But this is a later feature. 
+                                                                                                                                                 
+                    11. Educational Text in the App 
+                    Add this explanation in the Guided Practice section: 
+                    Guided Daily Practice 
+                    This mode creates a structured jazz practice session designed to develop technique, 
+                    harmony, and improvisation skills. 
+                    Each session includes: 
+                         •    a warm-up exercise 
+                         •    harmony practice 
+                         •    jazz phrasing exercises 
+                         •    a creative improvisation activity 
+                    Practicing a short routine every day is one of the most effective ways to improve. 
+                                                                                                                                                 
+                    12. Session Completion 
+                    After finishing: 
+                    Session complete 
+                    Great job! 
+                     
+                    Tomorrow's practice will use a different key. 
+                                                                                                                                                 
+                    13. Future Expansion 
+                    Guided Practice could later include: 
+                         •    backing tracks 
+                         •    audio playback 
+                         •    improvisation prompts 
+                         •    ear training 
+                                                                                                                                                 
+                    Final Recommendation 
+                    This feature will likely become the main entry point of the app. 
+                    Many users will: 
+                    Open app 
+                    Tap "Daily Practice" 
+                    Start playing 
+                    Instead of navigating the whole system. 
+                     
+                     
+                     
+                     
+                     
+                     
+                     
+       1. Core Design Principle 
+       The app should be organized around practice workflows, not theory categories. 
+       Bad structure (too academic): 
+       Scales 
+       Chords 
+       Modes 
+       Guide tones 
+       Voice leading 
+       Bebop 
+       Motifs 
+       Better structure (practice oriented): 
+       Daily Practice 
+       Technique 
+       Jazz Practice 
+       Sight Reading 
+       Settings 
+       A musician opens the app and immediately knows what to practice. 
+                                             
+       2. Top-Level Navigation 
+       Use 4 main sections only. 
+       Home 
+       Practice 
+       Jazz 
+       Library 
+       Plus settings. 
+       Settings 
+       About 
+                                             
+                    3. Home Screen 
+                    The Home screen should act like a practice dashboard. 
+                    Example layout: 
+                    Welcome back 
+                     
+                    Today's Key: F Major 
+                     
+                    Start Daily Practice 
+                    Estimated time: 20 minutes 
+                    [Start] 
+                     
+                    Quick Practice 
+                    Scales 
+                    Arpeggios 
+                    Sight Reading 
+                     
+                    Recent Exercises 
+                    Purpose: 
+                         •    guide beginners 
+                         •    allow fast access for experienced users 
+                                                                                                                                                 
+                    4. Practice Section (Technique) 
+                    This is the technical practice section. 
+                    Practice 
+                       Scales 
+                       Chords / Arpeggios 
+                       Sight Reading 
+                    Scales page 
+       Controls: 
+       Root 
+       Scale type 
+       Octaves 
+       Direction 
+       Time signature 
+       Note value 
+       Range 
+       Output: 
+       Generated exercise 
+       Export 
+       Regenerate 
+       Chords / Arpeggios page 
+       Controls: 
+       Root 
+       Chord type 
+       Pattern 
+       Octaves 
+       Time signature 
+       Note value 
+       Range 
+       Sight Reading page 
+       Controls: 
+       Range 
+       Bars 
+       Difficulty 
+       Allowed note values 
+       Time signature 
+       Key 
+                                             
+       5. Jazz Section 
+       This is where the musical intelligence of the app lives. 
+       Jazz Practice 
+          Guided Daily Practice 
+          II–V–I 
+          Guide Tones 
+          Target Tones 
+          Bebop Lines 
+          Voice Leading 
+          Motif Development 
+          Call & Response 
+       Each page should have: 
+       Explanation 
+       Exercise generator 
+       Settings 
+       Score output 
+                                             
+       6. Guided Practice (Main Entry Point) 
+       This becomes the default recommended feature. 
+       Layout example: 
+       Today's Practice 
+        
+       Key: Bb 
+        
+       Warm-up 
+       Scale exercise 
+        
+       Harmony 
+       Arpeggios over II–V–I 
+        
+       Guide Tones 
+       Voice-leading exercise 
+        
+       Jazz Language 
+       Bebop line practice 
+        
+       Creative Exercise 
+       Call & response 
+       User flow: 
+       Open app 
+       Start practice 
+       Complete steps 
+       Finish session 
+                                             
+       7. Library Section 
+       This stores generated exercises. 
+       Library 
+          Saved Exercises 
+          Practice History 
+          Favorite Exercises 
+       Example entry: 
+       II–V–I Exercise 
+       Key: C 
+       Difficulty: Intermediate 
+       Date: Mar 15 
+       This helps users revisit exercises. 
+                                             
+       8. Settings 
+       Keep this very small. 
+       Settings 
+          Instrument Range 
+          Default Difficulty 
+          Rhythm Preferences 
+          Display Options 
+          Export Options 
+       Instrument Range 
+       Important for harmonica. 
+       Example: 
+       Low note 
+       High note 
+                                             
+       9. About 
+       About 
+          About the App 
+          Practice Guide 
+          Credits 
+          License 
+       Your earlier text goes here. 
+                                             
+       10. Navigation Model 
+       Use bottom navigation (especially for mobile / future Android). 
+       Example: 
+       Home    Practice    Jazz    Library 
+       This works very well on mobile. 
+                                             
+       11. Page Pattern (Consistency) 
+       Every exercise page should follow the same layout. 
+       Title 
+        
+       Explanation 
+        
+       Settings 
+        
+       Generate Exercise 
+        
+       Score Display 
+        
+       Export / Save 
+       Consistency reduces cognitive load. 
+                                             
+       12. Example User Flow 
+       Beginner user: 
+       Open app 
+       Home 
+       Start Daily Practice 
+       Follow exercises 
+       Finish session 
+       Intermediate user: 
+       Open app 
+       Jazz 
+       Guide Tones 
+       Generate exercise 
+       Practice 
+       Save exercise 
+       Advanced user: 
+       Open app 
+       Practice 
+       Sight Reading 
+       Generate difficult exercise 
+                                             
+       13. Progressive Disclosure 
+       Do not show everything at once. 
+       Example: 
+       Beginner view: 
+       Scales 
+       Chords 
+       Sight Reading 
+       Daily Practice 
+       Advanced modes appear later: 
+       Bebop Lines 
+       Motif Development 
+       Voice Leading 
+       This prevents overwhelm. 
+                                             
+       14. Future Features (Reserve Space) 
+       Leave room for later features. 
+       Possible additions: 
+       Ear Training 
+       Backing Tracks 
+       Improvisation Trainer 
+       Audio Playback 
+       These can appear later under Jazz. 
+                                             
+       15. Final Architecture Diagram 
+       Home 
+          Daily Practice 
+          Quick Start 
+        
+       Practice 
+          Scales 
+          Chords / Arpeggios 
+          Sight Reading 
+        
+       Jazz 
+          Guided Practice 
+          II–V–I 
+          Guide Tones 
+          Target Tones 
+          Bebop Lines 
+          Voice Leading 
+          Motif Development 
+          Call & Response 
+        
+       Library 
+          Saved Exercises 
+          History 
+          Favorites 
+        
+       Settings 
+       About 
+                                             
+       Final Advice 
+       The biggest risk now is feature creep. 
+       Your app is already approaching the complexity of a serious jazz training tool. That’s 
+       good — but only if the interface stays simple. 
+       Rule to follow: 
+       One screen = one musical idea. 
+       Never mix multiple concepts on the same page. 
+        
+       UI Principles for This App 
+        1.  One concept per screen – each page teaches one musical idea. 
+        2.  Same layout for every exercise page – users shouldn’t relearn the UI. 
+        3.  Controls first, score second – configure → generate → practice. 
+        4.  Minimal controls visible initially – advanced settings hidden. 
+        5.  Fast regeneration – users will press regenerate constantly. 
+                                             
+       1. Global Layout 
+       This app works best with a simple bottom navigation. 
+       ------------------------------------------------ 
+       |                                              | 
+       |                Page Content                  | 
+       |                                              | 
+       ------------------------------------------------ 
+       | Home | Practice | Jazz | Library | 
+       ------------------------------------------------ 
+       Future Android version will benefit from this structure. 
+                                             
+       2. Home Screen Wireframe 
+       Purpose: entry point for practice 
+       ------------------------------------------------ 
+       | Harmonica Practice                           | 
+       |                                              | 
+       | Today's Key: F Major                         | 
+       |                                              | 
+       | [ Start Daily Practice ]                     | 
+       | Estimated time: 20 minutes                   | 
+       |                                              | 
+       | Quick Practice                               | 
+       | -------------------------------------------  | 
+       | [ Scales ]   [ Arpeggios ]   [ Sight Reading]| 
+       |                                              | 
+       | Recent Exercises                             | 
+       | -------------------------------------------  | 
+       | II-V-I in C                                  | 
+       | Guide Tone Exercise                          | 
+       | Blues Exercise                               | 
+       ------------------------------------------------ 
+       | Home | Practice | Jazz | Library | 
+       ------------------------------------------------ 
+       Key rule: Daily Practice button must be prominent. 
+                                             
+       3. Practice Section 
+       ------------------------------------------------ 
+       | Practice                                     | 
+       |                                              | 
+       | Choose a Practice Mode                       | 
+       |                                              | 
+       | -------------------------------------------  | 
+       | Scales                                       | 
+       | Practice scales in different keys            | 
+       | [Open]                                       | 
+       |                                              | 
+       | -------------------------------------------  | 
+       | Chords / Arpeggios                           | 
+       | Practice chord tones and arpeggios           | 
+       | [Open]                                       | 
+       |                                              | 
+       | -------------------------------------------  | 
+       | Sight Reading                                | 
+       | Generate reading exercises                   | 
+       | [Open]                                       | 
+       ------------------------------------------------ 
+       | Home | Practice | Jazz | Library | 
+       ------------------------------------------------ 
+       Cards are better than menus here. 
+                                             
+       4. Scales Page Wireframe 
+       Every exercise page should follow this structure. 
+       ------------------------------------------------ 
+       | Scales                                       | 
+       |                                              | 
+       | What is this?                                | 
+       | Practice scales to develop technique and     | 
+       | familiarity with notes.                      | 
+       |                                              | 
+       | Settings                                     | 
+       | -------------------------------------------  | 
+       | Root:        [ C ▼ ]                         | 
+       | Scale Type:  [ Major ▼ ]                     | 
+       | Octaves:     [ 2 ▼ ]                         | 
+       | Direction:   [ Up & Down ▼ ]                 | 
+       | Time Sig:    [ 4/4 ▼ ]                       | 
+       | Note Value:  [ Quarter ▼ ]                   | 
+       |                                              | 
+       | Range                                        | 
+       | Lowest Note: [ C4 ▼ ]                        | 
+       | Highest Note:[ C6 ▼ ]                        | 
+       |                                              | 
+       | [ Generate Exercise ]                        | 
+       |                                              | 
+       | -------------------------------------------  | 
+       |                SCORE DISPLAY                 | 
+       |                                              | 
+       | [ Regenerate ]   [ Save ]   [ Export ]       | 
+       ------------------------------------------------ 
+       Important: Score should dominate the screen visually. 
+                                             
+       5. Chords / Arpeggios Page 
+       Layout identical to scales. 
+       ------------------------------------------------ 
+       | Chords / Arpeggios                           | 
+       |                                              | 
+       | Explanation                                  | 
+       | Arpeggios help you understand chord tones.   | 
+       |                                              | 
+       | Settings                                     | 
+       | Root: [ C ▼ ]                                | 
+       | Chord Type: [ Major Triad ▼ ]                | 
+       | Pattern: [ Ascending ▼ ]                     | 
+       | Octaves: [ 2 ▼ ]                             | 
+       |                                              | 
+       | Time Signature: [4/4 ▼]                      | 
+       | Note Value: [Quarter ▼]                      | 
+       |                                              | 
+       | [ Generate Exercise ]                        | 
+       |                                              | 
+       | ----------- SCORE DISPLAY ------------------ | 
+       |                                              | 
+       | [ Regenerate ] [ Save ] [ Export ]           | 
+       ------------------------------------------------ 
+       Consistency across pages reduces cognitive load. 
+                                             
+       6. Sight Reading Page 
+       ------------------------------------------------ 
+       | Sight Reading                                | 
+       |                                              | 
+       | Explanation                                  | 
+       | Practice reading unfamiliar melodies.        | 
+       |                                              | 
+       | Settings                                     | 
+       | Range:                                       | 
+       | Low:  [ C4 ▼ ]                               | 
+       | High: [ C6 ▼ ]                               | 
+       |                                              | 
+       | Bars: [ 8 ▼ ]                                | 
+       | Difficulty: [ Beginner ▼ ]                   | 
+       | Key: [ C Major ▼ ]                           | 
+       | Time Signature: [ 4/4 ▼ ]                    | 
+       |                                              | 
+       | Allowed Note Values                          | 
+       | [✓] Quarter                                  | 
+       | [✓] Eighth                                   | 
+       | [ ] Dotted Quarter                           | 
+       |                                              | 
+       | [ Generate Exercise ]                        | 
+       |                                              | 
+       | ----------- SCORE DISPLAY ------------------ | 
+       |                                              | 
+       | [ Regenerate ] [ Save ] [ Export ]           | 
+       ------------------------------------------------ 
+                                             
+       7. Jazz Section Main Page 
+       ------------------------------------------------ 
+       | Jazz Practice                                | 
+       |                                              | 
+       | Develop improvisation and harmony skills.    | 
+       |                                              | 
+       | -------------------------------------------  | 
+       | Guided Daily Practice                        | 
+       | Structured 20 minute jazz session            | 
+       | [Start]                                      | 
+       |                                              | 
+       | -------------------------------------------  | 
+       | II–V–I Progressions                          | 
+       | Practice the most common jazz progression    | 
+       | [Open]                                       | 
+       |                                              | 
+       | Guide Tones                                  | 
+       | Target Tones                                 | 
+       | Bebop Lines                                  | 
+       | Voice Leading                                | 
+       | Motif Development                            | 
+       | Call & Response                              | 
+       ------------------------------------------------ 
+       | Home | Practice | Jazz | Library | 
+       ------------------------------------------------ 
+                                             
+       8. Guided Daily Practice Screen 
+       ------------------------------------------------ 
+       | Today's Practice                             | 
+       | Key: Bb                                      | 
+       | Estimated Time: 20 minutes                   | 
+       |                                              | 
+       | 1 Warm-up                                    | 
+       | C Major Scale                                | 
+       | [ Start ]                                    | 
+       |                                              | 
+       | 2 Harmony                                    | 
+       | II-V-I Arpeggios                             | 
+       | [ Start ]                                    | 
+       |                                              | 
+       | 3 Guide Tones                                | 
+       | Voice leading exercise                       | 
+       | [ Start ]                                    | 
+       |                                              | 
+       | 4 Jazz Language                              | 
+       | Bebop line practice                          | 
+       | [ Start ]                                    | 
+       |                                              | 
+       | 5 Creative Exercise                          | 
+       | Call and Response                            | 
+       | [ Start ]                                    | 
+       |                                              | 
+       | [ Mark Session Complete ]                    | 
+       ------------------------------------------------ 
+                                             
+       9. Library Screen 
+       ------------------------------------------------ 
+       | Library                                      | 
+       |                                              | 
+       | Saved Exercises                              | 
+       | -------------------------------------------  | 
+       | II-V-I Exercise - C                          | 
+       | Guide Tone Exercise - F                      | 
+       | Blues Practice - Bb                          | 
+       |                                              | 
+       | Favorites                                    | 
+       | -------------------------------------------  | 
+       | Motif Practice                               | 
+       | Sight Reading Exercise                       | 
+       ------------------------------------------------ 
+                                             
+       10. Settings Screen 
+       ------------------------------------------------ 
+       | Settings                                     | 
+       |                                              | 
+       | Instrument Range                             | 
+       | Low Note:  [ C4 ▼ ]                          | 
+       | High Note: [ C6 ▼ ]                          | 
+       |                                              | 
+       | Default Difficulty                           | 
+       | [ Beginner ▼ ]                               | 
+       |                                              | 
+       | Rhythm Preferences                           | 
+       | Swing Mode: [ On ]                           | 
+       |                                              | 
+       | Export Options                               | 
+       | Format: [ PNG ▼ ]                            | 
+                    ------------------------------------------------ 
+                                                                                                                                                 
+                    11. Component System (Important for Developer) 
+                    Reuse the same components everywhere. 
+                    Core components: 
+                    ScoreViewer 
+                    ExerciseSettings 
+                    ExerciseExplanation 
+                    GenerateButton 
+                    ExerciseControls 
+                    ExportButtons 
+                    PracticeCard 
+                    Consistency keeps the UI clean. 
+                                                                                                                                                 
+                    12. Visual Style Recommendations 
+                    Keep design very minimal. 
+                    Recommended stack: 
+                         •    shadcn/ui 
+                         •    Tailwind 
+                         •    Radix primitives 
+                    Color palette idea: 
+                    Background: #0f172a 
+                    Cards: #1e293b 
+                    Accent: #38bdf8 
+                    Text: #e2e8f0 
+                    Music notation area should stay white for readability. 
+                                                                                                                                                 
+                    13. UX Improvements That Will Matter 
+       Add these small but powerful UX details: 
+       Regenerate Shortcut 
+       R key → regenerate exercise 
+       Practice Timer 
+       Start timer when exercise starts 
+       Difficulty Slider 
+       Beginner — Intermediate — Advanced 
+       Key-of-the-Day badge 
+       Today's Key: Bb 
+                                             
+       14. Final UI Architecture 
+       Home 
+          Daily Practice 
+          Quick Start 
+        
+       Practice 
+          Scales 
+          Chords / Arpeggios 
+          Sight Reading 
+        
+       Jazz 
+          Guided Practice 
+          II–V–I 
+          Guide Tones 
+          Target Tones 
+          Bebop Lines 
+          Voice Leading 
+          Motif Development 
+                       Call & Response 
+                     
+                    Library 
+                       Saved Exercises 
+                       Favorites 
+                     
+                    Settings 
+                    About 
+                                                                                                                                                 
+                    One last important design tip 
+                    The score viewer is the core of the app. Everything else is secondary. 
+                    Make sure: 
+                         •    the score is large 
+                         •    spacing is clean 
+                         •    regeneration is fast 
+                    Users will spend 90% of their time looking at the score, not the controls. 
+                     
+                     
+                    Now we define the visual design system so the app stops being “a bunch of screens” 
+                    and starts feeling like one product. 
+                    This matters more than people think. A weak design system creates: 
+                         •    inconsistent spacing 
+                         •    random typography 
+                         •    clutter 
+                         •    UI drift as features grow 
+                    For your app, the design should feel: 
+                         •    calm 
+                         •    focused 
+                         •    musical 
+                         •    modern 
+                         •    minimal 
+                    Not flashy. Not enterprise. Not “AI dashboard.” 
+                                                                                                                                                 
+                    1. Design Direction 
+                    Product personality 
+                    The app should feel like: 
+                         •    a practice companion 
+                         •    a music notebook 
+                         •    a clean studio tool 
+                    It should not feel like: 
+                         •    a finance dashboard 
+                         •    a gaming app 
+                         •    a social app 
+                         •    a dense academic theory website 
+                    Visual tone 
+                    Use a style that is: 
+                         •    dark UI shell 
+                         •    bright notation area 
+                         •    restrained accent color 
+                         •    soft contrast 
+                         •    rounded but not bubbly 
+                    That combination works well because music notation needs a light surface, while the 
+                    rest of the app can be calm and dark. 
+                                                                                                                                                 
+                    2. Color System 
+                    Use a small color palette. Too many colors will make the app look amateur. 
+       Core palette 
+       Background 
+       App Background:    #0F172A 
+       Surface Background:#111827 
+       Card Background:   #1E293B 
+       Muted Surface:     #334155 
+       These give you a dark, controlled base. 
+       Text 
+       Primary Text:      #E2E8F0 
+       Secondary Text:    #94A3B8 
+       Muted Text:        #64748B 
+       Inverse Text:      #0F172A 
+       Accent 
+       Choose one main accent only. 
+       Recommended: 
+       Primary Accent:    #38BDF8 
+       Accent Hover:      #0EA5E9 
+       Accent Soft:       #E0F2FE 
+       This blue feels modern and calm without looking generic. 
+       Success / warning / error 
+       Success:           #22C55E 
+       Warning:           #F59E0B 
+       Error:             #EF4444 
+       Use these rarely. 
+       Special notation surface 
+       The notation area should be light: 
+       Score Background:  #FFFFFF 
+       Score Border:      #CBD5E1 
+                    This is non-negotiable. Staff notation on dark backgrounds usually looks worse and is 
+                    harder to read. 
+                                                                                                                                                 
+                    3. Semantic Color Usage 
+                    Define strict rules. 
+                    Accent blue is for: 
+                         •    primary buttons 
+                         •    active tabs 
+                         •    selected items 
+                         •    sliders 
+                         •    focused controls 
+                    Green is for: 
+                         •    completed practice 
+                         •    success messages 
+                         •    streak indicators 
+                    Orange is for: 
+                         •    warnings 
+                         •    unfinished setup 
+                         •    attention states 
+                    Red is for: 
+                         •    errors only 
+                         •    invalid input 
+                         •    failed generation/export 
+                    Do not use red for decoration. 
+                                                                                                                                                 
+                    4. Typography System 
+                    This app needs two typography roles: 
+                         1.  UI text 
+                         2.  music/score-adjacent labels 
+                    UI font 
+                    Use a clean sans-serif. 
+                    Best practical choices: 
+                         •    Inter 
+                         •    Geist 
+                         •    Manrope 
+                    For this app, Inter is the safest choice. 
+                    Suggested type scale 
+                    Display / page title 
+                    Size: 30–36px 
+                    Weight: 700 
+                    Line height: 1.2 
+                    Used for: 
+                         •    Home title 
+                         •    page headings 
+                         •    Daily Practice title 
+                    Section title 
+                    Size: 22–24px 
+                    Weight: 600 
+                    Line height: 1.3 
+                    Used for: 
+                         •    “Settings” 
+                         •    “Today’s Practice” 
+                         •    “Jazz Practice” 
+                    Card title 
+                    Size: 16–18px 
+                    Weight: 600 
+                    Line height: 1.4 
+                    Body text 
+                    Size: 14–16px 
+                    Weight: 400 
+                    Line height: 1.5–1.6 
+                    Small help text / metadata 
+                    Size: 12–13px 
+                    Weight: 400–500 
+                    Line height: 1.4 
+                    Typography rules 
+                         •    Use at most 3 font weights regularly: 400, 500, 600/700 
+                         •    Avoid tiny text under 12px 
+                         •    Avoid giant headings everywhere 
+                         •    Use sentence case, not all caps 
+                    Bad: 
+                    GUIDE TONES 
+                    Better: 
+                    Guide Tones 
+                                                                                                                                                 
+                    5. Spacing System 
+                    This is where most UI gets ugly. You need a strict spacing scale. 
+                    Use an 8px spacing system. 
+                    Base spacing scale 
+                    4px   - tiny spacing 
+                    8px   - close spacing 
+                    12px  - compact spacing 
+                    16px  - standard spacing 
+                    24px  - section spacing 
+                    32px  - large section spacing 
+                    48px  - page spacing 
+                    64px  - major separation 
+                    Rules 
+                         •    Inside cards: usually 16px or 24px padding 
+                         •    Between form fields: 12px to 16px 
+                         •    Between large sections: 24px to 32px 
+                         •    Between page header and content: 24px to 32px 
+                    If the developer starts using random values like 13px, 19px, 27px everywhere, the UI will 
+                    look inconsistent fast. 
+                                                                                                                                                 
+                    6. Border Radius 
+                    Use a restrained radius system. 
+                    Small radius:   8px 
+                    Medium radius:  12px 
+                    Large radius:   16px 
+                    Pill radius:    999px 
+                    Usage 
+                         •    Buttons: 10px–12px 
+                         •    Cards: 16px 
+                         •    Inputs/selects: 10px–12px 
+                         •    Badges: pill radius 
+                    Do not make everything extremely round. That makes it feel toy-like. 
+                                                                                                                                                 
+                    7. Shadows and Borders 
+                    In dark UIs, heavy shadows often look muddy. Use more borders and subtle shadows. 
+                    Card style 
+                    Background: #1E293B 
+                    Border: 1px solid rgba(148,163,184,0.12) 
+                    Shadow: subtle only 
+                    Score card style 
+                    Background: white 
+                    Border: 1px solid #CBD5E1 
+                    Shadow: very soft 
+                    Rule 
+                    Use shadows to separate layers, not to decorate. 
+                                                                                                                                                 
+                    8. Icon System 
+                    Use a simple line icon set. 
+                    Good fits: 
+                         •    Lucide style icons 
+                         •    simple stroke icons 
+                    Icons you’ll need 
+                         •    home 
+                         •    music note 
+                         •    book/library 
+                         •    settings 
+                         •    play 
+                         •    refresh 
+                         •    save 
+                         •    export/download 
+                         •    info 
+                         •    check 
+                         •    clock 
+                    Rule 
+                    Do not use too many icons. Use them to support labels, not replace them. 
+                    Good: 
+                    [Play] Start Daily Practice 
+                    Bad: 
+                    Just a triangle icon with no text. 
+                                                                                                                                                 
+                    9. Component Design Rules 
+                    Buttons 
+                    Primary button 
+                    Used for: 
+                         •    Generate Exercise 
+                         •    Start Daily Practice 
+                         •    Start Exercise 
+                    Style: 
+                         •    accent background 
+                         •    white or dark text depending on contrast 
+                         •    medium radius 
+                         •    medium weight 
+                    Secondary button 
+                    Used for: 
+                         •    Save 
+                         •    Export 
+                         •    Open 
+                         •    Retry 
+                    Style: 
+                         •    subtle border 
+                         •    darker surface 
+                         •    less visual weight 
+                    Ghost button 
+                    Used for: 
+                         •    small actions 
+                         •    optional controls 
+                         •    toolbar icons 
+                    Rule 
+                    There should only be one visually strongest button per screen. 
+                                                                                                                                                 
+                    10. Inputs and Selects 
+                    All form controls should have the same height. 
+                    Suggested control spec 
+                    Height: 40px to 44px 
+                    Padding: 12px horizontal 
+                    Radius: 10px to 12px 
+                    Background: dark surface 
+                    Border: subtle gray-blue 
+                    Focus ring: accent blue 
+                    Rule 
+                    Do not mix multiple input heights. 
+                                                                                                                                                 
+                    11. Cards 
+                    Cards are a major building block. 
+                    Card anatomy 
+                    Card 
+                      Header 
+                      Optional description 
+                      Content 
+                      Actions 
+                    Use cards for 
+                         •    practice mode choices 
+                         •    daily practice steps 
+                         •    saved exercises 
+                         •    settings sections 
+                    Rule 
+                    Every card should have a clear purpose. 
+                    Do not put cards inside cards inside cards unless necessary. 
+                                                                                                                                                 
+                    12. Score Viewer Design 
+                    This is the heart of the app. 
+                    Score viewer layout 
+                    -------------------------------------- 
+                    | Title                              | 
+                    | Metadata                           | 
+                    |------------------------------------| 
+                    |                                    | 
+                    |         white score surface        | 
+                    |                                    | 
+                    |                                    | 
+                    |------------------------------------| 
+                    | [Regenerate] [Save] [Export]       | 
+                    -------------------------------------- 
+                    Score viewer rules 
+                         •    always give it strong visual priority 
+                         •    white background 
+                         •    enough padding 
+                         •    enough margin above and below 
+                         •    not cramped 
+                         •    metadata subtle, not dominant 
+                    Recommended metadata items 
+                         •    key 
+                         •    time signature 
+                         •    exercise type 
+                         •    difficulty 
+                         •    tempo if used 
+                    Keep metadata small. 
+                                                                                                                                                 
+                    13. Navigation Design 
+                    Bottom navigation 
+                    Use 4 main tabs: 
+                    Home | Practice | Jazz | Library 
+                    Active state 
+                         •    accent color 
+                         •    slightly brighter icon/text 
+                         •    maybe top border or filled background indicator 
+                    Inactive state 
+                         •    muted text/icons 
+                    Rule 
+                    Do not put too many items in bottom nav. 
+                    Settings and About should live elsewhere. 
+                                                                                                                                                 
+                    14. Page Template System 
+                    Every page should use a consistent vertical structure. 
+                    Standard page template 
+                    Page Header 
+                    Short explanation 
+                    Main content 
+                    Action area 
+                    Optional secondary content 
+                    Example 
+                    Title: Guide Tones 
+                    Explanation: 2 short sentences 
+                    Settings card 
+                    Generate button 
+                    Score viewer 
+                    Save/export row 
+                    This consistency matters more than visual tricks. 
+                                                                                                                                                 
+                    15. Information Density Rules 
+                    This app should stay low-density. 
+                    Show by default 
+                         •    essential controls 
+                         •    explanation 
+                         •    generate action 
+                         •    score 
+                         •    save/export 
+                    Hide behind “Advanced” 
+                         •    complex rhythm settings 
+                         •    swing customization 
+                         •    seed settings 
+                         •    experimental jazz options 
+                    This prevents the interface from becoming a cockpit. 
+                                                                                                                                                 
+                    16. Motion and Feedback 
+                    Use subtle motion only. 
+                    Good motion 
+                         •    card hover lift 
+                         •    button press feedback 
+                         •    tab transitions 
+                         •    expand/collapse animation 
+                         •    score loading skeleton 
+                    Bad motion 
+                         •    bouncing panels 
+                         •    flashy transitions 
+                         •    animated gradients everywhere 
+                    This is a practice tool, not a promo site. 
+                                                                                                                                                 
+                    17. States the UI Must Handle 
+                    The app needs explicit visual states. 
+                    Empty state 
+                    Before an exercise is generated: 
+                         •    show a calm empty score area 
+                         •    show a short hint: 
+                              “Choose your settings and generate an exercise.” 
+                    Loading state 
+                    When generating: 
+                         •    skeleton or spinner near score area 
+                         •    disable Generate button briefly 
+                    Success state 
+                         •    score displayed 
+                         •    actions enabled 
+                    Error state 
+                         •    clear message 
+                         •    suggestion to simplify settings or retry 
+                    Saved state 
+                         •    small success badge or toast: 
+                              “Exercise saved” 
+                                                                                                                                                 
+                    18. Responsive Layout 
+                    Because you may make an Android app later, design mobile-first logic now. 
+                    Mobile layout 
+                    Single column: 
+                    Header 
+                    Explanation 
+                    Settings 
+                    Generate 
+                    Score 
+                    Actions 
+                    Tablet / desktop layout 
+                    Can use 2-column where useful: 
+                    Left: settings 
+                    Right: score viewer 
+                    But do not force split layout everywhere. The score often needs width. 
+                    Rule 
+                    On small screens, score must still remain readable. That may mean horizontal scroll or 
+                    responsive scaling, but not microscopic notation. 
+                                                                                                                                                 
+                    19. Design Tokens 
+                    The developer should define tokens early. 
+                    Example: 
+                    export const tokens = { 
+         colors: { 
+           bg: "#0F172A", 
+           surface: "#1E293B", 
+           text: "#E2E8F0", 
+           textMuted: "#94A3B8", 
+           accent: "#38BDF8", 
+           success: "#22C55E", 
+           warning: "#F59E0B", 
+           error: "#EF4444", 
+           scoreBg: "#FFFFFF", 
+           scoreBorder: "#CBD5E1", 
+         }, 
+         radius: { 
+           sm: "8px", 
+           md: "12px", 
+           lg: "16px", 
+           pill: "999px", 
+         }, 
+         spacing: { 
+           xs: "4px", 
+           sm: "8px", 
+           md: "16px", 
+           lg: "24px", 
+           xl: "32px", 
+           xxl: "48px", 
+         }, 
+       }; 
+       Without design tokens, visual consistency collapses later. 
+                                                                                                                                                 
+                    20. Suggested App Theme 
+                    Here is the cleanest direction for the whole product: 
+                    Shell 
+                         •    dark background 
+                         •    muted surfaces 
+                         •    cool blue accent 
+                    Core working surface 
+                         •    white notation panels 
+                         •    minimal metadata 
+                         •    calm controls 
+                    Emotional effect 
+                    The app should feel like: 
+                         •    evening practice 
+                         •    studio desk 
+                         •    focused repetition 
+                         •    quiet craft 
+                    That is the right emotional tone. 
+                                                                                                                                                 
+                    21. Example Screen Style Summary 
+                    Home 
+                         •    dark shell 
+                         •    large primary CTA 
+                         •    practice cards 
+                         •    subtle recent activity 
+                    Practice / Jazz list pages 
+                         •    stacked cards 
+                         •    short descriptions 
+                         •    clear open/start actions 
+                    Exercise pages 
+                         •    consistent header 
+                         •    compact settings 
+                         •    dominant score panel 
+                         •    clear action row 
+                    Library 
+                         •    list-based cards 
+                         •    metadata chips 
+                         •    favorite/save markers 
+                                                                                                                                                 
+                    22. Brutal Truth About UI Risk 
+                    The biggest design risk is not “ugly colors.” 
+                    It’s this: 
+                    too many controls on one screen. 
+                    That is how music tools become exhausting. 
+                    So the rule is: 
+                         •    beginner sees simple controls 
+                         •    advanced user can open more 
+                         •    score is always central 
+                         •    explanations are short and optional 
+                                                                                                                                                 
+                    23. Final Design System Summary 
+                    Use this as the visual foundation: 
+                         •    Font: Inter 
+                         •    UI stack: Tailwind + shadcn/ui 
+                         •    Background: dark slate/navy 
+                         •    Accent: sky blue 
+                         •    Notation surface: white 
+                         •    Spacing: 8px grid 
+                         •    Radius: 12–16px 
+                         •    Icons: simple line icons 
+                         •    Layout: bottom nav + consistent exercise pages 
+                         •    Tone: calm, minimal, focused 
+                     
+                    Now we move to the most important technical part of the app: the music generation 
+                    engine architecture. 
+                    If this is not designed well, the code will quickly become a mess because music theory 
+                    logic spreads everywhere. The goal is to build a clean, modular engine that can 
+                    support: 
+                         •    scales 
+                         •    chords 
+                         •    sight-reading 
+                         •    jazz exercises 
+                         •    guided practice 
+                    without duplicating logic. 
+                    Below is a developer-ready architecture and code skeleton. 
+                                                                                                                                                 
+                    Music Generation Engine 
+                    Developer Architecture Specification 
+                    1. Core Design Principles 
+                    The generator must follow these rules: 
+                         1.  Theory logic separate from UI 
+                         2.  All generators share common utilities 
+                         3.  Exercises generated in layers 
+                         4.  Deterministic generation possible (seed support) 
+                    Bad architecture: 
+       UI page -> random notes -> display 
+       Correct architecture: 
+       UI 
+       ↓ 
+       Exercise Generator 
+       ↓ 
+       Music Theory Engine 
+       ↓ 
+       Notation Builder 
+       ↓ 
+       Score Renderer 
+                                             
+       2. Directory Structure 
+       Create this structure. 
+       src/lib/music/ 
+        
+       core 
+         note.ts 
+         interval.ts 
+         scale.ts 
+         chord.ts 
+         progression.ts 
+        
+       generators 
+         scaleGenerator.ts 
+         chordGenerator.ts 
+         sightReadingGenerator.ts 
+         jazzGenerator.ts 
+         guidedPracticeGenerator.ts 
+        
+       jazz 
+         guideToneEngine.ts 
+         targetToneEngine.ts 
+         bebopEngine.ts 
+         motifEngine.ts 
+         callResponseEngine.ts 
+        
+       rhythm 
+         rhythmTemplates.ts 
+         rhythmEngine.ts 
+        
+       render 
+         scoreBuilder.ts 
+        
+       utils 
+         random.ts 
+         range.ts 
+         validation.ts 
+                                             
+       3. Core Music Theory Engine 
+       These modules contain pure theory logic. 
+                                             
+       3.1 Note System 
+       File: 
+       note.ts 
+       Purpose: 
+                         •    represent notes 
+                         •    support transposition 
+                         •    convert pitch classes 
+                    Example: 
+                    export type PitchClass = 
+                      | "C" | "C#" | "D" | "D#" | "E" 
+                      | "F" | "F#" | "G" | "G#" | "A" | "A#" | "B"; 
+                     
+                    export interface Note { 
+                      pitch: PitchClass; 
+                      octave: number; 
+                    } 
+                    Utility functions: 
+                    transpose(note, interval) 
+                    distance(note1, note2) 
+                    noteToMidi(note) 
+                                                                                                                                                 
+                    3.2 Interval System 
+                    File: 
+                    interval.ts 
+                    Examples: 
+                    export enum Interval { 
+                      m2, 
+                      M2, 
+                      m3, 
+                      M3, 
+                      P4, 
+                      Tritone, 
+         P5, 
+         m6, 
+         M6, 
+         m7, 
+         M7, 
+         Octave 
+       } 
+       Utility: 
+       applyInterval(note, interval) 
+                                             
+       3.3 Scale System 
+       File: 
+       scale.ts 
+       Define scale formulas. 
+       Example: 
+       const SCALE_PATTERNS = { 
+         major: [2,2,1,2,2,2,1], 
+         naturalMinor: [2,1,2,2,1,2,2], 
+         harmonicMinor: [2,1,2,2,1,3,1], 
+         majorPentatonic: [2,2,3,2,3], 
+         minorPentatonic: [3,2,2,3,2], 
+         blues: [3,2,1,1,3,2], 
+         chromatic: [1,1,1,1,1,1,1,1,1,1,1,1] 
+       }; 
+       Generator: 
+       generateScale(root, type) 
+       Returns: 
+       Note[] 
+                                             
+       3.4 Chord Engine 
+       File: 
+       chord.ts 
+       Chord formulas: 
+       const CHORD_PATTERNS = { 
+         majorTriad: [0,4,7], 
+         minorTriad: [0,3,7], 
+         diminishedTriad: [0,3,6], 
+         augmentedTriad: [0,4,8], 
+         major7: [0,4,7,11], 
+         minor7: [0,3,7,10], 
+         dominant7: [0,4,7,10] 
+       }; 
+       Functions: 
+       generateChord(root, type) 
+       getChordTones(chord) 
+       getGuideTones(chord) 
+                                             
+       3.5 Progression Engine 
+       File: 
+       progression.ts 
+       Example: 
+       generateII_V_I(key) 
+       generateMinorII_V_I(key) 
+       generateBlues(key) 
+       generateTurnaround(key) 
+       Output: 
+                    ChordSymbol[] 
+                                                                                                                                                 
+                    4. Rhythm Engine 
+                    File: 
+                    rhythmEngine.ts 
+                    Purpose: 
+                         •    generate rhythm patterns 
+                         •    ensure valid measures 
+                                                                                                                                                 
+                    Rhythm Templates 
+                    File: 
+                    rhythmTemplates.ts 
+                    Example: 
+                    export const beginnerPatterns = [ 
+                      ["quarter","quarter","quarter","quarter"], 
+                      ["half","half"], 
+                      ["half","quarter","quarter"] 
+                    ]; 
+                     
+                    export const intermediatePatterns = [ 
+                      ["quarter","eighth","eighth","quarter","quarter"], 
+                      ["eighth","eighth","quarter","quarter","quarter"] 
+                    ]; 
+                                                                                                                                                 
+                    Rhythm Generator 
+                    generateRhythm(difficulty, timeSignature) 
+                    Returns: 
+                    Duration[] 
+                                             
+       5. Core Exercise Generator 
+       All generators should follow the same pipeline. 
+                                             
+       Generation Pipeline 
+       1 choose progression 
+       2 choose anchor notes 
+       3 generate melodic skeleton 
+       4 add connecting notes 
+       5 apply rhythm 
+       6 validate range 
+       7 return exercise 
+                                             
+       6. Scale Exercise Generator 
+       File: 
+       scaleGenerator.ts 
+       Example: 
+       export function generateScaleExercise(settings) { 
+        
+         const scale = generateScale(settings.root, settings.type) 
+        
+         const notes = buildScalePattern(scale, settings.direction) 
+        
+         return applyRhythm(notes, settings.noteValue) 
+        
+       } 
+                                             
+       7. Chord / Arpeggio Generator 
+       File: 
+       chordGenerator.ts 
+       Algorithm: 
+       1 generate chord tones 
+       2 choose octave range 
+       3 build arpeggio pattern 
+       4 apply rhythm 
+       Example: 
+       C E G B 
+                                             
+       8. Sight Reading Generator 
+       File: 
+       sightReadingGenerator.ts 
+       Algorithm: 
+       1 generate rhythm template 
+       2 choose note range 
+       3 generate melody 
+       4 enforce leap constraints 
+       5 validate measures 
+                                             
+       9. Jazz Generator 
+       File: 
+       jazzGenerator.ts 
+       Dispatcher: 
+       switch(mode) { 
+        
+       case "guide-tones": 
+         return generateGuideToneExercise() 
+        
+       case "target-tones": 
+         return generateTargetToneExercise() 
+        
+       case "bebop-lines": 
+         return generateBebopExercise() 
+        
+       case "voice-leading": 
+         return generateVoiceLeadingExercise() 
+        
+       case "motif": 
+         return generateMotifExercise() 
+        
+       case "call-response": 
+         return generateCallResponseExercise() 
+        
+       } 
+                                             
+       10. Guide Tone Engine 
+       File: 
+       guideToneEngine.ts 
+       Algorithm: 
+       1 get chords from progression 
+       2 extract guide tones 
+       3 connect nearest tones 
+       4 insert passing notes 
+       Example: 
+       F → B → E 
+                                             
+       11. Target Tone Engine 
+       File: 
+       targetToneEngine.ts 
+       Algorithm: 
+       1 select target tones 
+       2 place on strong beats 
+       3 connect with scale tones 
+                                             
+       12. Bebop Engine 
+       File: 
+       bebopEngine.ts 
+       Add chromatic approach notes. 
+       Examples: 
+       F → D# → E 
+       D# → F → E 
+                                             
+       13. Motif Engine 
+       File: 
+       motifEngine.ts 
+       Algorithm: 
+       generate motif 
+       repeat motif 
+       transpose motif 
+       adapt to harmony 
+                                             
+       14. Call Response Engine 
+       File: 
+       callResponseEngine.ts 
+       Algorithm: 
+       generate phrase A 
+       generate phrase B variation 
+       align with harmony 
+                                             
+       15. Guided Practice Generator 
+       File: 
+       guidedPracticeGenerator.ts 
+       Algorithm: 
+       choose key 
+       generate scale exercise 
+       generate chord exercise 
+       generate jazz exercise 
+       generate creative exercise 
+       Output: 
+       PracticeSession 
+                                             
+       16. Validation Engine 
+       File: 
+       validation.ts 
+       Checks: 
+       note range 
+       measure duration 
+       harmonic validity 
+       difficulty compliance 
+                                             
+       17. Random Utility 
+       File: 
+       random.ts 
+       Supports deterministic seeds. 
+       random(seed) 
+       randomChoice(array) 
+       weightedChoice() 
+                                             
+       18. Range Handling 
+       File: 
+       range.ts 
+       Functions: 
+       clampNoteRange() 
+       chooseClosestNote() 
+       avoidExtremeLeaps() 
+                                             
+       19. Score Builder 
+       File: 
+       scoreBuilder.ts 
+       Converts generator output to notation format. 
+       Example output: 
+       MusicXML 
+       ABC notation 
+       or JSON for renderer 
+       This feeds the UI ScoreViewer. 
+                                             
+       20. Example Exercise Object 
+       Example structure returned to UI. 
+       { 
+         title: "II–V–I Guide Tone Exercise", 
+         key: "C", 
+         tempo: 100, 
+         timeSignature: "4/4", 
+         measures: [ 
+           { 
+             chord: "Dm7", 
+             notes: ["F4","G4","A4"] 
+           }, 
+           { 
+             chord: "G7", 
+             notes: ["B4","A4","G4"] 
+           } 
+         ] 
+       } 
+                                             
+       21. Testing Strategy 
+       Unit test these modules: 
+       scale generation 
+       chord generation 
+       transposition 
+       rhythm templates 
+       range enforcement 
+       Also test: 
+       measure completeness 
+       note range 
+       progression correctness 
+                                             
+       22. Performance Target 
+       Exercise generation should be: 
+       < 100 ms 
+       This keeps regeneration instant. 
+                                             
+       23. Future Extensions 
+       This architecture supports: 
+       audio playback 
+       MIDI export 
+       backing tracks 
+       AI improvisation hints 
+       ear training 
+       without rewriting the engine. 
+                                             
+       Final Architecture Summary 
+       UI 
+       ↓ 
+       Exercise Generator 
+       ↓ 
+       Jazz / Scale / Sight Generators 
+       ↓ 
+       Music Theory Engine 
+       ↓ 
+       Rhythm Engine 
+       ↓ 
+       Validation 
+       ↓ 
+       Score Builder 
+                    ↓ 
+                    Score Viewer 
+                    . 
+                     
+                     
+                    This is the teaching layer. 
+                    Without a curriculum spec, the app can generate valid exercises but still teach badly. It 
+                    can overwhelm beginners, repeat the wrong things, or introduce jazz language in the 
+                    wrong order. 
+                    This document defines: 
+                         •    what each level means 
+                         •    what concepts belong at each level 
+                         •    what should appear first 
+                         •    what should be delayed 
+                         •    how the app should progress over time 
+                                                                                                                                                 
+                    Practice Curriculum Specification 
+                    1. Purpose 
+                    The Practice Curriculum defines how the app should teach over time. 
+                    It ensures that: 
+                         •    beginners are not given advanced material too early 
+                         •    intermediate users get increasing variety 
+                         •    advanced users get enough complexity 
+                         •    Guided Practice sessions follow a meaningful learning path 
+                    This is not just a difficulty label system. 
+                    It is a progression model. 
+                                                                                                                                                 
+                    2. Core Curriculum Principle 
+                    The curriculum must teach in this order: 
+                         1.  orientation 
+                         2.  control 
+                         3.  harmonic awareness 
+                         4.  resolution 
+                         5.  phrasing 
+                         6.  language 
+                         7.  creative use 
+                    That means: 
+                         •    first learn where notes are 
+                         •    then learn how chords work 
+                         •    then learn how harmony moves 
+                         •    then learn how to target important notes 
+                         •    then learn how to shape phrases 
+                         •    then learn jazz vocabulary 
+                         •    then apply it creatively 
+                    If you reverse that order, the app becomes confusing. 
+                                                                                                                                                 
+                    3. Curriculum Levels 
+                    The app should support three levels: 
+                         •    Beginner 
+                         •    Intermediate 
+                         •    Advanced 
+                    These should not just change note density. 
+                    They must change: 
+                         •    concept exposure 
+                         •    exercise selection 
+                         •    rhythm complexity 
+                         •    harmonic complexity 
+                         •    melodic expectations 
+                                                                                                                                                 
+                    4. Beginner Curriculum 
+                    4.1 Beginner Goal 
+                    The beginner level teaches: 
+                         •    note familiarity 
+                         •    scale fluency 
+                         •    basic chord awareness 
+                         •    simple harmonic movement 
+                         •    strong-beat resolution 
+                         •    basic phrasing 
+                    A beginner should leave this stage able to: 
+                         •    play scales and arpeggios in a controlled way 
+                         •    recognize II–V–I as a basic jazz movement 
+                         •    hear and play guide tones 
+                         •    land on clear target tones 
+                         •    play very simple musical phrases 
+                    4.2 Beginner Priorities 
+                    The app should prioritize: 
+                         •    repetition 
+                         •    consistency 
+                         •    simple rhythms 
+                         •    small note range 
+                         •    strong tonal clarity 
+                    The app should avoid: 
+                         •    excessive variation 
+                         •    dense chromaticism 
+                         •    advanced syncopation 
+                         •    theoretical overload 
+                         •    long sessions with too many concept shifts 
+                    4.3 Beginner Allowed Concepts 
+                    Technical: 
+                         •    major scale 
+                         •    natural minor scale 
+                         •    major pentatonic 
+                         •    minor pentatonic 
+                         •    basic chromatic familiarity only if specifically selected 
+                         •    major triad 
+                         •    minor triad 
+                         •    major 7 
+                         •    minor 7 
+                         •    simple arpeggios 
+                    Jazz: 
+                         •    II–V–I basics 
+                         •    guide tones 
+                         •    target tones 
+                         •    simple call and response 
+                    Reading: 
+                         •    simple sight reading in limited range 
+                         •    quarter notes 
+                         •    half notes 
+                         •    simple eighth notes later in beginner 
+                    4.4 Beginner Disallowed or Delayed Concepts 
+                    Do not include by default: 
+                         •    bebop lines 
+                         •    enclosure patterns 
+                         •    advanced voice leading 
+                         •    complex motif development 
+                         •    blues progression complexity 
+                         •    rhythm changes 
+                         •    advanced chromatic approach logic 
+                         •    dense syncopation 
+                         •    triplets 
+                         •    dotted rhythm complexity unless explicitly enabled later 
+                    4.5 Beginner Rhythm Rules 
+                    Allowed by default: 
+                         •    whole notes 
+                         •    half notes 
+                         •    quarter notes 
+                    Optional later in beginner: 
+                         •    simple eighth-note pairs 
+                    Avoid: 
+                         •    syncopated accents 
+                         •    swing complexity as a rhythmic concept 
+                         •    off-beat resolution unless simplified 
+                    If swing is enabled for beginner, keep pitch logic simple. 
+                    4.6 Beginner Melodic Rules 
+                    Prefer: 
+                         •    stepwise motion 
+                         •    small intervals 
+                         •    repeated motifs 
+                         •    clear strong-beat chord tones 
+                    Avoid: 
+                         •    wide leaps 
+                         •    fast direction changes 
+                         •    jagged contour 
+                         •    chromatic note density 
+                    4.7 Beginner Session Emphasis 
+                    A beginner Guided Practice session should mostly contain: 
+                         •    warm-up scale work 
+                         •    simple arpeggios 
+                         •    harmony basics 
+                         •    guide tones 
+                         •    target tones 
+                         •    simple call and response 
+                    Suggested emphasis split: 
+                         •    35% technique 
+                         •    35% harmony 
+                         •    20% simple jazz phrasing 
+                         •    10% reading or creative response 
+                    4.8 Beginner Progression Sequence 
+                    The app should introduce beginner content in this order across repeated sessions: 
+                    Stage B1 
+                         •    major scale 
+                         •    major triad 
+                         •    simple sight reading 
+                         •    simple call and response 
+                    Stage B2 
+                         •    natural minor scale 
+                         •    minor triad 
+                         •    major 7 / minor 7 arpeggio awareness 
+                         •    simple II–V–I introduction 
+                    Stage B3 
+                         •    guide tones 
+                         •    target tones 
+                         •    stronger harmonic connection 
+                         •    slightly larger range 
+                    Stage B4 
+                         •    simple phrase shaping 
+                         •    slightly more rhythmic variety 
+                         •    stronger session coherence 
+                    A user does not need an account-based “level unlock” in v1, but the generator should 
+                    still bias content in that order. 
+                                                                                                                                                 
+                    5. Intermediate Curriculum 
+                    5.1 Intermediate Goal 
+                    The intermediate level teaches: 
+                         •    stronger harmonic connection 
+                         •    smoother voice leading 
+                         •    more rhythmic flexibility 
+                         •    motif awareness 
+                         •    more varied phrasing 
+                         •    first controlled chromatic ideas 
+                    An intermediate user should be able to: 
+                         •    follow progressions more clearly 
+                         •    connect chord tones across changes 
+                         •    play with more rhythmic movement 
+                         •    recognize and develop short motifs 
+                         •    begin using light jazz vocabulary beyond scales 
+                    5.2 Intermediate Priorities 
+                    The app should prioritize: 
+                         •    harmonic connection over isolated drills 
+                         •    phrase shape 
+                         •    controlled variation 
+                         •    modest chromaticism 
+                         •    stronger progression awareness 
+                    5.3 Intermediate Allowed Concepts 
+                    Technical: 
+                         •    all beginner material 
+                         •    harmonic minor 
+                         •    blues scale 
+                         •    chromatic scale as a technical tool 
+                         •    diminished and augmented triads as theory/drill material where appropriate 
+                    Jazz: 
+                         •    II–V–I in multiple keys 
+                         •    guide tones 
+                         •    target tones 
+                         •    voice leading 
+                         •    motif development 
+                         •    call and response 
+                         •    optional first bebop line exposure 
+                         •    blues progression basics 
+                         •    turnaround basics 
+                    Reading: 
+                         •    wider range 
+                         •    eighth notes 
+                         •    more mixed rhythm 
+                         •    moderate leaps 
+                         •    simple rests 
+                    5.4 Intermediate Delayed Concepts 
+                    Still limit: 
+                         •    dense bebop language 
+                         •    frequent enclosure use 
+                         •    advanced substitutions 
+                         •    rhythm changes as default material 
+                         •    highly syncopated or triplet-heavy lines 
+                         •    complex altered dominant language 
+                    5.5 Intermediate Rhythm Rules 
+                    Allowed: 
+                         •    quarter notes 
+                         •    eighth notes 
+                         •    rests 
+                         •    simple syncopation 
+                         •    swing feel if enabled 
+                         •    some dotted rhythm use if explicitly supported 
+                    Avoid overuse of: 
+                         •    triplets 
+                         •    tied syncopation if not well implemented 
+                         •    dense rhythmic clutter 
+                    5.6 Intermediate Melodic Rules 
+                    Prefer: 
+                         •    a mix of stepwise motion and moderate leaps 
+                         •    stronger phrase contour 
+                         •    more clear approaches into targets 
+                         •    motif reuse across measures 
+                    Allow: 
+                         •    occasional chromatic approaches 
+                         •    recovery after leaps 
+                         •    stronger beat/off-beat contrast 
+                    5.7 Intermediate Session Emphasis 
+                    A typical intermediate session should contain: 
+                         •    one technical warm-up 
+                         •    one harmonic drill 
+                         •    one voice-leading or target-tone step 
+                         •    one phrase-development step 
+                         •    optional reading or creative application 
+                    Suggested emphasis split: 
+                         •    25% technique 
+                         •    30% harmony 
+                         •    30% jazz phrasing/language 
+                         •    15% creative/reading 
+                    5.8 Intermediate Progression Sequence 
+                    Stage I1 
+                         •    reinforce II–V–I in more keys 
+                         •    stronger target-tone practice 
+                         •    simple voice leading 
+                    Stage I2 
+                         •    motif development 
+                         •    rhythm variation 
+                         •    wider phrase shapes 
+                    Stage I3 
+                         •    first chromatic approach tones 
+                         •    blues progression basics 
+                         •    more connected melodic lines 
+                    Stage I4 
+                         •    occasional bebop entry 
+                         •    longer jazz-focus steps 
+                         •    stronger creative application 
+                                                                                                                                                 
+                    6. Advanced Curriculum 
+                    6.1 Advanced Goal 
+                    The advanced level teaches: 
+                         •    fluid harmonic outlining 
+                         •    stronger jazz vocabulary 
+                         •    chromatic approach logic 
+                         •    phrase design 
+                         •    variation and development 
+                         •    higher cognitive flexibility 
+                    An advanced user should be able to: 
+                         •    practice over progressions with clarity 
+                         •    connect harmony through voice leading 
+                         •    use chromatic approaches intentionally 
+                         •    develop motifs across changes 
+                         •    move between technical and expressive work smoothly 
+                    6.2 Advanced Priorities 
+                    The app should prioritize: 
+                         •    harmonic sophistication 
+                         •    phrase quality 
+                         •    variation without randomness 
+                         •    chromatic control 
+                         •    key fluency 
+                         •    musical continuity 
+                    6.3 Advanced Allowed Concepts 
+                    Technical: 
+                         •    all scale and chord materials 
+                         •    full range practice 
+                         •    chromatic drills 
+                         •    more complex arpeggio shapes 
+                    Jazz: 
+                         •    all prior modes 
+                         •    bebop lines 
+                         •    advanced voice leading 
+                         •    motif development with more transformation 
+                         •    stronger call and response 
+                         •    blues progression 
+                         •    turnaround practice 
+                         •    more frequent guide-tone and target-tone integration 
+                    Reading: 
+                         •    wider ranges 
+                         •    denser rhythms 
+                         •    stronger contour changes 
+                         •    more mixed difficulty 
+                    6.4 Advanced Still Needs Restraint 
+                    Do not assume advanced means chaotic. 
+                    Still avoid: 
+                         •    meaningless complexity 
+                         •    chromatic overload 
+                         •    constant large leaps 
+                         •    every exercise being maximally dense 
+                    Advanced should mean more intentional, not just harder. 
+                    6.5 Advanced Rhythm Rules 
+                    Allowed: 
+                         •    swing eighth feel 
+                         •    syncopation 
+                         •    denser eighth-note lines 
+                         •    dotted patterns if implemented well 
+                         •    more varied rhythmic templates 
+                    Future expansion later: 
+                         •    triplets 
+                         •    tied anticipations 
+                         •    more advanced rhythmic displacement 
+                    6.6 Advanced Melodic Rules 
+                    Allow: 
+                         •    wider contour 
+                         •    more phrase contrast 
+                         •    enclosure patterns 
+                         •    stronger approach-note logic 
+                         •    richer target-tone placement 
+                         •    more fluid continuity across measures 
+                    Still enforce: 
+                         •    harmonic clarity 
+                         •    phrase coherence 
+                         •    range awareness 
+                    6.7 Advanced Session Emphasis 
+                    Suggested emphasis split: 
+                         •    15% technique 
+                         •    25% harmony 
+                         •    40% jazz language and phrase work 
+                         •    20% creative/reading 
+                    Advanced sessions should feel less like drills and more like applied musical practice. 
+                    6.8 Advanced Progression Sequence 
+                    Stage A1 
+                         •    stronger voice leading 
+                         •    more key rotation 
+                         •    more target-tone variety 
+                    Stage A2 
+                         •    bebop line entry 
+                         •    chromatic approaches 
+                         •    motif transformation 
+                    Stage A3 
+                         •    more progression variety 
+                         •    blues and turnaround reinforcement 
+                         •    richer rhythmic patterns 
+                    Stage A4 
+                         •    integrated sessions with stronger creative focus 
+                         •    more expressive closing exercises 
+                         •    less dependence on purely technical warm-up 
+                                                                                                                                                 
+                    7. Cross-Level Concept Map 
+                    This table defines when concepts appear. 
+                     Concept                            Beginner Intermediate Advanced 
+                     Major scale                        Yes            Yes                 Yes 
+                     Natural minor                      Yes            Yes                 Yes 
+                     Harmonic minor                     No             Yes                 Yes 
+                     Major pentatonic                   Yes            Yes                 Yes 
+              Concept                  Beginner Intermediate Advanced 
+              Minor pentatonic         Yes       Yes           Yes 
+              Blues scale              No        Yes           Yes 
+              Chromatic scale          Limited  Yes            Yes 
+              Major/minor triads       Yes       Yes           Yes 
+              Major 7 / minor 7        Yes       Yes           Yes 
+              Diminished / augmented Limited  Yes              Yes 
+              II–V–I                   Yes       Yes           Yes 
+              Guide tones              Yes       Yes           Yes 
+              Target tones             Yes       Yes           Yes 
+              Voice leading            No        Yes           Yes 
+              Motif development        Limited  Yes            Yes 
+              Call & response          Yes       Yes           Yes 
+              Bebop lines              No        Limited       Yes 
+              Blues progression        No        Yes           Yes 
+              Turnarounds              No        Yes           Yes 
+              Complex chromaticism  No           Limited       Yes 
+                                                                                                    
+              8. Guided Practice Curriculum Rules 
+              Guided Practice should reflect level-specific teaching priorities. 
+              Beginner Guided Practice Rules 
+                 •   same key across whole session 
+                 •   mostly one concept per step 
+                 •   more repetition across days 
+                 •   strong preference for scales, arpeggios, guide tones 
+                 •   creative step should remain simple 
+                    Intermediate Guided Practice Rules 
+                         •    same key across whole session 
+                         •    stronger mode variation 
+                         •    progression awareness stronger 
+                         •    motif and voice-leading steps appear regularly 
+                         •    reading may be more active 
+                    Advanced Guided Practice Rules 
+                         •    same key by default, mixed key later if added 
+                         •    more varied session focus across days 
+                         •    bebop and chromatic language can appear 
+                         •    creative application should be more prominent 
+                                                                                                                                                 
+                    9. Day-to-Day Rotation Rules 
+                    The curriculum should not only define level, but also weekly variation. 
+                    Beginner weekly rhythm 
+                    A beginner should see more repetition. 
+                    Suggested weekly pattern: 
+                         •    Day 1: scales + arpeggios + guide tones 
+                         •    Day 2: scales + II–V–I + target tones 
+                         •    Day 3: review / simple reading 
+                         •    Day 4: scales + arpeggios + call and response 
+                         •    Day 5: II–V–I + guide tones 
+                         •    Day 6: lighter review 
+                         •    Day 7: mixed beginner recap 
+                    Intermediate weekly rhythm 
+                    More varied: 
+                         •    one harmony-heavy day 
+                         •    one phrase-heavy day 
+                         •    one reading-heavy day 
+                         •    one motif/creative day 
+                         •    one integrated day 
+                         •    one review day 
+                         •    one lighter rotation day 
+                    Advanced weekly rhythm 
+                    Can rotate emphasis by focus: 
+                         •    voice leading day 
+                         •    bebop language day 
+                         •    progression day 
+                         •    creative phrasing day 
+                         •    reading/integration day 
+                         •    blues/turnaround day 
+                         •    mixed advanced day 
+                    This does not need full calendar implementation in v1, but the generator should be 
+                    designed so it can support day emphasis later. 
+                                                                                                                                                 
+                    10. Difficulty Mapping Rules 
+                    Difficulty labels should map to actual behavior. 
+                    Beginner means: 
+                         •    limited note values 
+                         •    limited concept set 
+                         •    limited phrase length 
+                         •    high clarity 
+                         •    high repetition 
+                    Intermediate means: 
+                         •    broader concept set 
+                         •    moderate variation 
+                         •    stronger phrase movement 
+                         •    moderate chromaticism 
+                    Advanced means: 
+                         •    richer vocabulary 
+                         •    more varied contours 
+                         •    more complex rhythm 
+                         •    more integration between concepts 
+                    Never define difficulty by tempo alone. 
+                                                                                                                                                 
+                    11. Curriculum Guardrails 
+                    These are strict rules to prevent bad teaching. 
+                    Rule 1 
+                    Do not introduce more than one new musical concept in the same beginner session. 
+                    Rule 2 
+                    Do not place the most complex concept in the first step. 
+                    Rule 3 
+                    Do not let creative exercises become theory-heavy explanations. 
+                    Rule 4 
+                    Do not overuse bebop content at intermediate level. 
+                    Rule 5 
+                    Do not let advanced sessions become random complexity generators. 
+                    Rule 6 
+                    Always reinforce harmonic hearing before melodic decoration. 
+                                                                                                                                                 
+                    12. Explanation Text by Level 
+                    The same concept may need different explanation depth. 
+                    Beginner explanation style 
+                         •    very short 
+                         •    concrete 
+                         •    practical 
+                         •    minimal jargon 
+                    Example: 
+                    “Guide tones are the notes that help define each chord. Play slowly and listen to how 
+                    the harmony changes.” 
+                    Intermediate explanation style 
+                         •    still short 
+                         •    may include basic theory names 
+                         •    more emphasis on connection 
+                    Example: 
+                    “Guide tones are the 3rd and 7th of a chord. They help you hear how chords move from 
+                    one to the next.” 
+                    Advanced explanation style 
+                         •    concise 
+                         •    assumes some theory familiarity 
+                         •    more focus on application 
+                    Example: 
+                    “Use this line to hear and practice guide-tone voice leading through the progression.” 
+                                                                                                                                                 
+                    13. Range Curriculum Rules 
+                    Difficulty should also affect range. 
+                    Beginner 
+                         •    narrower range 
+                         •    avoid extremes 
+                         •    avoid frequent top/bottom boundary notes 
+                    Intermediate 
+                         •    moderate range expansion 
+                         •    more movement across register 
+                    Advanced 
+                         •    fuller use of selected range 
+                         •    more freedom, but still musically controlled 
+                    This matters a lot for harmonica practice. 
+                                                                                                                                                 
+                    14. Rhythm Curriculum Rules 
+                    Beginner 
+                         •    stable pulse 
+                         •    simple durations 
+                         •    minimal syncopation 
+                    Intermediate 
+                         •    more eighth-note movement 
+                         •    occasional rests 
+                         •    moderate syncopation 
+                    Advanced 
+                         •    swing and syncopation if enabled 
+                         •    denser phrase rhythm 
+                         •    more contrast 
+                    Do not let rhythm complexity outrun harmonic understanding. 
+                                                                                                                                                 
+                    15. Creative Curriculum Rules 
+                    Creative phases should also scale. 
+                    Beginner creative work 
+                         •    simple call and response 
+                         •    simple phrase echo 
+                         •    target-tone awareness 
+                    Intermediate creative work 
+                         •    motif variation 
+                         •    stronger phrase shape 
+                         •    more deliberate response logic 
+                    Advanced creative work 
+                         •    phrase development across harmony 
+                         •    more flexible target placement 
+                         •    richer call/response logic 
+                         •    more integrated jazz language 
+                                                                                                                                                 
+                    16. Reading Curriculum Rules 
+                    Reading should support, not dominate. 
+                    Beginner 
+                         •    short, simple, tonal reading 
+                         •    narrow range 
+                         •    mostly quarter/half notes 
+                    Intermediate 
+                         •    moderate phrase reading 
+                         •    broader range 
+                         •    more eighth notes 
+                    Advanced 
+                         •    more varied reading 
+                         •    denser rhythm 
+                         •    stronger contour and harmonic awareness 
+                    Reading should be easier than improvisational language work at the same level unless 
+                    user explicitly chooses a reading focus. 
+                                                                                                                                                 
+                    17. Curriculum Metadata for the Generator 
+                    The developer should encode level rules as structured metadata. 
+                    Example: 
+                    type CurriculumProfile = { 
+                      allowedModes: PracticeMode[]; 
+                      disallowedModes: PracticeMode[]; 
+                      preferredModesByPhase: Record<string, PracticeMode[]>; 
+                      rhythmComplexity: "low" | "medium" | "high"; 
+                      chromaticism: "none" | "light" | "moderate"; 
+                      rangeUsage: "narrow" | "moderate" | "full"; 
+                      repetitionBias: "high" | "medium" | "low"; 
+                    }; 
+                    Suggested profiles: 
+                    Beginner 
+                         •    rhythmComplexity: low 
+                         •    chromaticism: none 
+                         •    rangeUsage: narrow 
+                         •    repetitionBias: high 
+                    Intermediate 
+                         •    rhythmComplexity: medium 
+                         •    chromaticism: light 
+                         •    rangeUsage: moderate 
+                         •    repetitionBias: medium 
+                    Advanced 
+                         •    rhythmComplexity: high 
+                         •    chromaticism: moderate 
+                         •    rangeUsage: full 
+                         •    repetitionBias: low 
+                    This should drive generation behavior. 
+                                                                                                                                                 
+                    18. Acceptance Criteria 
+                    The curriculum spec is successfully implemented when: 
+                    Beginner sessions 
+                         •    feel clear and repetitive enough 
+                         •    avoid advanced concepts 
+                         •    reinforce fundamentals 
+                         •    use simple rhythm and narrow range 
+                    Intermediate sessions 
+                         •    introduce more variety 
+                         •    use voice leading and motif work 
+                         •    begin light chromaticism carefully 
+                    Advanced sessions 
+                         •    feel musically richer 
+                         •    include stronger jazz language 
+                         •    maintain coherence, not chaos 
+                    Across all levels 
+                         •    concepts appear in the right order 
+                         •    same concept is explained appropriately by level 
+                         •    generated sessions feel educational, not random 
+                                                                                                                                                 
+                    19. Final Instruction to the Developer 
+                    Implement the curriculum as a teaching progression, not just a difficulty switch. Each 
+                    level must define what concepts are allowed, what concepts are delayed, how much 
+                    rhythmic and melodic complexity is acceptable, and how much repetition is needed. 
+                    Beginner content must emphasize control and clarity, intermediate content must build 
+                    connection and variation, and advanced content must emphasize musical fluency and 
+                    richer jazz language. The curriculum should shape both exercise selection and 
+                    generation behavior. 
+                     
+                     

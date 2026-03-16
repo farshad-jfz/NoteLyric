@@ -1,19 +1,17 @@
 "use client";
 
-import { Badge, Group } from "@mantine/core";
-
 type Props = {
   items: string[];
 };
 
 export default function SettingsSummary({ items }: Props) {
   return (
-    <Group gap="xs" mt="sm">
+    <div className="summary-badges">
       {items.map((item) => (
-        <Badge key={item} variant="light" color="gray" radius="xl">
+        <span key={item} className="chip">
           {item}
-        </Badge>
+        </span>
       ))}
-    </Group>
+    </div>
   );
 }

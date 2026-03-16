@@ -1,7 +1,6 @@
 import "./globals.css";
 import type { ReactNode } from "react";
 
-import "@mantine/core/styles.css";
 import AppChrome from "@/components/ui/AppChrome";
 import Providers from "@/components/ui/Providers";
 

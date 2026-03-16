@@ -1,25 +1,38 @@
-import { Card, Stack, Text, Title } from "@mantine/core";
+import PageHeader from "@/components/ui/PageHeader";
+import SectionCard from "@/components/ui/SectionCard";
 
 export default function AboutPage() {
   return (
-    <Card withBorder radius="lg" shadow="xs">
-      <Stack>
-        <Title order={2}>About NoteLyric</Title>
-        <Text c="dimmed">Practice Harmonically</Text>
-        <Text>
-          Hi, I&apos;m Farshad. I&apos;m currently learning the chromatic harmonica and built this app to help structure my
-          practice sessions. I hope it can help other harmonica players practice more effectively too.
-        </Text>
+    <>
+      <PageHeader
+        eyebrow="About"
+        title="About NoteLyric"
+        description="NoteLyric is built as a practice companion for chromatic harmonica. The goal is not to overwhelm you with options, but to keep generation musical, readable, and easy to repeat."
+      />
 
-        <Title order={3}>Quick Guide</Title>
-        <ul>
-          <li>Choose one practice page: Scales, Chords / Arpeggios, Jazz Practice, or Sight Reading.</li>
-          <li>Pick a preset to start fast, then adjust settings if needed.</li>
-          <li>Click Generate New to create notation and use the secondary button for controlled variations.</li>
-          <li>Use Export buttons to save SVG, PNG, or MusicXML, or print to PDF.</li>
-          <li>Practice slowly first, then increase tempo once the reading feels comfortable.</li>
-        </ul>
-      </Stack>
-    </Card>
+      <div className="settings-grid">
+        <SectionCard title="About the App" description="A calm, score-first workspace for daily practice.">
+          <p className="page-header__description">The app focuses on technique, sight reading, jazz harmony, and guided daily practice. It is designed to feel like a small music workstation rather than a random exercise generator.</p>
+        </SectionCard>
+
+        <SectionCard title="Practice Guide" description="A simple way to get value from the app quickly.">
+          <ul className="about-list">
+            <li>Start with Guided Daily Practice if you want the app to choose a balanced session for you.</li>
+            <li>Use the Practice section when you want direct control over scales, chords, or reading.</li>
+            <li>Use the Jazz section when you want a specific improvisation concept and repeated regeneration.</li>
+            <li>Practice slowly first. The score should stay readable and relaxed before you speed anything up.</li>
+            <li>Save strong outputs into Library so you can revisit them across sessions.</li>
+          </ul>
+        </SectionCard>
+
+        <SectionCard title="Credits and License" description="Built for harmonica study, rendered in the browser, and designed for repeatable daily use.">
+          <ul className="about-list">
+            <li>Browser-based notation rendering via OpenSheetMusicDisplay.</li>
+            <li>Local-first persistence for settings, saved exercises, and practice history.</li>
+            <li>Open source project under the repository license.</li>
+          </ul>
+        </SectionCard>
+      </div>
+    </>
   );
 }
