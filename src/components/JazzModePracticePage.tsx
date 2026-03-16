@@ -5,12 +5,10 @@ import { useEffect, useMemo, useState } from "react";
 import type { ExportFormat, LibraryEntry } from "@/lib/app/types";
 import { appDefaultsForJazz } from "@/lib/app/defaults";
 import { defaultAppSettings, loadAppSettings, recordExerciseHistory, updateLibraryEntry } from "@/lib/app/storage";
-import ContextExplanationCard from "@/components/ContextExplanationCard";
 import ExerciseControls from "@/components/ExerciseControls";
 import ExportButtons from "@/components/ExportButtons";
+import PracticeWorkspace from "@/components/PracticeWorkspace";
 import PresetSelector from "@/components/PresetSelector";
-import ScoreViewer from "@/components/ScoreViewer";
-import SettingsSummary from "@/components/SettingsSummary";
 import PageHeader from "@/components/ui/PageHeader";
 import TimerPill from "@/components/ui/TimerPill";
 import { usePracticeTimer } from "@/hooks/usePracticeTimer";
@@ -142,8 +140,9 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
     setSettings((current) => ({ ...current, lowestNote: nextLow }));
   }, [settings.highestNote, settings.lowestNote]);
 
-  const applyPreset = () => {
-    setSettings((current) => ({ ...current, ...jazzPresets[presetName], mode: initialMode }));
+  const handlePresetSelect = (name: string) => {
+    setPresetName(name);
+    setSettings((current) => ({ ...current, ...jazzPresets[name], mode: initialMode }));
   };
 
   const saveEntry = (toggleFavorite = false) => {
@@ -197,17 +196,16 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
     [settings.key, settings.progressionType, settings.numBars]
   );
 
-  const summary = useMemo(
+  const summaryItems = useMemo(
     () => [
-      settings.progressionType,
-      `${settings.key} key`,
-      `${settings.numBars} bars`,
-      settings.difficulty,
-      displayTempoSummary(settings.difficulty, settings.swingFeel),
-      `range ${settings.lowestNote}-${settings.highestNote}`,
-      state.appliedSeed ? `seed ${state.appliedSeed}` : "seed auto"
+      { label: "Mode", value: modeLabel(initialMode) },
+      { label: "Progression", value: settings.progressionType },
+      { label: "Key", value: settings.key },
+      { label: "Bars", value: `${settings.numBars}` },
+      { label: "Tempo", value: displayTempoSummary(settings.difficulty, settings.swingFeel) },
+      { label: "Range", value: `${settings.lowestNote}-${settings.highestNote}` }
     ],
-    [settings, state.appliedSeed]
+    [initialMode, settings]
   );
 
   const displayedTempo = supportsSwingFeel(initialMode)
@@ -224,145 +222,136 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
       />
 
       <div className="exercise-layout">
-        <div className="stack">
-          <ExerciseControls title={modeLabel(initialMode)} mode={viewMode} onModeChange={setViewMode}>
-            <PresetSelector presets={Object.keys(jazzPresets)} selected={presetName} onSelect={setPresetName} onApply={applyPreset} />
+        <ExerciseControls title={modeLabel(initialMode)} mode={viewMode} onModeChange={setViewMode}>
+          <PresetSelector presets={Object.keys(jazzPresets)} selected={presetName} onSelect={handlePresetSelect} />
 
-            <div className="field-grid">
-              <label>
-                <span>Progression</span>
-                <select value={settings.progressionType} onChange={(event) => setSettings({ ...settings, progressionType: event.target.value as JazzSettings["progressionType"] })}>
-                  {JAZZ_PROGRESSION_OPTIONS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
+          <div className="field-grid">
+            <label>
+              <span>Progression</span>
+              <select value={settings.progressionType} onChange={(event) => setSettings({ ...settings, progressionType: event.target.value as JazzSettings["progressionType"] })}>
+                {JAZZ_PROGRESSION_OPTIONS.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
 
-              <label>
-                <span>Key</span>
-                <select value={settings.key} onChange={(event) => setSettings({ ...settings, key: event.target.value })}>
-                  {JAZZ_KEY_OPTIONS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
+            <label>
+              <span>Key</span>
+              <select value={settings.key} onChange={(event) => setSettings({ ...settings, key: event.target.value })}>
+                {JAZZ_KEY_OPTIONS.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
 
-              <label>
-                <span>Difficulty</span>
-                <select value={settings.difficulty} onChange={(event) => setSettings({ ...settings, difficulty: event.target.value as JazzSettings["difficulty"] })}>
-                  {JAZZ_DIFFICULTY_OPTIONS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
+            <label>
+              <span>Difficulty</span>
+              <select value={settings.difficulty} onChange={(event) => setSettings({ ...settings, difficulty: event.target.value as JazzSettings["difficulty"] })}>
+                {JAZZ_DIFFICULTY_OPTIONS.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
 
-              <label>
-                <span>Bars</span>
-                <select value={settings.numBars} onChange={(event) => setSettings({ ...settings, numBars: Number(event.target.value) })}>
-                  {validBarOptions.map((option) => (
-                    <option key={option} value={option}>
-                      {option}
-                    </option>
-                  ))}
-                </select>
-              </label>
-            </div>
+            <label>
+              <span>Bars</span>
+              <select value={settings.numBars} onChange={(event) => setSettings({ ...settings, numBars: Number(event.target.value) })}>
+                {validBarOptions.map((option) => (
+                  <option key={option} value={option}>
+                    {option}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-            <ContextExplanationCard explanation={JAZZ_MODE_EXPLANATIONS[initialMode]} />
-
-            <section className="progression-strip" aria-label="Current progression preview">
-              <p className="progression-strip__label">Current progression</p>
-              <p className="progression-strip__value">{progressionPreview}</p>
-            </section>
-
-            {viewMode === "Advanced" ? (
-              <details open>
-                <summary>Advanced settings</summary>
-                <div className="field-grid field-grid--three">
-                  <label>
-                    <span>Time signature</span>
-                    <select value={settings.timeSignature} onChange={(event) => setSettings({ ...settings, timeSignature: event.target.value as JazzSettings["timeSignature"] })}>
-                      {JAZZ_TIME_SIGNATURES.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Tempo guide</span>
-                    <input type="text" readOnly value={displayedTempo} />
-                  </label>
-                  <label>
-                    <span>Seed</span>
-                    <input type="text" value={settings.seed} onChange={(event) => setSettings({ ...settings, seed: event.target.value.replace(/[^0-9]/g, "") })} placeholder="Auto-generate on new" />
-                  </label>
-                  <label>
-                    <span>Lowest note</span>
-                    <select value={settings.lowestNote} onChange={(event) => setSettings({ ...settings, lowestNote: event.target.value })}>
-                      {lowestNoteOptions.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Highest note</span>
-                    <select value={settings.highestNote} onChange={(event) => setSettings({ ...settings, highestNote: event.target.value })}>
-                      {highestNoteOptions.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="checkbox">
-                    <input
-                      type="checkbox"
-                      checked={settings.swingFeel}
-                      disabled={!supportsSwingFeel(initialMode)}
-                      onChange={(event) => setSettings({ ...settings, swingFeel: event.target.checked })}
-                    />
-                    <span>Swing feel</span>
-                  </label>
-                </div>
-              </details>
-            ) : null}
-
-            <div className="button-row">
-              <button type="button" className="button button--primary" onClick={() => generate(false)} disabled={Boolean(blockingSettingsError)}>
-                Generate new seed
-              </button>
-              <button type="button" className="button button--ghost" onClick={() => generate(true)} disabled={Boolean(blockingSettingsError)}>
-                Regenerate current seed
-              </button>
-            </div>
-
-            <SettingsSummary items={summary} />
-            {blockingSettingsError ? <div className="notice notice--error">{blockingSettingsError}</div> : null}
-            {!blockingSettingsError && state.error ? <div className="notice notice--error">{state.error}</div> : null}
-            {state.notice ? <div className="notice notice--success">{state.notice}</div> : null}
-          </ExerciseControls>
-        </div>
-
-        <div className="stack">
-          <ScoreViewer title={state.title ?? modeLabel(initialMode)} musicXml={state.xml} onSvgReady={setSvg} />
-          {state.xml && state.title ? (
-            <section className="panel">
-              <div className="section-card__header">
-                <div>
-                  <p className="eyebrow">Actions</p>
-                  <h2>Save and export</h2>
-                </div>
+          {viewMode === "Advanced" ? (
+            <details open>
+              <summary>Advanced settings</summary>
+              <div className="field-grid field-grid--three">
+                <label>
+                  <span>Time signature</span>
+                  <select value={settings.timeSignature} onChange={(event) => setSettings({ ...settings, timeSignature: event.target.value as JazzSettings["timeSignature"] })}>
+                    {JAZZ_TIME_SIGNATURES.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Tempo guide</span>
+                  <input type="text" readOnly value={displayedTempo} />
+                </label>
+                <label>
+                  <span>Seed</span>
+                  <input type="text" value={settings.seed} onChange={(event) => setSettings({ ...settings, seed: event.target.value.replace(/[^0-9]/g, "") })} placeholder="Auto-generate on new" />
+                </label>
+                <label>
+                  <span>Lowest note</span>
+                  <select value={settings.lowestNote} onChange={(event) => setSettings({ ...settings, lowestNote: event.target.value })}>
+                    {lowestNoteOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Highest note</span>
+                  <select value={settings.highestNote} onChange={(event) => setSettings({ ...settings, highestNote: event.target.value })}>
+                    {highestNoteOptions.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="checkbox">
+                  <input
+                    type="checkbox"
+                    checked={settings.swingFeel}
+                    disabled={!supportsSwingFeel(initialMode)}
+                    onChange={(event) => setSettings({ ...settings, swingFeel: event.target.checked })}
+                  />
+                  <span>Swing feel</span>
+                </label>
               </div>
-              <ExportButtons
-                title={state.title}
-                musicXml={state.xml}
-                getSvg={() => svg}
-                defaultFormat={defaultExportFormat}
-                onSave={() => saveEntry(false)}
-                onFavorite={() => saveEntry(true)}
-                isSaved={state.entry?.saved}
-                isFavorite={state.entry?.favorite}
-              />
-            </section>
+            </details>
           ) : null}
-        </div>
+
+          <div className="button-row">
+            <button type="button" className="button button--primary" onClick={() => generate(false)} disabled={Boolean(blockingSettingsError)}>
+              Generate new seed
+            </button>
+            <button type="button" className="button button--ghost" onClick={() => generate(true)} disabled={Boolean(blockingSettingsError)}>
+              Regenerate current seed
+            </button>
+          </div>
+        </ExerciseControls>
+
+        <PracticeWorkspace
+          title={state.title ?? modeLabel(initialMode)}
+          description="Keep the harmonic concept, score, and progression preview together while you regenerate. The page stays centered on one musical idea at a time."
+          musicXml={state.xml}
+          onSvgReady={setSvg}
+          summaryItems={summaryItems}
+          explanation={JAZZ_MODE_EXPLANATIONS[initialMode]}
+          focusBlock={{ label: "Current progression", value: progressionPreview }}
+          exports={state.xml && state.title ? (
+            <ExportButtons
+              title={state.title}
+              musicXml={state.xml}
+              getSvg={() => svg}
+              defaultFormat={defaultExportFormat}
+              onSave={() => saveEntry(false)}
+              onFavorite={() => saveEntry(true)}
+              isSaved={state.entry?.saved}
+              isFavorite={state.entry?.favorite}
+            />
+          ) : undefined}
+          notices={
+            <>
+              {blockingSettingsError ? <div className="notice notice--error">{blockingSettingsError}</div> : null}
+              {!blockingSettingsError && state.error ? <div className="notice notice--error">{state.error}</div> : null}
+              {state.notice ? <div className="notice notice--success">{state.notice}</div> : null}
+            </>
+          }
+        />
       </div>
     </>
   );

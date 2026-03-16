@@ -31,6 +31,23 @@ export default function JazzLandingPage() {
         }
       />
 
+      <SectionCard title="Choose a jazz path" accent>
+        <div className="practice-workspace__summary">
+          <div className="practice-workspace__summary-item">
+            <span>Guided session</span>
+            <strong>One coherent key across the whole workout</strong>
+          </div>
+          <div className="practice-workspace__summary-item">
+            <span>Direct mode</span>
+            <strong>Repeat one jazz concept with a score-first workspace</strong>
+          </div>
+          <div className="practice-workspace__summary-item">
+            <span>Library</span>
+            <strong>Keep strong lines and revisit them later</strong>
+          </div>
+        </div>
+      </SectionCard>
+
       <div className="jazz-grid">
         <PracticeCard
           title="Guided Daily Practice"
@@ -41,7 +58,7 @@ export default function JazzLandingPage() {
           icon={<IconSparkles size={22} />}
         />
 
-        <SectionCard title="Direct Jazz Modes" description="Open one mode when you want to repeat a single concept without the full guided flow.">
+        <SectionCard title="Direct jazz modes" description="Open one mode when you want to repeat a single concept without the full guided flow.">
           <div className="mode-list">
             {JAZZ_MODE_OPTIONS.map((mode) => (
               <PracticeCard
@@ -52,17 +69,13 @@ export default function JazzLandingPage() {
                 actionLabel="Open mode"
                 icon={<IconMusic size={20} />}
               >
-                <div className="meta-row">
-                  <span className="chip">Explanation</span>
-                  <span className="chip">Generator</span>
-                  <span className="chip">Score output</span>
-                </div>
+                <p className="muted">Explanation, progression context, and score output live in one workspace.</p>
               </PracticeCard>
             ))}
           </div>
         </SectionCard>
 
-        <SectionCard title="How to Use Jazz Practice" description="Practice slowly, stay in the score, and let the harmonic logic lead the repetition.">
+        <SectionCard title="How to use jazz practice" description="Practice slowly, stay in the score, and let the harmonic logic lead the repetition.">
           <ul className="guidance-list">
             <li>Start with Guided Daily Practice if you want the app to decide what to work on next.</li>
             <li>Use one direct mode when you want to stay with the same idea across several regenerations.</li>

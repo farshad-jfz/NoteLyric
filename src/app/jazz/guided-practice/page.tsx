@@ -3,15 +3,18 @@
 import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 
-import type { ExportFormat, LibraryEntry, PracticeSession, PracticeStep } from "@/lib/app/types";
-import { defaultAppSettings, loadAppSettings, loadDailySession, recordExerciseHistory, saveDailySession, storeCompletedSession, upsertLibraryEntry } from "@/lib/app/storage";
-import ExportButtons from "@/components/ExportButtons";
+import type { PracticeSession, PracticeStep } from "@/lib/app/types";
+import { defaultAppSettings, loadAppSettings, loadDailySession, saveDailySession, storeCompletedSession } from "@/lib/app/storage";
+import ContextExplanationCard from "@/components/ContextExplanationCard";
 import ScoreViewer from "@/components/ScoreViewer";
 import PageHeader from "@/components/ui/PageHeader";
 import SectionCard from "@/components/ui/SectionCard";
 import TimerPill from "@/components/ui/TimerPill";
 import { usePracticeTimer } from "@/hooks/usePracticeTimer";
+import type { ContextExplanation } from "@/lib/music/education";
+import { CHORD_EXPLANATIONS, SCALE_EXPLANATIONS } from "@/lib/music/education";
 import { generatePracticeSession, getTodayDateKey } from "@/lib/guidedPractice/session";
+import { JAZZ_MODE_EXPLANATIONS } from "@/lib/music/jazz";
 import { exerciseToMusicXml } from "@/lib/music/xmlBuilder";
 
 const hydrateSession = (): PracticeSession => {
@@ -28,14 +31,85 @@ const formatStatusLabel = (value: string): string =>
     .map((part) => part.charAt(0).toUpperCase() + part.slice(1))
     .join(" ");
 
+const metadataText = (step: PracticeStep | undefined, key: string): string | undefined => {
+  if (!step) return undefined;
+  const value = step.exercise.metadata[key];
+  return value === undefined || value === null ? undefined : String(value);
+};
+
+const explanationForStep = (step: PracticeStep | undefined): ContextExplanation | undefined => {
+  if (!step) return undefined;
+
+  if (step.exercise.type === "jazz" && step.jazzMode) {
+    return JAZZ_MODE_EXPLANATIONS[step.jazzMode];
+  }
+
+  if (step.exercise.type === "scale") {
+    const scaleType = metadataText(step, "scaleType");
+    if (scaleType && SCALE_EXPLANATIONS[scaleType]) {
+      return SCALE_EXPLANATIONS[scaleType];
+    }
+  }
+
+  if (step.exercise.type === "chord") {
+    const chordType = metadataText(step, "chordType");
+    if (chordType && CHORD_EXPLANATIONS[chordType]) {
+      return CHORD_EXPLANATIONS[chordType];
+    }
+  }
+
+  if (step.kind === "creative") {
+    return {
+      title: "Creative Response",
+      definition: "Use the written material as a starting point, then shape it into something that sounds conversational and musical.",
+      formulaLabel: "Focus",
+      formula: "Repeat the idea, vary the ending, then leave a little space.",
+      example: "Play the phrase once, answer it with a shorter variation.",
+      tip: "Aim for clear phrasing before adding extra notes."
+    };
+  }
+
+  return undefined;
+};
+
+const focusInfoForStep = (step: PracticeStep | undefined): { label: string; value: string } | undefined => {
+  if (!step) return undefined;
+
+  if (step.exercise.measureAnnotations?.length) {
+    return {
+      label: "Current progression",
+      value: step.exercise.measureAnnotations.join(" | ")
+    };
+  }
+
+  if (step.exercise.type === "scale") {
+    const root = metadataText(step, "root");
+    const scaleType = metadataText(step, "scaleType");
+    const direction = metadataText(step, "direction");
+    return {
+      label: "Current pattern",
+      value: [root, scaleType, direction].filter(Boolean).join(" - ")
+    };
+  }
+
+  if (step.exercise.type === "chord") {
+    const root = metadataText(step, "root");
+    const chordType = metadataText(step, "chordType");
+    const pattern = metadataText(step, "pattern");
+    return {
+      label: "Current pattern",
+      value: [root, chordType, pattern].filter(Boolean).join(" - ")
+    };
+  }
+
+  return undefined;
+};
+
 export default function GuidedPracticePage() {
   const [session, setSession] = useState<PracticeSession | null>(null);
   const [activeStepId, setActiveStepId] = useState<string | undefined>();
-  const [svg, setSvg] = useState<string | undefined>();
-  const [defaultExportFormat, setDefaultExportFormat] = useState<ExportFormat>(defaultAppSettings.defaultExportFormat);
-  const [entry, setEntry] = useState<LibraryEntry | undefined>();
-  const [notice, setNotice] = useState<string | undefined>();
   const [loadError, setLoadError] = useState<string | undefined>();
+  const [notice, setNotice] = useState<string | undefined>();
   const timer = usePracticeTimer(session?.status === "in-progress");
 
   const focusStep = (stepId: string | undefined) => {
@@ -46,8 +120,6 @@ export default function GuidedPracticePage() {
 
   const loadSession = () => {
     try {
-      const settings = loadAppSettings();
-      setDefaultExportFormat(settings.defaultExportFormat);
       const nextSession = hydrateSession();
       setSession(nextSession);
       setActiveStepId(nextSession.activeStepId ?? nextSession.steps[0]?.stepId);
@@ -78,23 +150,33 @@ export default function GuidedPracticePage() {
     return session.steps.findIndex((step) => step.stepId === activeStep.stepId);
   }, [activeStep, session]);
 
+  const currentExplanation = useMemo(() => explanationForStep(activeStep), [activeStep]);
+  const currentFocusInfo = useMemo(() => focusInfoForStep(activeStep), [activeStep]);
   const activeXml = activeStep ? exerciseToMusicXml(activeStep.exercise) : undefined;
 
-  const updateStepStatus = (stepId: string, status: PracticeStep["status"]) => {
+  const advanceToNeighbor = (current: PracticeSession, stepId: string): string | undefined => {
+    const index = current.steps.findIndex((step) => step.stepId === stepId);
+    if (index < 0) return current.activeStepId;
+    return current.steps[index + 1]?.stepId ?? current.steps[index - 1]?.stepId ?? stepId;
+  };
+
+  const updateStepStatus = (stepId: string, status: PracticeStep["status"], options?: { advance?: boolean }) => {
     setSession((current) => {
       if (!current) return current;
       const nextSteps = current.steps.map((step) => (step.stepId === stepId ? { ...step, status } : step));
       const completed = nextSteps.every((step) => step.status === "completed" || step.status === "skipped");
+      const nextActiveStepId = options?.advance ? advanceToNeighbor({ ...current, steps: nextSteps }, stepId) : stepId;
+      setActiveStepId(nextActiveStepId);
+
       return {
         ...current,
-        activeStepId: stepId,
+        activeStepId: nextActiveStepId,
         status: completed ? "completed" : "in-progress",
         startedAt: current.startedAt ?? new Date().toISOString(),
         completedAt: completed ? new Date().toISOString() : current.completedAt,
         steps: nextSteps
       };
     });
-    setActiveStepId(stepId);
   };
 
   const moveStep = (direction: -1 | 1) => {
@@ -110,14 +192,16 @@ export default function GuidedPracticePage() {
     updateStepStatus(step.stepId, "in-progress");
   };
 
-  const saveCurrentStep = (favorite = false) => {
+  const completeCurrentStep = () => {
     if (!activeStep) return;
-    const historyEntry = recordExerciseHistory(activeStep.exercise, "guided-practice");
-    const nextEntry = favorite
-      ? upsertLibraryEntry({ ...historyEntry, exercise: activeStep.exercise, source: "guided-practice", saved: true, favorite: !historyEntry.favorite })
-      : upsertLibraryEntry({ ...historyEntry, exercise: activeStep.exercise, source: "guided-practice", saved: true });
-    setEntry(nextEntry);
-    setNotice(favorite ? (nextEntry.favorite ? "Step added to favorites." : "Favorite removed.") : "Step saved to Library.");
+    setNotice("Step completed. Moving to the next focus.");
+    updateStepStatus(activeStep.stepId, "completed", { advance: true });
+  };
+
+  const skipCurrentStep = () => {
+    if (!activeStep) return;
+    setNotice("Step skipped. Moving forward in the session.");
+    updateStepStatus(activeStep.stepId, "skipped", { advance: true });
   };
 
   const completeSession = () => {
@@ -133,7 +217,6 @@ export default function GuidedPracticePage() {
       const next = generatePracticeSession(loadAppSettings(), getTodayDateKey());
       setSession(next);
       setActiveStepId(next.steps[0]?.stepId);
-      setEntry(undefined);
       setLoadError(undefined);
       setNotice("Today's practice was regenerated.");
     } catch (error) {
@@ -217,40 +300,63 @@ export default function GuidedPracticePage() {
                 </div>
               </div>
 
-              <div className="guided-overview__meta">
-                <span className="chip">Key {session.key}</span>
-                <span className="chip">{session.difficulty}</span>
-                <span className="chip">{session.estimatedMinutes} min</span>
-                <span className="chip">{formatStatusLabel(session.status)}</span>
-                <span className="chip">{activeStep.minutes} min focus</span>
-                <span className="chip">{formatStatusLabel(activeStep.status)}</span>
-                {activeStep.jazzMode ? <span className="chip">{activeStep.jazzMode}</span> : null}
+              <ScoreViewer musicXml={activeXml} hideHeader />
+
+              <div className="guided-overview__summary">
+                <div className="guided-overview__summary-item">
+                  <span>Session key</span>
+                  <strong>{session.key}</strong>
+                </div>
+                <div className="guided-overview__summary-item">
+                  <span>Level</span>
+                  <strong>{session.difficulty}</strong>
+                </div>
+                <div className="guided-overview__summary-item">
+                  <span>Session status</span>
+                  <strong>{formatStatusLabel(session.status)}</strong>
+                </div>
+                <div className="guided-overview__summary-item">
+                  <span>Current step</span>
+                  <strong>{formatStatusLabel(activeStep.status)}</strong>
+                </div>
+                <div className="guided-overview__summary-item">
+                  <span>Step time</span>
+                  <strong>{activeStep.minutes} min</strong>
+                </div>
+                <div className="guided-overview__summary-item">
+                  <span>Total session</span>
+                  <strong>{session.estimatedMinutes} min</strong>
+                </div>
               </div>
+
+              {(currentExplanation || currentFocusInfo) ? (
+                <div className="guided-overview__context-grid">
+                  {currentExplanation ? <ContextExplanationCard explanation={currentExplanation} /> : null}
+                  {currentFocusInfo ? (
+                    <section className="progression-strip" aria-label={currentFocusInfo.label}>
+                      <p className="progression-strip__label">{currentFocusInfo.label}</p>
+                      <p className="progression-strip__value">{currentFocusInfo.value}</p>
+                    </section>
+                  ) : null}
+                </div>
+              ) : null}
 
               <div className="guided-overview__nav">
                 <div className="guided-overview__nav-copy">
                   <h3>Move through the session</h3>
-                  <p>Use the step controls to navigate, then start or complete the current focus when you are ready.</p>
+                  <p>Finish or skip the current focus to move forward. Use previous when you want to revisit an earlier step.</p>
                 </div>
                 <div className="guided-overview__actions">
                   <button type="button" className="button button--ghost" onClick={() => moveStep(-1)} disabled={activeStepIndex <= 0}>
                     Previous step
                   </button>
-                  <button
-                    type="button"
-                    className="button button--ghost"
-                    onClick={() => moveStep(1)}
-                    disabled={activeStepIndex < 0 || activeStepIndex >= session.steps.length - 1}
-                  >
-                    Next step
-                  </button>
                   <button type="button" className="button button--primary" onClick={() => startStep(activeStep)}>
                     {activeStep.status === "not-started" ? "Start step" : "Resume step"}
                   </button>
-                  <button type="button" className="button button--ghost" onClick={() => updateStepStatus(activeStep.stepId, "completed")}>
+                  <button type="button" className="button button--ghost" onClick={completeCurrentStep}>
                     Mark complete
                   </button>
-                  <button type="button" className="button button--ghost" onClick={() => updateStepStatus(activeStep.stepId, "skipped")}>
+                  <button type="button" className="button button--ghost" onClick={skipCurrentStep}>
                     Skip
                   </button>
                 </div>
@@ -269,31 +375,6 @@ export default function GuidedPracticePage() {
             </div>
           ) : null}
         </SectionCard>
-
-        {activeStep ? (
-          <div className="stack">
-            <ScoreViewer title={activeStep.exercise.title} musicXml={activeXml} onSvgReady={setSvg} />
-            <SectionCard title={activeStep.title} description={activeStep.description}>
-              <div className="summary-badges">
-                <span className="chip">{activeStep.minutes} min</span>
-                <span className="chip">{formatStatusLabel(activeStep.status)}</span>
-                <span className="chip">{activeStep.exercise.timeSignature}</span>
-              </div>
-              {activeXml ? (
-                <ExportButtons
-                  title={activeStep.exercise.title}
-                  musicXml={activeXml}
-                  getSvg={() => svg}
-                  defaultFormat={defaultExportFormat}
-                  onSave={() => saveCurrentStep(false)}
-                  onFavorite={() => saveCurrentStep(true)}
-                  isSaved={entry?.saved}
-                  isFavorite={entry?.favorite}
-                />
-              ) : null}
-            </SectionCard>
-          </div>
-        ) : null}
       </div>
     </>
   );

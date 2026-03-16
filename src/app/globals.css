@@ -430,7 +430,7 @@ input[type="checkbox"] {
 }
 
 .exercise-layout {
-  grid-template-columns: minmax(0, 1.05fr) minmax(0, 1.25fr);
+  grid-template-columns: 1fr;
   align-items: start;
 }
 
@@ -469,7 +469,13 @@ input[type="checkbox"] {
   color: #d1fae5;
 }
 
-.score-surface {
+
+.score-panel--minimal {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  box-shadow: none;
+}.score-surface {
   min-height: 19rem;
   overflow-x: auto;
   padding: 1rem;
@@ -766,10 +772,43 @@ summary {
   background: rgba(148, 163, 184, 0.4);
 }
 
-.guided-overview__meta {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 0.75rem;
+.guided-overview__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.guided-overview__summary-item {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.guided-overview__summary-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.guided-overview__summary-item strong {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.guided-overview__context-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.guided-overview__context-grid .context-card,
+.guided-overview__context-grid .progression-strip {
+  height: 100%;
 }
 
 .guided-overview__nav {
@@ -811,6 +850,23 @@ summary {
 
 @media (max-width: 920px) {
   .guided-overview__hero,
+  .guided-overview__nav,
+  .guided-overview__context-grid,
+  .guided-overview__summary {
+    grid-template-columns: 1fr;
+  }
+
+  .guided-overview__progress,
+  .guided-overview__actions {
+    justify-items: start;
+    justify-content: flex-start;
+  }
+
+  .guided-overview__dots {
+    justify-content: flex-start;
+  }
+}@media (max-width: 920px) {
+  .guided-overview__hero,
   .guided-overview__nav {
     grid-template-columns: 1fr;
   }
@@ -823,5 +879,100 @@ summary {
 
   .guided-overview__dots {
     justify-content: flex-start;
+  }
+}
+.practice-workspace {
+  display: grid;
+  gap: 1rem;
+}
+
+.practice-workspace__hero {
+  display: grid;
+  gap: 0.6rem;
+  padding: 1.15rem;
+  border-radius: 1.25rem;
+  border: 1px solid rgba(125, 211, 252, 0.18);
+  background:
+    radial-gradient(circle at top right, rgba(125, 211, 252, 0.12), transparent 34%),
+    linear-gradient(180deg, rgba(9, 29, 44, 0.96), rgba(8, 22, 35, 0.95));
+}
+
+.practice-workspace__eyebrow {
+  margin: 0;
+  color: #7dd3fc;
+  font-size: 0.76rem;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  font-weight: 700;
+}
+
+.practice-workspace__title {
+  margin: 0;
+  font-size: clamp(1.35rem, 2.8vw, 1.9rem);
+  line-height: 1.05;
+}
+
+.practice-workspace__description {
+  margin: 0;
+  color: var(--muted);
+  max-width: 42rem;
+  line-height: 1.65;
+}
+
+.practice-workspace__summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.8rem;
+}
+
+.practice-workspace__summary-item {
+  display: grid;
+  gap: 0.25rem;
+  padding: 0.95rem 1rem;
+  border-radius: 1rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.practice-workspace__summary-item span {
+  color: var(--muted);
+  font-size: 0.82rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.practice-workspace__summary-item strong {
+  font-size: 1.05rem;
+  line-height: 1.2;
+}
+
+.practice-workspace__context-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.15fr) minmax(0, 0.85fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.practice-workspace__context-grid .context-card,
+.practice-workspace__context-grid .progression-strip {
+  height: 100%;
+}
+
+.practice-workspace__actions,
+.practice-workspace__exports,
+.practice-workspace__notices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+}
+
+.practice-workspace__exports,
+.practice-workspace__notices {
+  display: grid;
+}
+@media (max-width: 920px) {
+  .practice-workspace__summary,
+  .practice-workspace__context-grid {
+    grid-template-columns: 1fr;
   }
 }

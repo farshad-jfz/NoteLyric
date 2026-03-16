@@ -7,9 +7,10 @@ type Props = {
   musicXml?: string;
   title?: string;
   onSvgReady?: (svg?: string) => void;
+  hideHeader?: boolean;
 };
 
-export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
+export default function ScoreViewer({ musicXml, title, onSvgReady, hideHeader = false }: Props) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [error, setError] = useState<string | undefined>();
 
@@ -39,13 +40,15 @@ export default function ScoreViewer({ musicXml, title, onSvgReady }: Props) {
   }, [musicXml, onSvgReady]);
 
   return (
-    <section className="panel score-panel">
-      <div className="score-panel__header">
-        <div>
-          <p className="eyebrow">Score</p>
-          <h2>{title ?? "Score viewer"}</h2>
+    <section className={hideHeader ? "score-panel score-panel--minimal" : "panel score-panel"}>
+      {!hideHeader ? (
+        <div className="score-panel__header">
+          <div>
+            <p className="eyebrow">Score</p>
+            <h2>{title ?? "Score viewer"}</h2>
+          </div>
         </div>
-      </div>
+      ) : null}
       {error ? (
         <div className="notice notice--error">
           <IconAlertCircle size={18} />

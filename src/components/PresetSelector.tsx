@@ -4,10 +4,9 @@ type Props = {
   presets: string[];
   selected: string;
   onSelect: (name: string) => void;
-  onApply: () => void;
 };
 
-export default function PresetSelector({ presets, selected, onSelect, onApply }: Props) {
+export default function PresetSelector({ presets, selected, onSelect }: Props) {
   return (
     <div className="inline-fields">
       <label className="field field--grow">
@@ -18,9 +17,6 @@ export default function PresetSelector({ presets, selected, onSelect, onApply }:
           ))}
         </select>
       </label>
-      <button type="button" className="button button--ghost" onClick={onApply}>
-        Apply preset
-      </button>
     </div>
   );
 }

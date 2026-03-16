@@ -5,14 +5,11 @@ import { useEffect, useMemo, useState } from "react";
 import type { ExportFormat, LibraryEntry } from "@/lib/app/types";
 import { appDefaultsForChord } from "@/lib/app/defaults";
 import { defaultAppSettings, loadAppSettings, recordExerciseHistory, updateLibraryEntry } from "@/lib/app/storage";
-import ContextExplanationCard from "@/components/ContextExplanationCard";
 import ExerciseControls from "@/components/ExerciseControls";
 import ExportButtons from "@/components/ExportButtons";
+import PracticeWorkspace from "@/components/PracticeWorkspace";
 import PresetSelector from "@/components/PresetSelector";
-import ScoreViewer from "@/components/ScoreViewer";
-import SettingsSummary from "@/components/SettingsSummary";
 import PageHeader from "@/components/ui/PageHeader";
-import SectionCard from "@/components/ui/SectionCard";
 import TimerPill from "@/components/ui/TimerPill";
 import { usePracticeTimer } from "@/hooks/usePracticeTimer";
 import { useRegenerateShortcut } from "@/hooks/useRegenerateShortcut";
@@ -69,8 +66,9 @@ export default function ChordsPage() {
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ mode, settings }));
   }, [mode, ready, settings]);
 
-  const applyPreset = () => {
-    setSettings((current) => ({ ...current, ...chordPresets[presetName] }));
+  const handlePresetSelect = (name: string) => {
+    setPresetName(name);
+    setSettings((current) => ({ ...current, ...chordPresets[name] }));
   };
 
   const saveEntry = (favorite = false) => {
@@ -92,14 +90,14 @@ export default function ChordsPage() {
 
   useRegenerateShortcut(generate, ready);
 
-  const summary = useMemo(
+  const summaryItems = useMemo(
     () => [
-      `${settings.root} ${settings.chordType}`,
-      settings.pattern === "Up and Down" ? "Ascend + Descend" : settings.pattern,
-      `${settings.octaveSpan} oct`,
-      settings.timeSignature,
-      settings.noteValue,
-      `range ${settings.lowestNote}-${settings.highestNote}`
+      { label: "Root", value: settings.root },
+      { label: "Chord", value: settings.chordType },
+      { label: "Pattern", value: settings.pattern === "Up and Down" ? "Ascend and descend" : settings.pattern },
+      { label: "Octaves", value: `${settings.octaveSpan}` },
+      { label: "Rhythm", value: `${settings.noteValue} in ${settings.timeSignature}` },
+      { label: "Range", value: `${settings.lowestNote}-${settings.highestNote}` }
     ],
     [settings]
   );
@@ -109,132 +107,134 @@ export default function ChordsPage() {
       <PageHeader
         eyebrow="Practice"
         title="Chords / Arpeggios"
-        description="Arpeggios help you hear and feel chord tones directly. Use this page when you want structured harmonic drill work without the full jazz workflow."
+        description="Arpeggios help you hear and feel chord tones directly. This page keeps the score, harmonic explanation, and current pattern together so the drill stays focused."
         actions={<TimerPill label="Practice timer" value={timer} />}
       />
 
       <div className="exercise-layout">
-        <div className="stack">
-          <ExerciseControls title="Chords / Arpeggios" mode={mode} onModeChange={setMode}>
-            <PresetSelector presets={Object.keys(chordPresets)} selected={presetName} onSelect={setPresetName} onApply={applyPreset} />
+        <ExerciseControls title="Chords / Arpeggios" mode={mode} onModeChange={setMode}>
+          <PresetSelector presets={Object.keys(chordPresets)} selected={presetName} onSelect={handlePresetSelect} />
 
-            <div className="field-grid">
-              <label>
-                <span>Root note</span>
-                <select value={settings.root} onChange={(event) => setSettings({ ...settings, root: event.target.value })}>
-                  {ROOT_OPTIONS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Chord type</span>
-                <select value={settings.chordType} onChange={(event) => setSettings({ ...settings, chordType: event.target.value })}>
-                  {CHORD_TYPES.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Pattern</span>
-                <select value={settings.pattern} onChange={(event) => setSettings({ ...settings, pattern: event.target.value as ChordSettings["pattern"] })}>
-                  {ARPEGGIO_PATTERNS.map((option) => (
-                    <option key={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
-              <label>
-                <span>Octave span</span>
-                <select value={settings.octaveSpan} onChange={(event) => setSettings({ ...settings, octaveSpan: Number(event.target.value) })}>
-                  {[1, 2].map((option) => (
-                    <option key={option} value={option}>{option}</option>
-                  ))}
-                </select>
-              </label>
-            </div>
+          <div className="field-grid">
+            <label>
+              <span>Root note</span>
+              <select value={settings.root} onChange={(event) => setSettings({ ...settings, root: event.target.value })}>
+                {ROOT_OPTIONS.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Chord type</span>
+              <select value={settings.chordType} onChange={(event) => setSettings({ ...settings, chordType: event.target.value })}>
+                {CHORD_TYPES.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Pattern</span>
+              <select value={settings.pattern} onChange={(event) => setSettings({ ...settings, pattern: event.target.value as ChordSettings["pattern"] })}>
+                {ARPEGGIO_PATTERNS.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
+            <label>
+              <span>Octave span</span>
+              <select value={settings.octaveSpan} onChange={(event) => setSettings({ ...settings, octaveSpan: Number(event.target.value) })}>
+                {[1, 2].map((option) => (
+                  <option key={option} value={option}>{option}</option>
+                ))}
+              </select>
+            </label>
+          </div>
 
-            <ContextExplanationCard explanation={CHORD_EXPLANATIONS[settings.chordType]} />
-
-            {mode === "Advanced" ? (
-              <details open>
-                <summary>Advanced settings</summary>
-                <div className="field-grid field-grid--three">
-                  <label>
-                    <span>Time signature</span>
-                    <select value={settings.timeSignature} onChange={(event) => setSettings({ ...settings, timeSignature: event.target.value as ChordSettings["timeSignature"] })}>
-                      {TIME_SIGNATURES.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Note value</span>
-                    <select value={settings.noteValue} onChange={(event) => setSettings({ ...settings, noteValue: event.target.value as ChordSettings["noteValue"] })}>
-                      {(["half", "quarter", "eighth"] as const).map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Lowest note</span>
-                    <select value={settings.lowestNote} onChange={(event) => setSettings({ ...settings, lowestNote: event.target.value })}>
-                      {NOTE_OPTIONS.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label>
-                    <span>Highest note</span>
-                    <select value={settings.highestNote} onChange={(event) => setSettings({ ...settings, highestNote: event.target.value })}>
-                      {NOTE_OPTIONS.map((option) => (
-                        <option key={option}>{option}</option>
-                      ))}
-                    </select>
-                  </label>
-                  <label className="checkbox">
-                    <input type="checkbox" checked={settings.showNoteNames} onChange={(event) => setSettings({ ...settings, showNoteNames: event.target.checked })} />
-                    <span>Show note names</span>
-                  </label>
-                  <label className="checkbox">
-                    <input type="checkbox" checked={settings.showChordTones} onChange={(event) => setSettings({ ...settings, showChordTones: event.target.checked })} />
-                    <span>Show chord tones</span>
-                  </label>
-                  <label className="checkbox">
-                    <input type="checkbox" checked={settings.showScaleDegrees} onChange={(event) => setSettings({ ...settings, showScaleDegrees: event.target.checked })} />
-                    <span>Show scale degrees</span>
-                  </label>
-                </div>
-              </details>
-            ) : null}
-
-            <div className="button-row">
-              <button type="button" className="button button--primary" onClick={generate}>Generate exercise</button>
-              <button type="button" className="button button--ghost" onClick={generate}>Regenerate</button>
-            </div>
-
-            <SettingsSummary items={summary} />
-            {state.error ? <div className="notice notice--error">{state.error}</div> : null}
-            {state.notice ? <div className="notice notice--success">{state.notice}</div> : null}
-          </ExerciseControls>
-        </div>
-
-        <div className="stack">
-          <ScoreViewer title={state.title} musicXml={state.xml} onSvgReady={setSvg} />
-          {state.xml && state.title ? (
-            <SectionCard title="Save and export" description="Use Library for repeat drills and quick export when you want a portable copy.">
-              <ExportButtons
-                title={state.title}
-                musicXml={state.xml}
-                getSvg={() => svg}
-                defaultFormat={defaultExportFormat}
-                onSave={() => saveEntry(false)}
-                onFavorite={() => saveEntry(true)}
-                isSaved={state.entry?.saved}
-                isFavorite={state.entry?.favorite}
-              />
-            </SectionCard>
+          {mode === "Advanced" ? (
+            <details open>
+              <summary>Advanced settings</summary>
+              <div className="field-grid field-grid--three">
+                <label>
+                  <span>Time signature</span>
+                  <select value={settings.timeSignature} onChange={(event) => setSettings({ ...settings, timeSignature: event.target.value as ChordSettings["timeSignature"] })}>
+                    {TIME_SIGNATURES.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Note value</span>
+                  <select value={settings.noteValue} onChange={(event) => setSettings({ ...settings, noteValue: event.target.value as ChordSettings["noteValue"] })}>
+                    {(["half", "quarter", "eighth"] as const).map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Lowest note</span>
+                  <select value={settings.lowestNote} onChange={(event) => setSettings({ ...settings, lowestNote: event.target.value })}>
+                    {NOTE_OPTIONS.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label>
+                  <span>Highest note</span>
+                  <select value={settings.highestNote} onChange={(event) => setSettings({ ...settings, highestNote: event.target.value })}>
+                    {NOTE_OPTIONS.map((option) => (
+                      <option key={option}>{option}</option>
+                    ))}
+                  </select>
+                </label>
+                <label className="checkbox">
+                  <input type="checkbox" checked={settings.showNoteNames} onChange={(event) => setSettings({ ...settings, showNoteNames: event.target.checked })} />
+                  <span>Show note names</span>
+                </label>
+                <label className="checkbox">
+                  <input type="checkbox" checked={settings.showChordTones} onChange={(event) => setSettings({ ...settings, showChordTones: event.target.checked })} />
+                  <span>Show chord tones</span>
+                </label>
+                <label className="checkbox">
+                  <input type="checkbox" checked={settings.showScaleDegrees} onChange={(event) => setSettings({ ...settings, showScaleDegrees: event.target.checked })} />
+                  <span>Show scale degrees</span>
+                </label>
+              </div>
+            </details>
           ) : null}
-        </div>
+
+          <div className="button-row">
+            <button type="button" className="button button--primary" onClick={generate}>Generate exercise</button>
+            <button type="button" className="button button--ghost" onClick={generate}>Regenerate</button>
+          </div>
+        </ExerciseControls>
+
+        <PracticeWorkspace
+          title={state.title ?? `${settings.root} ${settings.chordType}`}
+          description="Keep the harmony guide and the written pattern visible while you regenerate. The page is tuned for focused chord-tone repetition, not menu hunting."
+          musicXml={state.xml}
+          onSvgReady={setSvg}
+          summaryItems={summaryItems}
+          explanation={CHORD_EXPLANATIONS[settings.chordType]}
+          focusBlock={{ label: "Current pattern", value: `${settings.root} - ${settings.chordType} - ${settings.pattern}` }}
+          exports={state.xml && state.title ? (
+            <ExportButtons
+              title={state.title}
+              musicXml={state.xml}
+              getSvg={() => svg}
+              defaultFormat={defaultExportFormat}
+              onSave={() => saveEntry(false)}
+              onFavorite={() => saveEntry(true)}
+              isSaved={state.entry?.saved}
+              isFavorite={state.entry?.favorite}
+            />
+          ) : undefined}
+          notices={
+            <>
+              {state.error ? <div className="notice notice--error">{state.error}</div> : null}
+              {state.notice ? <div className="notice notice--success">{state.notice}</div> : null}
+            </>
+          }
+        />
       </div>
     </>
   );
