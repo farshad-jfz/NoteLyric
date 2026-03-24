@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 
+import HelpInfoCard from "@/components/help/HelpInfoCard";
 import type { ExportFormat, LibraryEntry } from "@/lib/app/types";
 import { appDefaultsForJazz } from "@/lib/app/defaults";
 import { defaultAppSettings, loadAppSettings, recordExerciseHistory, updateLibraryEntry } from "@/lib/app/storage";
@@ -11,6 +12,7 @@ import PracticeWorkspace from "@/components/PracticeWorkspace";
 import PresetSelector from "@/components/PresetSelector";
 import PageHeader from "@/components/ui/PageHeader";
 import TimerPill from "@/components/ui/TimerPill";
+import { jazzHelpByMode } from "@/content/help/jazzHelp";
 import { usePracticeTimer } from "@/hooks/usePracticeTimer";
 import { useRegenerateShortcut } from "@/hooks/useRegenerateShortcut";
 import { generateJazzExercise, previewJazzProgression } from "@/lib/generators/jazz";
@@ -67,6 +69,7 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
   const [defaultExportFormat, setDefaultExportFormat] = useState<ExportFormat>(defaultAppSettings.defaultExportFormat);
   const [ready, setReady] = useState(false);
   const timer = usePracticeTimer(Boolean(state.xml));
+  const helpEntry = jazzHelpByMode[initialMode];
 
   useEffect(() => {
     const appSettings = loadAppSettings();
@@ -221,6 +224,19 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
         actions={<TimerPill label="Practice timer" value={timer} />}
       />
 
+      <HelpInfoCard
+        title={helpEntry.title}
+        shortDescription={helpEntry.shortDescription}
+        practiceTip={helpEntry.practiceTip}
+        collapsible
+        fullDescription={helpEntry.fullDescription}
+        detailsTitle={`More about ${helpEntry.title}`}
+        learnMoreHref={`/help#${helpEntry.id}`}
+      >
+        {helpEntry.theory ? <p className="help-copy">{helpEntry.theory}</p> : null}
+        {helpEntry.bestFor ? <p className="help-inline-meta">Best for: {helpEntry.bestFor}</p> : null}
+      </HelpInfoCard>
+
       <div className="exercise-layout">
         <ExerciseControls title={modeLabel(initialMode)} mode={viewMode} onModeChange={setViewMode}>
           <PresetSelector presets={Object.keys(jazzPresets)} selected={presetName} onSelect={handlePresetSelect} />
@@ -330,7 +346,6 @@ export default function JazzModePracticePage({ initialMode }: { initialMode: Jaz
           musicXml={state.xml}
           onSvgReady={setSvg}
           summaryItems={summaryItems}
-          explanation={JAZZ_MODE_EXPLANATIONS[initialMode]}
           focusBlock={{ label: "Current progression", value: progressionPreview }}
           exports={state.xml && state.title ? (
             <ExportButtons

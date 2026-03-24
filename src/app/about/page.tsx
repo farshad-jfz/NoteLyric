@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 import PageHeader from "@/components/ui/PageHeader";
 import SectionCard from "@/components/ui/SectionCard";
 
@@ -23,6 +25,15 @@ export default function AboutPage() {
             <li>Practice slowly first. The score should stay readable and relaxed before you speed anything up.</li>
             <li>Save strong outputs into Library so you can revisit them across sessions.</li>
           </ul>
+        </SectionCard>
+
+        <SectionCard title="Help and Learning" description="Layered help for Jazz Practice and Guided Daily Practice.">
+          <p className="page-header__description">The app now includes compact inline help on jazz exercise pages, section-level guidance on the Jazz and Guided Practice screens, and a full reference page when you want deeper explanations.</p>
+          <div className="button-row">
+            <Link href="/help" className="button button--ghost">
+              Open help center
+            </Link>
+          </div>
         </SectionCard>
 
         <SectionCard title="Credits and License" description="Built for harmonica study, rendered in the browser, and designed for repeatable daily use.">

@@ -2,7 +2,7 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { IconBook, IconHome, IconInfoCircle, IconLibrary, IconMusic, IconSettings } from "@tabler/icons-react";
+import { IconBook, IconHelpCircle, IconHome, IconInfoCircle, IconLibrary, IconMusic, IconSettings } from "@tabler/icons-react";
 import type { ReactNode } from "react";
 
 const LINKS = [
@@ -30,6 +30,10 @@ export default function AppChrome({ children }: { children: ReactNode }) {
           </Link>
 
           <nav className="app-shell__utility-nav" aria-label="Secondary">
+            <Link href="/help" className={isActive("/help") ? "utility-link utility-link--active" : "utility-link"}>
+              <IconHelpCircle size={16} />
+              Help
+            </Link>
             <Link href="/settings" className={isActive("/settings") ? "utility-link utility-link--active" : "utility-link"}>
               <IconSettings size={16} />
               Settings
@@ -62,4 +66,3 @@ export default function AppChrome({ children }: { children: ReactNode }) {
     </div>
   );
 }
-

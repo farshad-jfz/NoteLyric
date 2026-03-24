@@ -234,6 +234,13 @@ export default function GuidedPracticePage() {
           eyebrow="Guided Practice"
           title="Today's Practice"
           description="The app keeps one guided session per day. If generation fails, you can adjust settings and try again without crashing the page."
+          actions={
+            <div className="button-row">
+              <Link href="/help#guided-daily-practice" className="button button--ghost">
+                How it works
+              </Link>
+            </div>
+          }
         />
         <SectionCard title="Session unavailable" description={loadError ?? "Loading today's practice..."} accent>
           <div className="button-row">
@@ -242,6 +249,9 @@ export default function GuidedPracticePage() {
             </button>
             <Link href="/settings" className="button button--ghost">
               Open settings
+            </Link>
+            <Link href="/help#guided-daily-practice" className="button button--ghost">
+              Open help
             </Link>
           </div>
         </SectionCard>
@@ -255,7 +265,14 @@ export default function GuidedPracticePage() {
         eyebrow="Guided Practice"
         title="Today's Practice"
         description={`A structured ${session.estimatedMinutes} minute session in ${session.key}. Stay in one key, complete the steps in order, and use the score as the center of the workflow.`}
-        actions={<TimerPill label="Session timer" value={timer} />}
+        actions={
+          <div className="button-row">
+            <TimerPill label="Session timer" value={timer} />
+            <Link href="/help#guided-daily-practice" className="button button--ghost">
+              How it works
+            </Link>
+          </div>
+        }
       />
 
       <div className="guided-grid">
