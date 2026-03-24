@@ -86,7 +86,7 @@ export const clearDailySession = (): void => {
 };
 
 const deriveTags = (exercise: Exercise, source: LibraryEntry["source"]): string[] => {
-  const tags = [source, exercise.timeSignature];
+  const tags: string[] = [source, exercise.timeSignature];
   const key = typeof exercise.metadata.key === "string" ? exercise.metadata.key : exercise.keySignature;
   if (key) tags.push(String(key));
   const mode = typeof exercise.metadata.mode === "string" ? exercise.metadata.mode : undefined;
