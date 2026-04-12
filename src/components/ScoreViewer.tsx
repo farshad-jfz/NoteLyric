@@ -3,6 +3,8 @@
 import { IconAlertCircle } from "@tabler/icons-react";
 import { useEffect, useRef, useState } from "react";
 
+import { buildStandaloneScoreSvg } from "@/lib/rendering/export";
+
 type Props = {
   musicXml?: string;
   title?: string;
@@ -28,7 +30,7 @@ export default function ScoreViewer({ musicXml, title, onSvgReady, hideHeader = 
         const osmd = createOsmd(containerRef.current);
         await osmd.load(musicXml);
         osmd.render();
-        onSvgReady?.(containerRef.current.querySelector("svg")?.outerHTML);
+        onSvgReady?.(buildStandaloneScoreSvg(containerRef.current));
       } catch (issue) {
         const message = issue instanceof Error ? issue.message : "Score rendering failed.";
         setError(message);

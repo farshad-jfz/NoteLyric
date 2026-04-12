@@ -1,6 +1,7 @@
 "use client";
 
 import type { ExportFormat } from "@/lib/app/types";
+import { openPrintWindowForSvg } from "@/lib/rendering/export";
 
 type Props = {
   title: string;
@@ -18,8 +19,10 @@ const download = (blob: Blob, fileName: string) => {
   const anchor = document.createElement("a");
   anchor.href = url;
   anchor.download = fileName;
+  document.body.appendChild(anchor);
   anchor.click();
-  URL.revokeObjectURL(url);
+  anchor.remove();
+  window.setTimeout(() => URL.revokeObjectURL(url), 1000);
 };
 
 const svgToPng = async (svg: string): Promise<Blob> => {
@@ -49,12 +52,21 @@ const svgToPng = async (svg: string): Promise<Blob> => {
 };
 
 export default function ExportButtons({ title, musicXml, getSvg, defaultFormat = "png", onSave, onFavorite, isSaved, isFavorite }: Props) {
-  const safeName = title.toLowerCase().replace(/[^a-z0-9]+/g, "_");
+  const safeName = title.toLowerCase().replace(/[^a-z0-9]+/g, "_").replace(/^_+|_+$/g, "") || "exercise";
+
+  const withExportHandling = async (action: () => void | Promise<void>) => {
+    try {
+      await action();
+    } catch (issue) {
+      const message = issue instanceof Error ? issue.message : "Export failed.";
+      window.alert(message);
+    }
+  };
 
   const exportSvg = () => {
     const svg = getSvg();
     if (!svg) return;
-    download(new Blob([svg], { type: "image/svg+xml" }), `${safeName}.svg`);
+    download(new Blob([svg], { type: "image/svg+xml;charset=utf-8" }), `${safeName}.svg`);
   };
 
   const exportPng = async () => {
@@ -68,6 +80,12 @@ export default function ExportButtons({ title, musicXml, getSvg, defaultFormat =
     download(new Blob([musicXml], { type: "application/xml" }), `${safeName}.musicxml`);
   };
 
+  const exportPdf = () => {
+    const svg = getSvg();
+    if (!svg) return;
+    openPrintWindowForSvg(svg, title);
+  };
+
   const quickExport = () => {
     if (defaultFormat === "svg") {
       exportSvg();
@@ -78,7 +96,7 @@ export default function ExportButtons({ title, musicXml, getSvg, defaultFormat =
       return;
     }
     if (defaultFormat === "pdf") {
-      window.print();
+      exportPdf();
       return;
     }
     void exportPng();
@@ -86,19 +104,19 @@ export default function ExportButtons({ title, musicXml, getSvg, defaultFormat =
 
   return (
     <div className="action-cluster">
-      <button type="button" className="button button--primary" onClick={quickExport}>
+      <button type="button" className="button button--primary" onClick={() => void withExportHandling(quickExport)}>
         Quick export ({defaultFormat.toUpperCase()})
       </button>
-      <button type="button" className="button button--ghost" onClick={exportSvg}>
+      <button type="button" className="button button--ghost" onClick={() => void withExportHandling(exportSvg)}>
         Export SVG
       </button>
-      <button type="button" className="button button--ghost" onClick={() => void exportPng()}>
+      <button type="button" className="button button--ghost" onClick={() => void withExportHandling(exportPng)}>
         Export PNG
       </button>
       <button type="button" className="button button--ghost" onClick={exportMusicXml}>
         Export MusicXML
       </button>
-      <button type="button" className="button button--ghost" onClick={() => window.print()}>
+      <button type="button" className="button button--ghost" onClick={() => void withExportHandling(exportPdf)}>
         Print / PDF
       </button>
       {onSave ? (
