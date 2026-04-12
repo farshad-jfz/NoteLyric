@@ -475,13 +475,74 @@ input[type="checkbox"] {
   border: 0;
   background: transparent;
   box-shadow: none;
-}.score-surface {
+}
+
+.score-frame {
+  position: relative;
+}
+
+.score-surface {
   min-height: 19rem;
   overflow-x: auto;
   padding: 1rem;
   border-radius: 1.2rem;
   background: linear-gradient(180deg, #ffffff, #f8fafc);
   border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+.score-fullscreen-button {
+  position: absolute;
+  right: 1.15rem;
+  bottom: 1.15rem;
+  z-index: 2;
+  width: 2.8rem;
+  height: 2.8rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 999px;
+  border: 1px solid rgba(148, 163, 184, 0.24);
+  background: rgba(8, 17, 31, 0.72);
+  color: #f8fafc;
+  box-shadow: 0 10px 24px rgba(2, 6, 23, 0.22);
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(0.5rem);
+  transition: opacity 180ms ease, transform 180ms ease, background 180ms ease;
+}
+
+.score-fullscreen-button:hover,
+.score-fullscreen-button:focus-visible {
+  background: rgba(14, 165, 233, 0.92);
+  outline: none;
+}
+
+.score-frame:hover .score-fullscreen-button,
+.score-frame:focus-within .score-fullscreen-button,
+.score-frame.is-fullscreen .score-fullscreen-button {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+
+.score-frame:fullscreen {
+  padding: 1rem;
+  background: #ffffff;
+  overflow: auto;
+}
+
+.score-frame:fullscreen .score-surface {
+  min-height: calc(100vh - 2rem);
+  border: 0;
+  border-radius: 1rem;
+}
+
+@media (hover: none), (pointer: coarse) {
+  .score-fullscreen-button {
+    opacity: 1;
+    pointer-events: auto;
+    transform: translateY(0);
+  }
 }
 
 .context-card {
