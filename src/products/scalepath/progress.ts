@@ -219,6 +219,7 @@ export const levelProgressLabel = (state: ScalePathProgressState, levelId: strin
 export const nextLevelRecommendationLabel = (state: ScalePathProgressState): string => {
   const level = recommendedLevel(state);
   if (!isLevelCompleted(state, level.id)) return `${level.key} ${level.scaleType}`;
-  return nextLevelAfter(level.id)?.key ?? "Major chapter complete";
+  const nextLevel = nextLevelAfter(level.id);
+  return nextLevel ? nextLevel.key + " " + nextLevel.scaleType : "ScalePath complete";
 };
 

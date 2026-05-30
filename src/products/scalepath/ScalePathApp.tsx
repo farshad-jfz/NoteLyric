@@ -9,7 +9,7 @@ import SectionCard from "@/components/ui/SectionCard";
 import { useMetronome } from "@/components/metronome/MetronomeProvider";
 import { NOTE_OPTIONS } from "@/lib/music/constants";
 import { buildReviewExercise, buildScalePathExercise, reviewCheckpointForLevel, type ScalePathExercise } from "@/products/scalepath/exercise";
-import { checkpointsForLevel, currentChapter, findLevel, SCALEPATH_LEVELS, SCALEPATH_STAGES, SCALEPATH_TEMPOS } from "@/products/scalepath/curriculum";
+import { checkpointsForLevel, findLevel, SCALEPATH_CHAPTERS, SCALEPATH_STAGES, SCALEPATH_TEMPOS } from "@/products/scalepath/curriculum";
 import {
   completeCheckpoint,
   completeReview,
@@ -56,6 +56,7 @@ export default function ScalePathApp() {
   const [ready, setReady] = useState(false);
   const [activeTarget, setActiveTarget] = useState<ActiveTarget>();
   const [svg, setSvg] = useState<string | undefined>();
+  const [openChapterIds, setOpenChapterIds] = useState<string[]>([]);
   const { bpm, setBpm } = useMetronome();
 
   useEffect(() => {
@@ -97,6 +98,16 @@ export default function ScalePathApp() {
     : activeCheckpoint
       ? `${activeCheckpoint.stageLabel} at ${activeCheckpoint.tempo} BPM. Complete it and move to the next checkpoint.`
       : "All checkpoints are complete for this level.";
+
+  const recommendedChapterId = activeLevel.chapterId;
+
+  useEffect(() => {
+    setOpenChapterIds((current) => (current.includes(recommendedChapterId) ? current : [...current, recommendedChapterId]));
+  }, [recommendedChapterId]);
+
+  const toggleChapter = (chapterId: string) => {
+    setOpenChapterIds((current) => (current.includes(chapterId) ? current.filter((id) => id !== chapterId) : [...current, chapterId]));
+  };
 
   const startRecommended = () => {
     const action = nextPracticeAction(state);
@@ -148,8 +159,8 @@ export default function ScalePathApp() {
     <>
       <PageHeader
         eyebrow="ScalePath"
-        title="Major Scale Path"
-        description="A focused path through all 12 major scales. The next action stays visible, the metronome follows the checkpoint, and progress stays tied to the curriculum."
+        title="Scale Path"
+        description="A focused path through major, minor, and blues scale families. The next action stays visible, the metronome follows the checkpoint, and progress stays tied to the curriculum."
         actions={
           <button type="button" className="button button--primary" onClick={startRecommended}>
             Practice today
@@ -229,7 +240,7 @@ export default function ScalePathApp() {
                 <strong>{completedInActiveLevel}/35</strong>
               </div>
               <div className="guided-overview__summary-item">
-                <span>Chapter</span>
+                <span>Levels</span>
                 <strong>{stats.completedLevels}/{stats.totalLevels}</strong>
               </div>
               <div className="guided-overview__summary-item">
@@ -341,24 +352,48 @@ export default function ScalePathApp() {
           </div>
         </SectionCard>
 
-        <SectionCard title={currentChapter.name} description="Levels are always available. The recommendation follows curriculum order.">
-          <div className="scalepath-level-list">
-            {SCALEPATH_LEVELS.map((level) => {
-              const completed = isLevelCompleted(state, level.id);
-              const checkpoint = nextCheckpointForLevel(state, level.id);
+        <SectionCard title="Curriculum" description="Levels are always available. The recommendation follows curriculum order across chapters.">
+          <div className="scalepath-chapter-list">
+            {SCALEPATH_CHAPTERS.map((chapter) => {
+              const isOpen = openChapterIds.includes(chapter.id);
+              const completedLevels = chapter.levels.filter((level) => isLevelCompleted(state, level.id)).length;
+              const chapterPanelId = `scalepath-chapter-${chapter.id}`;
               return (
-                <button
-                  type="button"
-                  key={level.id}
-                  className={level.id === recommended.id ? "listing-button is-selected" : "listing-button"}
-                  onClick={() => {
-                    const target = checkpoint ?? reviewCheckpointForLevel(level.id);
-                    setActiveTarget({ type: "checkpoint", checkpointId: target.id });
-                  }}
-                >
-                  <strong>{completed ? "Completed" : level.id === recommended.id ? "Recommended" : "Available"}: {level.key} {level.scaleType}</strong>
-                  <small>{completed ? `Completed ${new Date(state.levelCompletedAt[level.id]).toLocaleDateString()}` : `${levelProgressLabel(state, level.id)} checkpoints complete`}</small>
-                </button>
+                <section key={chapter.id} className={isOpen ? "scalepath-chapter-block is-open" : "scalepath-chapter-block"}>
+                  <button
+                    type="button"
+                    className="scalepath-chapter-block__header"
+                    onClick={() => toggleChapter(chapter.id)}
+                    aria-expanded={isOpen}
+                    aria-controls={chapterPanelId}
+                  >
+                    <span className="scalepath-chapter-block__chevron" aria-hidden="true">{isOpen ? "-" : "+"}</span>
+                    <h3>{chapter.name}</h3>
+                    <span className="scalepath-chapter-block__count">{completedLevels}/{chapter.levels.length}</span>
+                  </button>
+                  {isOpen ? (
+                    <div id={chapterPanelId} className="scalepath-level-list">
+                      {chapter.levels.map((level) => {
+                        const completed = isLevelCompleted(state, level.id);
+                        const checkpoint = nextCheckpointForLevel(state, level.id);
+                        return (
+                          <button
+                            type="button"
+                            key={level.id}
+                            className={level.id === recommended.id ? "listing-button is-selected" : "listing-button"}
+                            onClick={() => {
+                              const target = checkpoint ?? reviewCheckpointForLevel(level.id);
+                              setActiveTarget({ type: "checkpoint", checkpointId: target.id });
+                            }}
+                          >
+                            <strong>{completed ? "Completed" : level.id === recommended.id ? "Recommended" : "Available"}: {level.key} {level.scaleType}</strong>
+                            <small>{completed ? `Completed ${new Date(state.levelCompletedAt[level.id]).toLocaleDateString()}` : `${levelProgressLabel(state, level.id)} checkpoints complete`}</small>
+                          </button>
+                        );
+                      })}
+                    </div>
+                  ) : null}
+                </section>
               );
             })}
           </div>
@@ -383,7 +418,7 @@ export default function ScalePathApp() {
               );
             })
           ) : (
-            <p className="empty-state">Complete C Major to schedule the first review.</p>
+            <p className="empty-state">Complete any level to schedule its first review.</p>
           )}
         </div>
       </SectionCard>

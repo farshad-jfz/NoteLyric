@@ -12,7 +12,7 @@ export type ScalePathLevel = {
   id: string;
   chapterId: string;
   key: string;
-  scaleType: "Major";
+  scaleType: "Major" | "Natural Minor" | "Harmonic Minor" | "Melodic Minor" | "Blues";
   order: number;
 };
 
@@ -43,20 +43,57 @@ export const SCALEPATH_STAGES: ScalePathStage[] = [
   { id: "sixteenth", label: "Sixteenth Notes", noteValue: "sixteenth" }
 ];
 
+const keySlug = (key: string): string => key.replace(/#/g, "-sharp").toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+const scaleSlug = (scaleType: ScalePathLevel["scaleType"]): string => scaleType.toLowerCase().replace(/[^a-z0-9]+/g, "-");
+
+const buildLevels = (
+  chapterId: string,
+  scaleType: ScalePathLevel["scaleType"],
+  keys: readonly string[],
+  chapterOrder: number
+): ScalePathLevel[] =>
+  keys.map((key, index) => ({
+    id: `${keySlug(key)}-${scaleSlug(scaleType)}`,
+    chapterId,
+    key,
+    scaleType,
+    order: (chapterOrder - 1) * keys.length + index + 1
+  }));
+
 const MAJOR_KEYS = ["C", "G", "F", "D", "Bb", "A", "Eb", "E", "Ab", "B", "Db", "Gb"] as const;
+const MINOR_KEYS = ["A", "E", "D", "B", "G", "F#", "C", "C#", "F", "G#", "Bb", "Eb"] as const;
 
 export const SCALEPATH_CHAPTERS: ScalePathChapter[] = [
   {
     id: "major-scales",
     name: "Major Scales",
     order: 1,
-    levels: MAJOR_KEYS.map((key, index) => ({
-      id: `${key.toLowerCase().replace(/[^a-z0-9]+/g, "-")}-major`,
-      chapterId: "major-scales",
-      key,
-      scaleType: "Major",
-      order: index + 1
-    }))
+    levels: buildLevels("major-scales", "Major", MAJOR_KEYS, 1)
+  },
+  {
+    id: "natural-minor",
+    name: "Natural Minor",
+    order: 2,
+    levels: buildLevels("natural-minor", "Natural Minor", MINOR_KEYS, 2)
+  },
+  {
+    id: "harmonic-minor",
+    name: "Harmonic Minor",
+    order: 3,
+    levels: buildLevels("harmonic-minor", "Harmonic Minor", MINOR_KEYS, 3)
+  },
+  {
+    id: "melodic-minor",
+    name: "Melodic Minor",
+    order: 4,
+    levels: buildLevels("melodic-minor", "Melodic Minor", MINOR_KEYS, 4)
+  },
+  {
+    id: "blues-scales",
+    name: "Blues Scales",
+    order: 5,
+    levels: buildLevels("blues-scales", "Blues", MINOR_KEYS, 5)
   }
 ];
 
@@ -76,8 +113,6 @@ export const checkpointsForLevel = (levelId: string): ScalePathCheckpoint[] =>
       order: stageIndex * SCALEPATH_TEMPOS.length + tempoIndex + 1
     }))
   );
-
-export const currentChapter = SCALEPATH_CHAPTERS[0];
 
 export const findLevel = (levelId: string): ScalePathLevel | undefined => SCALEPATH_LEVELS.find((level) => level.id === levelId);
 

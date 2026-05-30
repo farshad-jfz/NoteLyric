@@ -1470,3 +1470,56 @@ summary {
     width: 2.4rem;
   }
 }
+
+.scalepath-chapter-list {
+  display: grid;
+  gap: 1rem;
+}
+
+.scalepath-chapter-block {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.scalepath-chapter-block__header {
+  width: 100%;
+  display: grid;
+  grid-template-columns: auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  text-align: left;
+}
+
+.scalepath-chapter-block__header h3 {
+  margin: 0;
+  font-size: 1rem;
+}
+
+.scalepath-chapter-block__chevron,
+.scalepath-chapter-block__count {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 2rem;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.12);
+  color: #d8f3ff;
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.scalepath-chapter-block__chevron {
+  width: 2rem;
+}
+
+.scalepath-chapter-block__count {
+  padding: 0.35rem 0.7rem;
+}
