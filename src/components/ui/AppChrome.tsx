@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { IconBook, IconHelpCircle, IconHome, IconInfoCircle, IconLibrary, IconMusic, IconSettings } from "@tabler/icons-react";
+import MetronomeControl from "@/components/metronome/MetronomeControl";
 import type { ReactNode } from "react";
 
 const LINKS = [
@@ -29,7 +30,10 @@ export default function AppChrome({ children }: { children: ReactNode }) {
             </span>
           </Link>
 
-          <nav className="app-shell__utility-nav" aria-label="Secondary">
+          <div className="app-shell__actions">
+            <MetronomeControl />
+
+            <nav className="app-shell__utility-nav" aria-label="Secondary">
             <Link href="/help" className={isActive("/help") ? "utility-link utility-link--active" : "utility-link"}>
               <IconHelpCircle size={16} />
               Help
@@ -42,7 +46,8 @@ export default function AppChrome({ children }: { children: ReactNode }) {
               <IconInfoCircle size={16} />
               About
             </Link>
-          </nav>
+            </nav>
+          </div>
         </div>
       </header>
 

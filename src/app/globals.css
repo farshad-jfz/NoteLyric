@@ -125,6 +125,12 @@ main {
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.45);
 }
 
+.app-shell__actions {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
 .app-shell__utility-nav {
   display: flex;
   align-items: center;
@@ -146,6 +152,100 @@ main {
   color: var(--text);
   border-color: var(--line);
   background: rgba(255, 255, 255, 0.04);
+}
+
+.metronome-control {
+  min-height: 3rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.35rem;
+  border: 1px solid rgba(148, 163, 184, 0.22);
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.04);
+  color: var(--text);
+}
+
+.metronome-control--playing {
+  border-color: rgba(56, 189, 248, 0.42);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.metronome-control__button,
+.metronome-control__steppers button {
+  width: 2.25rem;
+  height: 2.25rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--text);
+}
+
+.metronome-control__button {
+  background: linear-gradient(180deg, #38bdf8, #0ea5e9);
+  color: #032033;
+}
+
+.metronome-control__tempo {
+  display: grid;
+  gap: 0.1rem;
+}
+
+.metronome-control__label {
+  color: var(--muted);
+  font-size: 0.72rem;
+  line-height: 1;
+}
+
+.metronome-control__bpm {
+  display: inline-flex;
+  grid-template-columns: none;
+  align-items: baseline;
+  gap: 0.25rem;
+  color: var(--text);
+  font-weight: 700;
+}
+
+.metronome-control__bpm input {
+  width: 3.1rem;
+  min-height: 1.35rem;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: var(--text);
+  font-weight: 800;
+}
+
+.metronome-control__bpm input:focus {
+  outline: 2px solid rgba(125, 211, 252, 0.4);
+  outline-offset: 2px;
+}
+
+.metronome-control__bpm span {
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+}
+
+.metronome-control__steppers {
+  display: inline-flex;
+  gap: 0.25rem;
+}
+
+.metronome-control__beat {
+  width: 1.45rem;
+  height: 1.45rem;
+  display: inline-grid;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(125, 211, 252, 0.16);
+  color: #d8f3ff;
+  font-size: 0.78rem;
+  font-weight: 800;
 }
 
 .app-shell__main {
@@ -681,6 +781,20 @@ input[type="checkbox"] {
 
 @media (max-width: 920px) {
   .app-shell__utility-nav {
+    display: none;
+  }
+
+  .app-shell__header-inner {
+    min-height: 76px;
+  }
+
+  .metronome-control {
+    gap: 0.35rem;
+  }
+
+  .metronome-control__label,
+  .metronome-control__steppers,
+  .metronome-control__beat {
     display: none;
   }
 
