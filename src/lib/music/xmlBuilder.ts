@@ -7,11 +7,12 @@ const durationTypeMap: Record<string, { type: string; dots?: number }> = {
   half: { type: "half" },
   quarter: { type: "quarter" },
   eighth: { type: "eighth" },
+  sixteenth: { type: "16th" },
   "dotted half": { type: "half", dots: 1 },
   "dotted quarter": { type: "quarter", dots: 1 }
 };
 
-const baseDivisions = 2;
+const baseDivisions = 4;
 
 const escapeXml = (value: string): string =>
   value
@@ -29,10 +30,10 @@ const renderLyrics = (event: Extract<MusicEvent, { kind: "note" }>): string => {
 type BeamValue = "begin" | "continue" | "end";
 
 const beamSpansForTimeSignature = (timeSignature: TimeSignature): Array<[number, number]> => {
-  if (timeSignature === "6/8") return [[0, 3], [3, 6]];
-  if (timeSignature === "3/4") return [[0, 4], [4, 6]];
-  if (timeSignature === "4/4") return [[0, 4], [4, 8]];
-  return [[0, 2], [2, 4]];
+  if (timeSignature === "6/8") return [[0, 6], [6, 12]];
+  if (timeSignature === "3/4") return [[0, 8], [8, 12]];
+  if (timeSignature === "4/4") return [[0, 8], [8, 16]];
+  return [[0, 4], [4, 8]];
 };
 
 const buildBeamMap = (events: MusicEvent[], timeSignature: TimeSignature): Map<number, BeamValue> => {
@@ -57,7 +58,7 @@ const buildBeamMap = (events: MusicEvent[], timeSignature: TimeSignature): Map<n
     for (const positionedEvent of positioned) {
       if (positionedEvent.start < spanStart || positionedEvent.end > spanEnd) continue;
 
-      const beamable = positionedEvent.event.kind === "note" && positionedEvent.event.duration === "eighth";
+      const beamable = positionedEvent.event.kind === "note" && (positionedEvent.event.duration === "eighth" || positionedEvent.event.duration === "sixteenth");
       if (beamable) {
         run.push(positionedEvent.index);
         continue;
@@ -76,7 +77,7 @@ const renderBeam = (beam?: BeamValue): string => (beam ? `<beam number="1">${bea
 
 const eventToXml = (event: MusicEvent, beam?: BeamValue): string => {
   const dur = durationTypeMap[event.duration];
-  const duration = event.duration === "whole" ? 8 : event.duration === "half" ? 4 : event.duration === "quarter" ? 2 : event.duration === "eighth" ? 1 : event.duration === "dotted half" ? 6 : 3;
+  const duration = event.duration === "whole" ? 16 : event.duration === "half" ? 8 : event.duration === "quarter" ? 4 : event.duration === "eighth" ? 2 : event.duration === "sixteenth" ? 1 : event.duration === "dotted half" ? 12 : 6;
   const beamXml = renderBeam(beam);
 
   if (event.kind === "rest") {

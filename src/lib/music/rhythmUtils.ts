@@ -8,7 +8,7 @@ export const timeSignatureToQuarterBeats = (ts: TimeSignature): number => {
 
 export const durationToQuarterLength = (duration: DurationName): number => DURATION_TO_QUARTERS[duration];
 
-export const toUnits = (quarters: number): number => Math.round(quarters * 2);
+export const toUnits = (quarters: number): number => Math.round(quarters * 4);
 
 export const durationToUnits = (duration: DurationName): number => toUnits(durationToQuarterLength(duration));
 

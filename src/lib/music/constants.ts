@@ -30,13 +30,14 @@ export const DIRECTIONS = ["Ascending", "Descending", "Up and Down"] as const;
 
 export const TIME_SIGNATURES: TimeSignature[] = ["2/4", "3/4", "4/4", "6/8"];
 
-export const DISPLAY_NOTE_VALUES: DurationName[] = ["whole", "half", "quarter", "eighth", "dotted half", "dotted quarter"];
+export const DISPLAY_NOTE_VALUES: DurationName[] = ["whole", "half", "quarter", "eighth", "sixteenth", "dotted half", "dotted quarter"];
 
 export const DURATION_TO_QUARTERS: Record<DurationName, number> = {
   whole: 4,
   half: 2,
   quarter: 1,
   eighth: 0.5,
+  sixteenth: 0.25,
   "dotted half": 3,
   "dotted quarter": 1.5
 };

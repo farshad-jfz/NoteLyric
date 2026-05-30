@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/", label: "Home", icon: IconHome },
   { href: "/practice", label: "Practice", icon: IconBook },
   { href: "/jazz", label: "Jazz", icon: IconMusic },
+  { href: "/scalepath", label: "ScalePath", icon: IconMusic },
   { href: "/library", label: "Library", icon: IconLibrary }
 ];
 
@@ -34,18 +35,18 @@ export default function AppChrome({ children }: { children: ReactNode }) {
             <MetronomeControl />
 
             <nav className="app-shell__utility-nav" aria-label="Secondary">
-            <Link href="/help" className={isActive("/help") ? "utility-link utility-link--active" : "utility-link"}>
-              <IconHelpCircle size={16} />
-              Help
-            </Link>
-            <Link href="/settings" className={isActive("/settings") ? "utility-link utility-link--active" : "utility-link"}>
-              <IconSettings size={16} />
-              Settings
-            </Link>
-            <Link href="/about" className={isActive("/about") ? "utility-link utility-link--active" : "utility-link"}>
-              <IconInfoCircle size={16} />
-              About
-            </Link>
+              <Link href="/help" className={isActive("/help") ? "utility-link utility-link--active" : "utility-link"}>
+                <IconHelpCircle size={16} />
+                Help
+              </Link>
+              <Link href="/settings" className={isActive("/settings") ? "utility-link utility-link--active" : "utility-link"}>
+                <IconSettings size={16} />
+                Settings
+              </Link>
+              <Link href="/about" className={isActive("/about") ? "utility-link utility-link--active" : "utility-link"}>
+                <IconInfoCircle size={16} />
+                About
+              </Link>
             </nav>
           </div>
         </div>

@@ -6,7 +6,7 @@ export type ScaleSettings = {
   octaveSpan: number;
   direction: "Ascending" | "Descending" | "Up and Down";
   timeSignature: "2/4" | "3/4" | "4/4" | "6/8";
-  noteValue: "whole" | "half" | "quarter" | "eighth";
+  noteValue: "whole" | "half" | "quarter" | "eighth" | "sixteenth";
   lowestNote: string;
   highestNote: string;
   showNoteNames: boolean;
