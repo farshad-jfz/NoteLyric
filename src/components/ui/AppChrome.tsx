@@ -10,6 +10,7 @@ const LINKS = [
   { href: "/", label: "Home", icon: IconHome },
   { href: "/practice", label: "Practice", icon: IconBook },
   { href: "/jazz", label: "Jazz", icon: IconMusic },
+  { href: "/harmony", label: "Harmony", icon: IconMusic },
   { href: "/scalepath", label: "ScalePath", icon: IconMusic },
   { href: "/library", label: "Library", icon: IconLibrary }
 ];

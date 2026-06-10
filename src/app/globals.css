@@ -272,7 +272,7 @@ main {
   z-index: 30;
   width: min(720px, calc(100vw - 1rem));
   display: grid;
-  grid-template-columns: repeat(5, 1fr);
+  grid-template-columns: repeat(6, 1fr);
   gap: 0.4rem;
   padding: 0.5rem;
   border-radius: 1.4rem;
@@ -829,7 +829,7 @@ input[type="checkbox"] {
   .bottom-nav {
     position: sticky;
     bottom: 1rem;
-    width: min(520px, calc(100vw - 1rem));
+    width: min(620px, calc(100vw - 1rem));
   }
 }
 
@@ -1522,4 +1522,136 @@ summary {
 
 .scalepath-chapter-block__count {
   padding: 0.35rem 0.7rem;
+}
+
+
+.harmony-controls {
+  display: grid;
+  gap: 1rem;
+}
+
+.harmony-tabs {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+}
+
+.harmony-tab {
+  min-height: 2.7rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 999px;
+  padding: 0.65rem 0.9rem;
+  background: rgba(255, 255, 255, 0.035);
+  color: var(--muted);
+  font-weight: 700;
+}
+
+.harmony-tab--active {
+  border-color: rgba(125, 211, 252, 0.48);
+  background: linear-gradient(180deg, rgba(56, 189, 248, 0.2), rgba(56, 189, 248, 0.07));
+  color: var(--text);
+}
+
+.harmony-workspace {
+  display: grid;
+  grid-template-columns: minmax(18rem, 0.65fr) minmax(0, 1.35fr);
+  gap: 1rem;
+  align-items: start;
+}
+
+.harmony-chord-grid,
+.harmony-progression-list,
+.harmony-pill-row {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.harmony-chord-card {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 3rem minmax(0, 1fr);
+  gap: 0.15rem 0.75rem;
+  align-items: center;
+  text-align: left;
+  padding: 0.85rem;
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.03);
+  color: var(--text);
+}
+
+.harmony-chord-card.is-selected {
+  border-color: rgba(125, 211, 252, 0.45);
+  background: rgba(56, 189, 248, 0.1);
+}
+
+.harmony-chord-card span {
+  grid-row: span 2;
+  color: #7dd3fc;
+  font-weight: 800;
+}
+
+.harmony-chord-card strong,
+.harmony-chord-card small {
+  display: block;
+}
+
+.harmony-chord-card small {
+  color: var(--muted);
+}
+
+.harmony-detail-grid,
+.harmony-function-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+.harmony-fact-list {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.harmony-fact-list div,
+.harmony-function-card {
+  padding: 0.9rem;
+  border: 1px solid rgba(148, 163, 184, 0.14);
+  border-radius: 1rem;
+  background: rgba(255, 255, 255, 0.025);
+}
+
+.harmony-fact-list span {
+  display: block;
+  color: var(--muted);
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.harmony-fact-list strong {
+  display: block;
+  margin-top: 0.25rem;
+}
+
+.harmony-function-card {
+  display: grid;
+  gap: 0.7rem;
+}
+
+.harmony-function-card h3,
+.harmony-function-card p {
+  margin: 0;
+}
+
+.harmony-function-card p {
+  color: var(--muted);
+  line-height: 1.6;
+}
+
+@media (max-width: 920px) {
+  .harmony-workspace,
+  .harmony-detail-grid,
+  .harmony-function-grid {
+    grid-template-columns: 1fr;
+  }
 }
